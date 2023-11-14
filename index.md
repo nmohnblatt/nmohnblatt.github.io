@@ -69,3 +69,8 @@ Happy to play some games online or in person when we cross paths.
 # Contact
 
 Email: `nico [at] geometry [dot] xyz`
+
+---
+
+![](https://imgs.xkcd.com/comics/actual_progress.png)
+[Actual Progress](https://xkcd.com/2797/), comic by xkcd
