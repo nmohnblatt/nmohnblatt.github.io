@@ -20,11 +20,19 @@ I am also a recurring co-host on the [ZeroKnowledge Podcast](https://zeroknowled
 - *Arke*: Scalable and Byzantine Fault Tolerant Privacy-Preserving Contact Discovery Scheme.
 ([ePrint](https://eprint.iacr.org/2023/1218), [code](https://github.com/asonnino/arke))
 > Nicolas Mohnblatt, Alberto Sonnino, Kobi Gurkan, Philipp Jovanovic. Aug 2023.
-- *Sangria*: a Folding Scheme for PLONK. ([Technical note](https://github.com/geometryresearch/technical_notes/blob/main/sangria_folding_plonk.pdf))
-> Nicolas Mohnblatt. April 2023.
+- *Sangria*: a Folding Scheme for PLONK. ([technical note](https://github.com/geometryresearch/technical_notes/blob/main/sangria_folding_plonk.pdf))
+> Nicolas Mohnblatt. Apr 2023.
 
 
-## Talks
+## Talks and Panels
+- Panel on Folding Scheme, *with Benedikt Bünz and Justin Drake*. ([recorded talk](https://youtu.be/2ieRxS9STFs))
+> ZK Paris. Jul 2023.
+
+- *Sangria* is Relaxed PLONK: a Nova-like Folding Scheme for PLONK. ([recorded talk](https://youtu.be/D7rQbHpxl7Q), [slides](https://github.com/nmohnblatt/talks/blob/main/2023_04_ZKSummit9_Sangria.pdf))  
+> ZKSummit 9. Apr 2023.
+
+- Enabling Decentralised Card Games with Zero-knowledge Proofs. ([slides](https://github.com/nmohnblatt/talks/blob/main/2022_11_IngoGaming_Mental_Poker.pdf))
+> ZKProof 5, Ingonyama side event. Nov 2022.
 
 ## Technical Writing
 
