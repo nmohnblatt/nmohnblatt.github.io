@@ -17,6 +17,12 @@ I am also a recurring co-host on the [ZeroKnowledge Podcast](https://zeroknowled
 # Projects
 
 ## Papers
+- *Arke*: Scalable and Byzantine Fault Tolerant Privacy-Preserving Contact Discovery Scheme.
+([ePrint](https://eprint.iacr.org/2023/1218), [code](https://github.com/asonnino/arke))
+> Nicolas Mohnblatt, Alberto Sonnino, Kobi Gurkan, Philipp Jovanovic. Aug 2023.
+- *Sangria*: a Folding Scheme for PLONK. ([Technical note](https://github.com/geometryresearch/technical_notes/blob/main/sangria_folding_plonk.pdf))
+> Nicolas Mohnblatt. April 2023.
+
 
 ## Talks
 
