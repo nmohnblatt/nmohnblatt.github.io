@@ -16,7 +16,7 @@ I am also a recurring co-host on the [ZeroKnowledge Podcast](https://zeroknowled
 
 # Projects
 
-## Papers
+## papers
 - *Arke*: Scalable and Byzantine Fault Tolerant Privacy-Preserving Contact Discovery Scheme.
 ([ePrint](https://eprint.iacr.org/2023/1218), [code](https://github.com/asonnino/arke))
 > Nicolas Mohnblatt, Alberto Sonnino, Kobi Gurkan, Philipp Jovanovic. Aug 2023.
@@ -25,7 +25,7 @@ I am also a recurring co-host on the [ZeroKnowledge Podcast](https://zeroknowled
 > Nicolas Mohnblatt. Apr 2023.
 
 
-## Talks and Panels
+## talks and panels
 - Panel on Folding Scheme, *with Benedikt Bünz and Justin Drake*. ([recorded talk](https://youtu.be/2ieRxS9STFs))
 > ZK Paris. Jul 2023.
 
@@ -35,7 +35,7 @@ I am also a recurring co-host on the [ZeroKnowledge Podcast](https://zeroknowled
 - Enabling Decentralised Card Games with Zero-knowledge Proofs. ([slides](https://github.com/nmohnblatt/talks/blob/main/2022_11_IngoGaming_Mental_Poker.pdf))
 > ZKProof 5, Ingonyama side event. Nov 2022.
 
-## Technical Writing
+## technical writing
 
 **[ZK Jargon Decoder](https://nmohnblatt.github.io/zk-jargon-decoder/)**: I write (and try to maintain) informal definitions for jargon commonly found in technical writing.
 
@@ -45,7 +45,7 @@ We revisit the famous *mental poker* problem with the efficient proving techniqu
 **Paper Speedrun** series.
 A series of short and accessible paper summaries for the [Geometry blog](https://geometry.xyz/notebook).
 
-## Development
+## development
 Most of the cryptographic code I write are proof-of-concept implementations using Rust.
 
 - Arke cryptographic library.
