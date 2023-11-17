@@ -26,6 +26,9 @@ I am also a recurring co-host on the [ZeroKnowledge Podcast](https://zeroknowled
 
 
 ## talks and panels
+- Modular ZK Systems Panel, *with Benedikt Bünz, Christopher Goes, and Zac Williamson, moderated by Anna Rose*. ([recorded talk](https://youtu.be/G7qzkQj7HJI))
+> Modular Summit (Paris). Jul 2023.
+
 - Panel on Folding Scheme, *with Benedikt Bünz and Justin Drake*. ([recorded talk](https://youtu.be/2ieRxS9STFs))
 > ZK Paris. Jul 2023.
 
