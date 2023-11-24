@@ -56,7 +56,7 @@ This library contains the cryptographic primitives needed for our implementation
 These include Shamir secret sharing, an identity-based key exchange, a SNARK-based protocol for blind signature verification and a secret handshake.
 Built with [arkworks](https://github.com/arkworks-rs). ([code](https://github.com/asonnino/arke/tree/main/code/arke/crypto))
 
-- An experimental implementation of function-hiding functional commitments from the Marlin pre-processed SNARK, based on the [paper](https://eprint.iacr.org/2021/1342) by Boneh, Nguyen and Ozdemir. ([code](https://github.com/geometryresearch/functional-commitment), [blog post](https://geometry.xyz/notebook/functional-commitments-zk-under-a-different-lens))
+- An experimental implementation of function-hiding functional commitments from the Marlin pre-processed SNARK, *with Andrija Novakovic*. Based on the [paper](https://eprint.iacr.org/2021/1342) by Boneh, Nguyen and Ozdemir. ([code](https://github.com/geometryresearch/functional-commitment), [blog post](https://geometry.xyz/notebook/functional-commitments-zk-under-a-different-lens))
 
 - A field-agnostic library for Mental Poker using threshold encryption and NARKs, *with Andrija Novakovic and Kobi Gurkan*.
 Built with [arkworks](https://github.com/arkworks-rs). ([code](https://github.com/geometryresearch/mental-poker), [intro documentation](https://hackmd.io/@nmohnblatt/SJKJfVqzq))
