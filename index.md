@@ -11,7 +11,7 @@ I also dabble in related topics such as threshold cryptography and MPC.
 Aside from my own research, I enjoy writing educational content, explainers and technical summaries for all levels of understanding.
 You can find some of these articles in the *Technical Writing* section below.
 
-Currently, I am a Research Associate at [Geometry](https://geometry.xyz).
+Currently, I am a Researcher at [Geometry Research](https://geometry.dev).
 I am also a recurring co-host on the [ZeroKnowledge Podcast](https://zeroknowledge.fm). 
 
 # Projects
@@ -42,11 +42,11 @@ I am also a recurring co-host on the [ZeroKnowledge Podcast](https://zeroknowled
 
 **[ZK Jargon Decoder](https://nmohnblatt.github.io/zk-jargon-decoder/)**: I write (and try to maintain) informal definitions for jargon commonly found in technical writing.
 
-**Mental Poker in the Age of SNARKs**, [Part 1](https://geometry.xyz/notebook/mental-poker-in-the-age-of-snarks-part-1) and [Part 2](https://geometry.xyz/notebook/mental-poker-in-the-age-of-snarks-part-2).
+**Mental Poker in the Age of SNARKs**, [Part 1](https://geometry.dev/notebook/mental-poker-in-the-age-of-snarks-part-1) and [Part 2](https://geometry.dev/notebook/mental-poker-in-the-age-of-snarks-part-2).
 We revisit the famous *mental poker* problem with the efficient proving techniques that emerged between 2010-2022.
 
 **Paper Speedrun** series.
-A series of short and accessible paper summaries for the [Geometry blog](https://geometry.xyz/notebook).
+A series of short and accessible paper summaries for the [Geometry Research blog](https://geometry.dev/notebook).
 
 ## development
 Most of the cryptographic code I write are proof-of-concept implementations using Rust.
@@ -56,7 +56,7 @@ This library contains the cryptographic primitives needed for our implementation
 These include Shamir secret sharing, an identity-based key exchange, a SNARK-based protocol for blind signature verification and a secret handshake.
 Built with [arkworks](https://github.com/arkworks-rs). ([code](https://github.com/asonnino/arke/tree/main/code/arke/crypto))
 
-- An experimental implementation of function-hiding functional commitments from the Marlin pre-processed SNARK, *with Andrija Novakovic*. Based on the [paper](https://eprint.iacr.org/2021/1342) by Boneh, Nguyen and Ozdemir. ([code](https://github.com/geometryresearch/functional-commitment), [blog post](https://geometry.xyz/notebook/functional-commitments-zk-under-a-different-lens))
+- An experimental implementation of function-hiding functional commitments from the Marlin pre-processed SNARK, *with Andrija Novakovic*. Based on the [paper](https://eprint.iacr.org/2021/1342) by Boneh, Nguyen and Ozdemir. ([code](https://github.com/geometryresearch/functional-commitment), [blog post](https://geometry.dev/notebook/functional-commitments-zk-under-a-different-lens))
 
 - A field-agnostic library for Mental Poker using threshold encryption and NARKs, *with Andrija Novakovic and Kobi Gurkan*.
 Built with [arkworks](https://github.com/arkworks-rs). ([code](https://github.com/geometryresearch/mental-poker), [intro documentation](https://hackmd.io/@nmohnblatt/SJKJfVqzq))
@@ -73,7 +73,7 @@ Happy to play some games online or in person when we cross paths.
 
 # Contact
 
-Email: `nico [at] geometry [dot] xyz`
+Email: `nico [at] geometry [dot] dev`
 
 ---
 
