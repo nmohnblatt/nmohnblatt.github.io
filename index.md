@@ -26,6 +26,9 @@ I am also a recurring co-host on the [ZeroKnowledge Podcast](https://zeroknowled
 
 
 ## talks and panels
+- Arke: Privacy-Preserving and Decentralised Contact Discovery, *joint work with Alberto Sonnino, Kobi Gurkan and Philipp Jovanovic*. ([recorded talk](https://youtu.be/_TVAYEzDQMM), [slides](https://github.com/nmohnblatt/talks/blob/main/2024_04_Arke_ZKSummit.pdf))
+> ZKSummit 11 (Athens). Apr 2024
+
 - Modular ZK Systems Panel, *with Benedikt Bünz, Christopher Goes, and Zac Williamson, moderated by Anna Rose*. ([recorded talk](https://youtu.be/G7qzkQj7HJI))
 > Modular Summit (Paris). Jul 2023.
 
@@ -33,7 +36,7 @@ I am also a recurring co-host on the [ZeroKnowledge Podcast](https://zeroknowled
 > ZK Paris. Jul 2023.
 
 - *Sangria* is Relaxed PLONK: a Nova-like Folding Scheme for PLONK. ([recorded talk](https://youtu.be/D7rQbHpxl7Q), [slides](https://github.com/nmohnblatt/talks/blob/main/2023_04_ZKSummit9_Sangria.pdf))  
-> ZKSummit 9. Apr 2023.
+> ZKSummit 9 (Lisbon). Apr 2023.
 
 - Enabling Decentralised Card Games with Zero-knowledge Proofs. ([slides](https://github.com/nmohnblatt/talks/blob/main/2022_11_IngoGaming_Mental_Poker.pdf))
 > ZKProof 5, Ingonyama side event. Nov 2022.
@@ -46,7 +49,7 @@ I am also a recurring co-host on the [ZeroKnowledge Podcast](https://zeroknowled
 We revisit the famous *mental poker* problem with the efficient proving techniques that emerged between 2010-2022.
 
 **Paper Speedrun** series.
-A series of short and accessible paper summaries for the [Geometry Research blog](https://geometry.dev/notebook).
+A series of short and accessible paper summaries for the [Geometry blog](https://geometry.xyz/notebook).
 
 ## development
 Most of the cryptographic code I write are proof-of-concept implementations using Rust.
