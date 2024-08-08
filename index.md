@@ -43,7 +43,7 @@ I am also a recurring co-host on the [ZeroKnowledge Podcast](https://zeroknowled
 
 ## technical writing
 
-**[ZK Jargon Decoder](https://nmohnblatt.github.io/zk-jargon-decoder/)**: I write (and try to maintain) informal definitions for jargon commonly found in technical writing.
+**[ZK Jargon Decoder](https://zkjargon.github.io)**: I write (and try to maintain) informal definitions for jargon commonly found in technical writing.
 
 **Mental Poker in the Age of SNARKs**, [Part 1](https://geometry.dev/notebook/mental-poker-in-the-age-of-snarks-part-1) and [Part 2](https://geometry.dev/notebook/mental-poker-in-the-age-of-snarks-part-2).
 We revisit the famous *mental poker* problem with the efficient proving techniques that emerged between 2010-2022.
