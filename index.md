@@ -26,8 +26,11 @@ I am also a recurring co-host on the [ZeroKnowledge Podcast](https://zeroknowled
 
 
 ## talks and panels
+- Under the Hood of ZK x ID ([slides](https://github.com/nmohnblatt/talks/blob/main/2024_08_web3summit_attested_data.pdf)).
+> Web3 Summit (Berlin). Aug 2024.
+
 - Arke: Privacy-Preserving and Decentralised Contact Discovery, *joint work with Alberto Sonnino, Kobi Gurkan and Philipp Jovanovic*. ([recorded talk](https://youtu.be/_TVAYEzDQMM), [slides](https://github.com/nmohnblatt/talks/blob/main/2024_04_Arke_ZKSummit.pdf))
-> ZKSummit 11 (Athens). Apr 2024
+> ZKSummit 11 (Athens). Apr 2024.
 
 - Modular ZK Systems Panel, *with Benedikt Bünz, Christopher Goes, and Zac Williamson, moderated by Anna Rose*. ([recorded talk](https://youtu.be/G7qzkQj7HJI))
 > Modular Summit (Paris). Jul 2023.
