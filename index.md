@@ -26,6 +26,9 @@ I am also a recurring co-host on the [ZeroKnowledge Podcast](https://zeroknowled
 
 
 ## talks and panels
+- Panel on Advances and Narrative of ZK in 2024, *with Jim Posen and Anna Rose*. ([recorded talk](https://www.youtube.com/watch?v=2AkMEYkU7yY))
+> Web3 Summit (Berlin). Aug 2024.
+
 - Under the Hood of ZK x ID ([recorded talk](https://www.youtube.com/watch?v=JIZcDaPJjUg), [slides](https://github.com/nmohnblatt/talks/blob/main/2024_08_web3summit_attested_data.pdf)).
 > Web3 Summit (Berlin). Aug 2024.
 
