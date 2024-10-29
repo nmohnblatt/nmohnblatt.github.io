@@ -82,7 +82,7 @@ Happy to play some games online or in person when we cross paths.
 
 # Contact
 
-Email: `nico [at] geometry [dot] dev`
+Email: `nmohnblatt [at] baincapital [dot] com`
 
 ---
 
