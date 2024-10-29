@@ -11,8 +11,8 @@ I also dabble in related topics such as threshold cryptography and MPC.
 Aside from my own research, I enjoy writing educational content, explainers and technical summaries for all levels of understanding.
 You can find some of these articles in the *Technical Writing* section below.
 
-Currently, I am a Researcher at [Geometry Research](https://geometry.dev).
-I am also a recurring co-host on the [ZeroKnowledge Podcast](https://zeroknowledge.fm). 
+Currently, I am a Research Consultant at [Bain Capital Crypto](https://baincapitalcrypto.com).
+I am also a recurring co-host on the [ZeroKnowledge Podcast](https://zeroknowledge.fm) and core contributor to [ZK Hack](https://zkhack.dev). 
 
 # Projects
 
