@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Home on Nicolas Mohnblatt</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content in Home on Nicolas Mohnblatt</description>
+    <generator>Hugo</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2024, Nicolas Mohnblatt.</copyright>
+    <lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About</title>
+      <link>http://localhost:1313/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/about/</guid>
+      <description>&lt;h1 id=&#34;about&#34;&gt;About&lt;/h1&gt;&#xA;&lt;p&gt;I am a researcher focusing on &lt;strong&gt;privacy-enhancing technologies&lt;/strong&gt; and all the &lt;strong&gt;cryptographic tools&lt;/strong&gt; that enable them.&#xA;My work is mainly centred around (zero-knowledge) proof systems and their security.&#xA;I also touch on related topics such as threshold cryptography and MPC.&lt;/p&gt;&#xA;&lt;p&gt;Aside from research, I enjoy writing educational content, explainers and technical summaries for all levels of understanding.&#xA;You can find some of these articles in the &lt;a href=&#34;http://localhost:1313/blog/&#34;&gt;blog&lt;/a&gt; section or in the &lt;a href=&#34;https://zkjargon.github.io&#34;&gt;ZK Jargon Decoder&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Now</title>
+      <link>http://localhost:1313/now/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/now/</guid>
+      <description>&lt;h1 id=&#34;now&#34;&gt;Now&lt;/h1&gt;&#xA;&lt;p&gt;&lt;em&gt;Last edited on 02 Nov, 2024&lt;/em&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Currently, I am Research Consultant at &lt;a href=&#34;https://baincapitalcrypto.com&#34;&gt;Bain Capital Crypto&lt;/a&gt;.&#xA;I am also a recurring co-host on the &lt;a href=&#34;https://zeroknowledge.fm&#34;&gt;ZeroKnowledge Podcast&lt;/a&gt; and a core contributor to &lt;a href=&#34;https://zkhack.dev&#34;&gt;ZK Hack&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Ongoing projects and topics of interest include:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;data availability sampling from pure-ROM protocols.&lt;/li&gt;&#xA;&lt;li&gt;privacy-preserving proof delegation.&lt;/li&gt;&#xA;&lt;li&gt;folding schemes/IVC.&lt;/li&gt;&#xA;&lt;li&gt;witness encryption.&lt;/li&gt;&#xA;&lt;li&gt;maintaining the &lt;a href=&#34;https://zkjargon.github.io&#34;&gt;ZK Jargon Decoder&lt;/a&gt; 💟.&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+    <item>
+      <title>Research &amp; Projects</title>
+      <link>http://localhost:1313/research/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/research/</guid>
+      <description>&lt;h1 id=&#34;research--projects&#34;&gt;Research &amp;amp; Projects&lt;/h1&gt;&#xA;&lt;p&gt;A non-exhaustive, somewhat-ordered list of papers, projects and talks that I have given.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Papers&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;[CMKL24] &lt;a href=&#34;https://arxiv.org/abs/2410.13277&#34;&gt;Pricing Factors and TFMs for Scalability-Focused ZK-Rollups&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;li&gt;[MSGJ24] &lt;a href=&#34;https://eprint.iacr.org/2023/1218&#34;&gt;Arke: Scalable and Byzantine Fault Tolerant Privacy-Preserving Contact Discovery&lt;/a&gt;, ACM CCS &#39;24.&lt;/li&gt;&#xA;&lt;li&gt;[Moh23] &lt;a href=&#34;https://github.com/geometryxyz/technical_notes/blob/main/sangria_folding_plonk.pdf&#34;&gt;Sangria: a Folding Scheme for PLONK&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Projects&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://zkhack.dev/whiteboard/&#34;&gt;ZK Whiteboard Sessions: Season 2&lt;/a&gt;, content curation and hosting modules.&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://zkjargon.github.io&#34;&gt;ZK Jargon Decoder&lt;/a&gt;, creator and maintainer.&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://zeroknowledge.fm&#34;&gt;ZeroKnowledge Podcast&lt;/a&gt; co-host.&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://aptos.dev/en/build/guides/aptos-keyless&#34;&gt;Aptos Keyless&lt;/a&gt; early circuit audit.&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://geometry.xyz/notebook&#34;&gt;Paper Speedrun&lt;/a&gt; series. A series of short and accessible paper summaries for the Geometry blog.&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://github.com/geometryxyz/functional-commitment&#34;&gt;Experimental implementation of functional commitments&lt;/a&gt; &lt;a href=&#34;https://eprint.iacr.org/2021/1342&#34;&gt;[BNO21]&lt;/a&gt; using arkworks.&lt;/li&gt;&#xA;&lt;li&gt;An arkworks-based &lt;a href=&#34;https://github.com/geometryresearch/mental-poker&#34;&gt;library for Mental Poker&lt;/a&gt; using threshold encryption and NARKs, with companion blog posts (&lt;a href=&#34;https://geometry.dev/notebook/mental-poker-in-the-age-of-snarks-part-1&#34;&gt;Pt1&lt;/a&gt; and &lt;a href=&#34;https://geometry.dev/notebook/mental-poker-in-the-age-of-snarks-part-2&#34;&gt;Pt2&lt;/a&gt;).&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://github.com/geometryresearch/proof-toolbox&#34;&gt;Proof-toolbox&lt;/a&gt;: a collection of common tools used in ZK applications.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Selected Talks&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
