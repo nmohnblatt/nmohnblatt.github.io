@@ -9,7 +9,7 @@
 <title>Blog | Nicolas Mohnblatt</title>
 <meta name="title" content="Blog" />
 <meta name="description" content="Nico&#39;s homepage and blog." />
-<meta name="keywords" content="" />
+<meta name="keywords" content="folding,geometry notebook,mental poker,mpc,privacy,speedrun,zero-knowledge," />
 
 
 <meta property="og:url" content="https://nmohnblatt.github.io/blog/">
@@ -108,10 +108,33 @@
 
   table {
     width: 100%;
+    border-collapse: collapse;
   }
+
+   
+
+  td {
+    border-top: 1px solid #E6E4D9;
+  } 
 
   img {
     max-width: 100%;
+  }
+
+  figure {
+    margin-inline-start: 20px;
+    margin-inline-end: 20px;
+  }
+
+  figcaption {
+    color: #B7B5AC;
+    font-size: small;
+    text-align: center;
+  }
+
+  figcaption p {
+    margin-top: 0px;
+    margin-bottom: 0px;
   }
 
   code {
@@ -184,6 +207,19 @@
 
 </style>
 
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']],     
+      tags: 'ams'
+    }
+  };
+</script>
+  
+
+  
 </head>
 
 <body>
@@ -209,13 +245,89 @@
   <ul class="blog-posts">
     
     <li>
-      No posts yet
+      <span>
+        <i>
+          <time datetime='2023-08-17' pubdate>
+            17 Aug, 2023
+          </time>
+        </i>
+      </span>
+      <a href="https://nmohnblatt.github.io/speedrun-protostar/">Paper Speedrun: Protostar</a>
+    </li>
+    
+    <li>
+      <span>
+        <i>
+          <time datetime='2023-02-17' pubdate>
+            17 Feb, 2023
+          </time>
+        </i>
+      </span>
+      <a href="https://nmohnblatt.github.io/sangria/">Sangria: a Folding Scheme for PLONK</a>
+    </li>
+    
+    <li>
+      <span>
+        <i>
+          <time datetime='2023-01-18' pubdate>
+            18 Jan, 2023
+          </time>
+        </i>
+      </span>
+      <a href="https://nmohnblatt.github.io/speedrun-zkcreds/">Paper Speedrun: zk-creds</a>
+    </li>
+    
+    <li>
+      <span>
+        <i>
+          <time datetime='2023-01-05' pubdate>
+            05 Jan, 2023
+          </time>
+        </i>
+      </span>
+      <a href="https://nmohnblatt.github.io/functional-commitments/">Functional Commitments: ZK under a different lens</a>
+    </li>
+    
+    <li>
+      <span>
+        <i>
+          <time datetime='2022-07-05' pubdate>
+            05 Jul, 2022
+          </time>
+        </i>
+      </span>
+      <a href="https://nmohnblatt.github.io/mental-poker-2/">Mental Poker in the Age of SNARKs - Part 2</a>
+    </li>
+    
+    <li>
+      <span>
+        <i>
+          <time datetime='2022-06-28' pubdate>
+            28 Jun, 2022
+          </time>
+        </i>
+      </span>
+      <a href="https://nmohnblatt.github.io/mental-poker-1/">Mental Poker in the Age of SNARKs - Part 1</a>
     </li>
     
   </ul>
   
     <small>
       <div>
+        
+        <a href="https://nmohnblatt.github.io/blog/folding/">#Folding</a>&nbsp;
+        
+        <a href="https://nmohnblatt.github.io/blog/geometry-notebook/">#Geometry Notebook</a>&nbsp;
+        
+        <a href="https://nmohnblatt.github.io/blog/mental-poker/">#Mental Poker</a>&nbsp;
+        
+        <a href="https://nmohnblatt.github.io/blog/mpc/">#MPC</a>&nbsp;
+        
+        <a href="https://nmohnblatt.github.io/blog/privacy/">#Privacy</a>&nbsp;
+        
+        <a href="https://nmohnblatt.github.io/blog/speedrun/">#Speedrun</a>&nbsp;
+        
+        <a href="https://nmohnblatt.github.io/blog/zero-knowledge/">#Zero-Knowledge</a>&nbsp;
         
       </div>
     </small>
