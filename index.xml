@@ -7,8 +7,15 @@
     <generator>Hugo</generator>
     <language>en-US</language>
     <copyright>Copyright © 2024, Nicolas Mohnblatt.</copyright>
-    <lastBuildDate>Thu, 17 Aug 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 08 Nov 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://nmohnblatt.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sampling for Proximity and Availability</title>
+      <link>https://nmohnblatt.github.io/sampling-for-proximity-and-availability/</link>
+      <pubDate>Fri, 08 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.github.io/sampling-for-proximity-and-availability/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://baincapitalcrypto.com/sampling-for-proximity-and-availability/&#34;&gt;Bain Capital Crypto Insights&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;In blockchains, nodes can ensure that the chain is valid without trusting anyone, not even the validators or miners.&#xA;Early blockchain design can achieve this by having each of these nodes download and re-execute all transactions itself.&#xA;The inefficiency of this approach motivated the adoption of fraud and validity proofs.&#xA;While these proofs provide assurances that the underlying state transitions of the blockchain were computed correctly, malicious block producers may still withhold the data required to compute the latest state.&#xA;(In other words, while a node without this data may ensure that every change performed to the state was valid—since the proofs verify—the node may not be able to know what the underlying state &lt;em&gt;actually is&lt;/em&gt;.)&#xA;Such an attack could prevent users from composing valid transactions (&lt;em&gt;e.g.&lt;/em&gt;, to withdraw assets from some pool) or could prevent other nodes from constructing proofs of their own.&#xA;The simplest way to ensure that the data needed to construct the underlying state can be downloaded is, of course, to try and download it.&#xA;This is the approach most current blockchains take.&#xA;The downside of this approach is that, as usage increases, every node must download all the data, which, in turn, puts strain on the network and its available bandwidth.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Paper Speedrun: Protostar</title>
       <link>https://nmohnblatt.github.io/speedrun-protostar/</link>
