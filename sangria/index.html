@@ -10,9 +10,6 @@
 <meta name="title" content="Sangria: a Folding Scheme for PLONK" />
 <meta name="description" content="This article is cross-posted from the Geometry Notebook.
 
-
-Edit 21/02. Remove the need for a commitment to $\mathbf{q_C}$ in the verifier key; improved strategy for higher degree custom gates thanks to feedback from Nat Bunner and Lev Soukhanov.
-
 As shown in Nova [KST22], incrementally verifiable computation (IVC) can be realised using a folding scheme and a zkSNARK. In this article, we present a folding scheme for a variant of the PLONK arithmetization [GWC19]. We then extend our relaxed PLONK arithmetization to accept custom gates of degree 2 and circuits with higher gate arity. Finally we outline avenues for future work including folding higher degree gates, supporting lookup gates and designing an IOP for the relaxed PLONK arithmetization." />
 <meta name="keywords" content="Geometry Notebook,Folding," />
 
@@ -21,7 +18,6 @@ As shown in Nova [KST22], incrementally verifiable computation (IVC) can be real
   <meta property="og:site_name" content="Nicolas Mohnblatt">
   <meta property="og:title" content="Sangria: a Folding Scheme for PLONK">
   <meta property="og:description" content="This article is cross-posted from the Geometry Notebook.
-Edit 21/02. Remove the need for a commitment to $\mathbf{q_C}$ in the verifier key; improved strategy for higher degree custom gates thanks to feedback from Nat Bunner and Lev Soukhanov.
 As shown in Nova [KST22], incrementally verifiable computation (IVC) can be realised using a folding scheme and a zkSNARK. In this article, we present a folding scheme for a variant of the PLONK arithmetization [GWC19]. We then extend our relaxed PLONK arithmetization to accept custom gates of degree 2 and circuits with higher gate arity. Finally we outline avenues for future work including folding higher degree gates, supporting lookup gates and designing an IOP for the relaxed PLONK arithmetization.">
   <meta property="og:locale" content="en_US">
   <meta property="og:type" content="article">
@@ -39,7 +35,6 @@ As shown in Nova [KST22], incrementally verifiable computation (IVC) can be real
   <meta name="twitter:image" content="https://nmohnblatt.github.io/images/share.png">
   <meta name="twitter:title" content="Sangria: a Folding Scheme for PLONK">
   <meta name="twitter:description" content="This article is cross-posted from the Geometry Notebook.
-Edit 21/02. Remove the need for a commitment to $\mathbf{q_C}$ in the verifier key; improved strategy for higher degree custom gates thanks to feedback from Nat Bunner and Lev Soukhanov.
 As shown in Nova [KST22], incrementally verifiable computation (IVC) can be realised using a folding scheme and a zkSNARK. In this article, we present a folding scheme for a variant of the PLONK arithmetization [GWC19]. We then extend our relaxed PLONK arithmetization to accept custom gates of degree 2 and circuits with higher gate arity. Finally we outline avenues for future work including folding higher degree gates, supporting lookup gates and designing an IOP for the relaxed PLONK arithmetization.">
 
 
@@ -47,11 +42,10 @@ As shown in Nova [KST22], incrementally verifiable computation (IVC) can be real
 
   <meta itemprop="name" content="Sangria: a Folding Scheme for PLONK">
   <meta itemprop="description" content="This article is cross-posted from the Geometry Notebook.
-Edit 21/02. Remove the need for a commitment to $\mathbf{q_C}$ in the verifier key; improved strategy for higher degree custom gates thanks to feedback from Nat Bunner and Lev Soukhanov.
 As shown in Nova [KST22], incrementally verifiable computation (IVC) can be realised using a folding scheme and a zkSNARK. In this article, we present a folding scheme for a variant of the PLONK arithmetization [GWC19]. We then extend our relaxed PLONK arithmetization to accept custom gates of degree 2 and circuits with higher gate arity. Finally we outline avenues for future work including folding higher degree gates, supporting lookup gates and designing an IOP for the relaxed PLONK arithmetization.">
   <meta itemprop="datePublished" content="2023-02-17T00:00:00+00:00">
   <meta itemprop="dateModified" content="2023-02-17T00:00:00+00:00">
-  <meta itemprop="wordCount" content="2219">
+  <meta itemprop="wordCount" content="2221">
   <meta itemprop="image" content="https://nmohnblatt.github.io/images/share.png">
   <meta itemprop="keywords" content="Geometry Notebook,Folding">
 <meta name="referrer" content="no-referrer-when-downgrade" />
@@ -275,9 +269,6 @@ As shown in Nova [KST22], incrementally verifiable computation (IVC) can be real
 <content>
   <p><em>This article is cross-posted from the <a href="https://geometry.xyz/notebook/sangria-a-folding-scheme-for-plonk">Geometry Notebook</a></em>.</p>
 <hr>
-<blockquote>
-<p><em>Edit 21/02. Remove the need for a commitment to $\mathbf{q_C}$ in the verifier key; improved strategy for higher degree custom gates thanks to feedback from Nat Bunner and Lev Soukhanov.</em></p>
-</blockquote>
 <p>As shown in Nova <a href="https://eprint.iacr.org/2021/370">[KST22]</a>, incrementally verifiable computation (IVC) can be realised using a folding scheme and a zkSNARK. In this article, we present a folding scheme for a variant of the PLONK arithmetization <a href="https://eprint.iacr.org/2019/953">[GWC19]</a>. We then extend our relaxed PLONK arithmetization to accept custom gates of degree 2 and circuits with higher gate arity. Finally we outline avenues for future work including folding higher degree gates, supporting lookup gates and designing an IOP for the relaxed PLONK arithmetization.</p>
 <blockquote>
 <p>⚠️ <em>This article is a condensed version of the <a href="https://github.com/geometryresearch/technical_notes/blob/main/sangria_folding_plonk.pdf">Sangria technical note</a>. See the full version for proofs and extended discussions.
@@ -442,6 +433,8 @@ $$</p>
 <p><a href="https://eprint.iacr.org/2020/1618">[BCLMS20]</a> Benedikt Bunz, Alessandro Chiesa, William Lin, Pratyush Mishra, and Nicholas Spooner. Proof-carrying data without succinct arguments. Cryptology ePrint Archive, Paper 2020/1618, 2020. <a href="https://eprint.iacr.org/2020/1618">https://eprint.iacr.org/2020/1618</a></p>
 <p><a href="https://eprint.iacr.org/2019/953">[GWC19]</a> Gabizon, Ariel, Zachary J. Williamson, and Oana Ciobotaru. Plonk: Permutations over Lagrange-bases for Oecumenical Noninteractive arguments of Knowledge. Cryptology ePrint Archive, Paper 2019/953, 2019. <a href="https://eprint.iacr.org/2019/953">https://eprint.iacr.org/2019/953</a></p>
 <p><a href="https://eprint.iacr.org/2021/370">[KST22]</a> Kothapalli, Abhiram, Srinath Setty, and Ioanna Tzialla. &ldquo;Nova: Recursive zero-knowledge arguments from folding schemes.&rdquo; Annual International Cryptology Conference. Springer, Cham, 2022. <a href="https://eprint.iacr.org/2021/370">https://eprint.iacr.org/2021/370</a></p>
+<hr>
+<p><strong>Edit <em>21 Feb, 2023</em></strong>. Remove the need for a commitment to $\mathbf{q_C}$ in the verifier key; improved strategy for higher degree custom gates thanks to feedback from Nat Bunner and Lev Soukhanov.</p>
 
 </content>
 <p>

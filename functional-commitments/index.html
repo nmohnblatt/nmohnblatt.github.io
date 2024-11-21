@@ -10,9 +10,6 @@
 <meta name="title" content="Functional Commitments: ZK under a different lens" />
 <meta name="description" content="This article is cross-posted from the Geometry Notebook and relates to an implementation co-written with Andrija Novakovic.
 
-
-We thank Wilson Nguyen for insightful discussions about the protocol and Koh Wei Jie for his work on the implementation. Thank you to Tom Walton-Pocock and Koh Wei Jie (again) for their helpful comments towards this post.
-
 In ZKP schemes, the typical paradigm is that a programme (or &ldquo;circuit&rdquo;) is publicly known, and a proof is produced to attest to the correct execution of the programme over some (potentially private) inputs. But what if we are working with sensitive, proprietary algorithms? Could we instead prove the execution of a private programme over public inputs?" />
 <meta name="keywords" content="Geometry Notebook,Zero-Knowledge," />
 
@@ -21,7 +18,6 @@ In ZKP schemes, the typical paradigm is that a programme (or &ldquo;circuit&rdqu
   <meta property="og:site_name" content="Nicolas Mohnblatt">
   <meta property="og:title" content="Functional Commitments: ZK under a different lens">
   <meta property="og:description" content="This article is cross-posted from the Geometry Notebook and relates to an implementation co-written with Andrija Novakovic.
-We thank Wilson Nguyen for insightful discussions about the protocol and Koh Wei Jie for his work on the implementation. Thank you to Tom Walton-Pocock and Koh Wei Jie (again) for their helpful comments towards this post.
 In ZKP schemes, the typical paradigm is that a programme (or “circuit”) is publicly known, and a proof is produced to attest to the correct execution of the programme over some (potentially private) inputs. But what if we are working with sensitive, proprietary algorithms? Could we instead prove the execution of a private programme over public inputs?">
   <meta property="og:locale" content="en_US">
   <meta property="og:type" content="article">
@@ -39,7 +35,6 @@ In ZKP schemes, the typical paradigm is that a programme (or “circuit”) is p
   <meta name="twitter:image" content="https://nmohnblatt.github.io/images/share.png">
   <meta name="twitter:title" content="Functional Commitments: ZK under a different lens">
   <meta name="twitter:description" content="This article is cross-posted from the Geometry Notebook and relates to an implementation co-written with Andrija Novakovic.
-We thank Wilson Nguyen for insightful discussions about the protocol and Koh Wei Jie for his work on the implementation. Thank you to Tom Walton-Pocock and Koh Wei Jie (again) for their helpful comments towards this post.
 In ZKP schemes, the typical paradigm is that a programme (or “circuit”) is publicly known, and a proof is produced to attest to the correct execution of the programme over some (potentially private) inputs. But what if we are working with sensitive, proprietary algorithms? Could we instead prove the execution of a private programme over public inputs?">
 
 
@@ -47,11 +42,10 @@ In ZKP schemes, the typical paradigm is that a programme (or “circuit”) is p
 
   <meta itemprop="name" content="Functional Commitments: ZK under a different lens">
   <meta itemprop="description" content="This article is cross-posted from the Geometry Notebook and relates to an implementation co-written with Andrija Novakovic.
-We thank Wilson Nguyen for insightful discussions about the protocol and Koh Wei Jie for his work on the implementation. Thank you to Tom Walton-Pocock and Koh Wei Jie (again) for their helpful comments towards this post.
 In ZKP schemes, the typical paradigm is that a programme (or “circuit”) is publicly known, and a proof is produced to attest to the correct execution of the programme over some (potentially private) inputs. But what if we are working with sensitive, proprietary algorithms? Could we instead prove the execution of a private programme over public inputs?">
   <meta itemprop="datePublished" content="2023-01-05T00:00:00+00:00">
   <meta itemprop="dateModified" content="2023-01-05T00:00:00+00:00">
-  <meta itemprop="wordCount" content="1038">
+  <meta itemprop="wordCount" content="1039">
   <meta itemprop="image" content="https://nmohnblatt.github.io/images/share.png">
   <meta itemprop="keywords" content="Geometry Notebook,Zero-Knowledge">
 <meta name="referrer" content="no-referrer-when-downgrade" />
@@ -275,9 +269,6 @@ In ZKP schemes, the typical paradigm is that a programme (or “circuit”) is p
 <content>
   <p><em>This article is cross-posted from the <a href="https://geometry.xyz/notebook/functional-commitments-zk-under-a-different-lens">Geometry Notebook</a> and relates to an implementation co-written with Andrija Novakovic.</em></p>
 <hr>
-<blockquote>
-<p>We thank Wilson Nguyen for insightful discussions about the protocol and Koh Wei Jie for his work on the implementation. Thank you to Tom Walton-Pocock and Koh Wei Jie (again) for their helpful comments towards this post.</p>
-</blockquote>
 <p>In ZKP schemes, the typical paradigm is that a programme (or &ldquo;circuit&rdquo;) is publicly known, and a proof is produced to attest to the correct execution of the programme over some (potentially private) inputs. But what if we are working with sensitive, proprietary algorithms? Could we instead prove the execution of a <em>private</em> programme over public inputs?</p>
 <p><!-- raw HTML omitted -->Boneh, Nguyen and Ozdemir <a href="https://eprint.iacr.org/2021/1342">[BNO21]</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup><!-- raw HTML omitted --> offer to do just that by introducing <em>function-hiding functional commitments</em>. In this article, we review the main results presented in <a href="https://eprint.iacr.org/2021/1342">[BNO21]</a>, and give an overview of their SNARK-based construction.</p>
 <h2 id="a-new-primitive">A new primitive</h2>
@@ -330,6 +321,8 @@ $$</p>
 <p>With index-private proving systems and proofs of function relation, we now have a construction for a functional commitment scheme: the commitment is the index key of an index-private pre-processing zkSNARK; evaluations can be checked by running the SNARK <code>Verify</code> algorithm and a proof of function relation for the index key.</p>
 <h2 id="implementation">Implementation</h2>
 <p>We provide a <a href="https://github.com/geometryxyz/functional-commitment">proof-of-concept implementation</a> of the Marlin-based functional commitment scheme. The code is based on <a href="https://arkworks.rs/">Arkworks</a> and provides: 1) the compiler for circuit-to-&ldquo;functional R1CS&rdquo; described in Appendix D of <a href="https://eprint.iacr.org/2021/1342">[BNO21]</a>, 2) a modified version of Arkworks&rsquo; Marlin implementation to support index privacy and 3) a proof of function relation for R1CS-$f$.</p>
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>We thank Wilson Nguyen for insightful discussions about the protocol and Koh Wei Jie for his work on the implementation. Thank you to Tom Walton-Pocock and Koh Wei Jie (again) for their helpful comments towards this post.</p>
 <div class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
