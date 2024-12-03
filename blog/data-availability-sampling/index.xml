@@ -7,8 +7,15 @@
     <generator>Hugo</generator>
     <language>en-US</language>
     <copyright>Copyright © 2024, Nicolas Mohnblatt.</copyright>
-    <lastBuildDate>Fri, 08 Nov 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 03 Dec 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://nmohnblatt.github.io/blog/data-availability-sampling/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ZODA: An Explainer</title>
+      <link>https://nmohnblatt.github.io/zoda-explainer/</link>
+      <pubDate>Tue, 03 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.github.io/zoda-explainer/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://baincapitalcrypto.com/zoda-explainer/&#34;&gt;Bain Capital Crypto Insights&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;Data availability sampling (DAS) is critical to scaling blockchains while maintaining decentralization [ASB18,HASW23]. In &lt;a href=&#34;https://nmohnblatt.github.io/sampling-for-proximity-and-availability/&#34;&gt;our previous post&lt;/a&gt;, we informally introduced DAS and showed how to leverage interaction to reduce overhead for a promising construction based on the FRI protocol. Our newest work, ZODA, short for ‘Zero-Overhead Data Availability,’ takes these ideas a step further. In particular, we show that, with a small change, an extended data square construction, such as that used in Celestia, can be turned into a (validity) proof of its own correctness. Importantly, the change incurs negligible additional work for encoders and no incremental communication costs for the network. This post is an informal introduction to the ZODA protocol.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Sampling for Proximity and Availability</title>
       <link>https://nmohnblatt.github.io/sampling-for-proximity-and-availability/</link>
