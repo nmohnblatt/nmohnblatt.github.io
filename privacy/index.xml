@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Privacy on Nicolas Mohnblatt</title>
+    <link>https://nmohnblatt.github.io/blog/privacy/</link>
+    <description>Recent content in Privacy on Nicolas Mohnblatt</description>
+    <generator>Hugo</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2024, Nicolas Mohnblatt.</copyright>
+    <lastBuildDate>Wed, 11 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://nmohnblatt.github.io/blog/privacy/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Privacy-preserving Contact Discovery for Bluesky</title>
+      <link>https://nmohnblatt.github.io/arke-for-bluesky/</link>
+      <pubDate>Wed, 11 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.github.io/arke-for-bluesky/</guid>
+      <description>&lt;p&gt;Last year, we released Arke &lt;a href=&#34;https://eprint.iacr.org/2023/1218&#34;&gt;[MSGJ24]&lt;/a&gt;, a protocol for &lt;strong&gt;privacy-preserving contact discovery&lt;/strong&gt;. We also shared an &lt;a href=&#34;https://github.com/asonnino/arke&#34;&gt;experimental prototype&lt;/a&gt; of the system which we used to run geo-distributed benchmarks for our paper. Since then, the paper has been peer-reviewed and published in ACM-CCS&#39;24.&lt;/p&gt;&#xA;&lt;p&gt;The goal is to allow users of an existing social graph (&lt;em&gt;e.g.&lt;/em&gt;, 𝕏) to find each other and construct a new graph (&lt;em&gt;e.g.&lt;/em&gt;, Bluesky) without revealing either of the social graphs nor publicly linking the existing and new accounts. I encourage you to read &lt;a href=&#34;https://signal.org/blog/contact-discovery/&#34;&gt;this article by Moxie Marlinspike&lt;/a&gt; for more context on why contact discovery is desirable and hard to do privately.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Chosen-instance Attack</title>
+      <link>https://nmohnblatt.github.io/chosen-instance-attack/</link>
+      <pubDate>Wed, 04 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.github.io/chosen-instance-attack/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://baincapitalcrypto.com/chosen-instance-attack/&#34;&gt;Bain Capital Crypto Insights&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;how-succinct-proofs-leak-information&#34;&gt;How succinct proofs leak information.&lt;/h2&gt;&#xA;&lt;p&gt;What happens when a succinct proof does not have the zero-knowledge property?&#xA;There is a common misconception that &amp;ldquo;succinct proofs are too short to leak information about the witness&amp;rdquo;.&#xA;This is &lt;strong&gt;wrong&lt;/strong&gt; and in the interest of privacy it is very important that we challenge this belief.&#xA;The &lt;a href=&#34;https://zkhack.dev/zkhackV/puzzleV1.html&#34;&gt;Zeitgeist puzzle at ZK Hack V&lt;/a&gt; was based on the themes discussed here.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Paper Speedrun: zk-creds</title>
+      <link>https://nmohnblatt.github.io/speedrun-zkcreds/</link>
+      <pubDate>Wed, 18 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.github.io/speedrun-zkcreds/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://geometry.xyz/notebook/paper-speedrun-zkcreds&#34;&gt;Geometry Notebook&lt;/a&gt;&lt;/em&gt;.&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;&lt;strong&gt;Title:&lt;/strong&gt; zk-creds: Flexible Anonymous Credentials from zkSNARKs and Existing Identity Infrastructure&lt;br&gt;&#xA;&lt;strong&gt;Authors:&lt;/strong&gt; Michael Rosenberg, Jacob White, Christina Garman and Ian Miers&lt;br&gt;&#xA;&lt;strong&gt;Links&lt;/strong&gt;: paper &lt;a href=&#34;https://eprint.iacr.org/2022/878&#34;&gt;https://eprint.iacr.org/2022/878&lt;/a&gt; , code &lt;a href=&#34;https://github.com/rozbb/zkcreds-rs&#34;&gt;https://github.com/rozbb/zkcreds-rs&lt;/a&gt;&lt;br&gt;&#xA;&lt;strong&gt;TL;DR&lt;/strong&gt;: zk-creds is an anonymous credentials system. A credential is a Pedersen commitment to attributes. The credential is shown to be valid in ZK and issued by adding it to a public list. A credential can be &amp;ldquo;shown&amp;rdquo; by proving in ZK that the committed values match some access criteria and that the credential is included in the issuance list. Privacy is maintained by blinding proofs. The paper also introduces Merkle forests and a protocol to blind and link Groth16 proofs.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
