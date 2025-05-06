@@ -276,20 +276,20 @@ Data availability sampling (DAS) is critical to scaling blockchains while mainta
 
 
 
-<figure style="text-align: center;"><img src="/zoda-explainer/celestia-square_hu7401378410796084693.webp">
+<figure style="text-align: center;"><img src="/zoda-explainer/celestia-square_hu_91d6adfb5a27eadf.webp">
 </figure>
 <p><strong>Sampling.</strong> Light nodes then sample entries from this extended data square, $Z$. The example below illustrates this procedure for two light nodes sampling independently. The first node’s samples are represented in blue while the second’s are in red. Purple entries represent entries which both nodes sampled. In this example, each node samples 30 entries and land on the same entry 5 times. If light nodes collectively sample enough distinct entries from the rows or from the columns (for example, at least half of each row or column will suffice), they can get together and erasure decode $\tilde X$. In the below example, the majority of each row and each column was sampled. If the two nodes pool their samples, they can reconstruct the original data $\tilde X$ either from the rows or from the columns, using a standard erasure decoding algorithm for $G$ or $G&rsquo;$.</p>
 
 
 
-<figure style="text-align: center;"><img src="/zoda-explainer/zoda-sampling_hu2521920272387299016.webp" width="60%">
+<figure style="text-align: center;"><img src="/zoda-explainer/zoda-sampling_hu_981d2a1d4f10d350.webp" width="60%">
 </figure>
 <p><strong>Encoding correctness.</strong> However, if $Z$ not correctly encoded, nodes might not be able to decode $\tilde X$ (or anything at all). For DAS to work, we need some way of ensuring that $Z$ was constructed correctly. Existing protocols deal with this problem in one of two ways.</p>
 <p><strong>Fraud-proof construction.</strong> The first idea, initially proposed in [ASB18] and now used in the Celestia protocol, is for full nodes to download all of $\tilde X$ and compute $Z$ themselves as per the first figure. If the result doesn’t match $Z$ at any point, they can alert light nodes with a (compact) fraud proof. Either the row or the column containing the error could be sent to a light node that can check the error directly.</p>
 
 
 
-<figure style="text-align: center;"><img src="/zoda-explainer/notice-error_hu11826237736102970190.webp" width="60%">
+<figure style="text-align: center;"><img src="/zoda-explainer/notice-error_hu_1fd62a605e05c9c5.webp" width="60%">
 </figure>
 <p>This approach assumes that each light node is connected to at least one honest full node that can furnish a fraud proof in the event of a bad encoding. While there is zero prover overhead, each full node needs to download the entire data and re-compute the extended data square $Z$ itself. Since we assume that at least one of the $N$ full nodes connected to each light node is honest, we ideally want $N$ to be reasonably large. This, in turn means that a lot of redundant data is downloaded (and compute is spent) in aggregate across the network. Making blocks too big also reduces the pool of full nodes that can participate in securing the network, as larger machines with more bandwidth are required as blocks get larger.</p>
 <p><strong>2D KZG construction.</strong> Another approach, initially proposed in [But20], is to commit to each row and column of $Z$ using the polynomial commitment scheme of KZG [KZG10]. We then compute KZG opening proofs for each entry of $Z$. Each entry of the matrix comes with an opening proof that verifies against the commitment for its associated row or column. The drawback of this approach is that it requires computing KZG commitments for each row and column of the matrix, as well as opening proofs for each individual entry. These proofs are concretely slow and expensive to compute, imposing cost and latency on the network. While it is possible to parallelize the process over many provers, significant network-wide proving overhead (and indeed, proof overhead, as every sampled element carries an associated proof) remains.</p>
@@ -299,13 +299,13 @@ Data availability sampling (DAS) is critical to scaling blockchains while mainta
 
 
 
-<figure style="text-align: center;"><img src="/zoda-explainer/zoda-square_hu5325403291503846225.webp">
+<figure style="text-align: center;"><img src="/zoda-explainer/zoda-square_hu_f4fa0b1ab937fba8.webp">
 </figure>
 <p>Surprisingly, this tweak makes the encoding provably correct! Specifically, nodes sample random rows and columns and check that these are valid codewords which are also consistent at their intersection. Repeating this procedure for enough rows and columns establishes two properties with high probability. First, the matrix $Z$ is close to an encoding of a (unique) $\tilde X$ and, second, that the sampled rows and columns whose verification passes are symbols of this unique codeword. In the ZODA paper, we prove these properties by adapting the proximity test of the Ligero [AHIV17] protocol. Intuitively, injecting randomness from the intermediate commitment prevents a malicious encoder from behaving adaptively. Importantly, these rows and columns are also valid samples as part of DAS and can be used to reconstruct the original square. In other words, if enough nodes verify the encoding was correctly constructed, they will, with high probability, also have gathered enough data to reconstruct $\tilde X$. There is zero overhead to the proof: nearly every bit of data that the node downloads as part of the correct-encoding proof is also useful for reconstruction. In the example below, nodes can decode if they collectively sample and validate either half the rows or half the columns.</p>
 
 
 
-<figure style="text-align: center;"><img src="/zoda-explainer/zoda-verification_hu1163810422115205127.webp"
+<figure style="text-align: center;"><img src="/zoda-explainer/zoda-verification_hu_e27ce219e66be283.webp"
   alt="Figure 1: ZODA verification. A light node verifies that a row and column are valid codewords and are consistent at their intersection (marked with a green checkmark)." width="60%"><figcaption>
       <p>Figure 1: ZODA verification. A light node verifies that a row and column are valid codewords and are consistent at their intersection (marked with a green checkmark).</p>
     </figcaption>

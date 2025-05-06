@@ -7,8 +7,15 @@
     <generator>Hugo</generator>
     <language>en-US</language>
     <copyright>Copyright © 2024, Nicolas Mohnblatt.</copyright>
-    <lastBuildDate>Wed, 11 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 06 May 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://nmohnblatt.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Comparing Ligerito and WHIR</title>
+      <link>https://nmohnblatt.github.io/ligerito-and-whir/</link>
+      <pubDate>Tue, 06 May 2025 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.github.io/ligerito-and-whir/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://angeris.github.io/papers/ligerito.pdf&#34;&gt;Ligerito&lt;/a&gt; is a freshly released multilinear polynomial commitment scheme that combines ideas from &lt;a href=&#34;https://eprint.iacr.org/2022/1608&#34;&gt;Ligero&lt;/a&gt; with the &lt;a href=&#34;https://lance.fortnow.com/papers/files/ip.pdf&#34;&gt;Sumcheck&lt;/a&gt; protocol.&#xA;It is based on error-correcting codes and is proven secure in the pure random oracle model (pure ROM)&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;&#xA;&lt;p&gt;These properties are very similar to those of &lt;a href=&#34;https://eprint.iacr.org/2024/1586&#34;&gt;WHIR&lt;/a&gt;: error-correcting codes, pure ROM, partial Sumcheck rounds.&#xA;Naturally one might ask: &lt;em&gt;how does Ligerito compare to WHIR?&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;I&amp;rsquo;ll give a few points of similarity, explaining why many people have suggested that these protocols are closely tied; then discuss the main differences and what we can learn from them.&#xA;Along the way, I show that some known ideas like &lt;a href=&#34;https://eprint.iacr.org/2019/1062&#34;&gt;&lt;em&gt;code-switching&lt;/em&gt;&lt;/a&gt; have implicitly made their way into Ligerito.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Privacy-preserving Contact Discovery for Bluesky</title>
       <link>https://nmohnblatt.github.io/arke-for-bluesky/</link>
@@ -49,7 +56,7 @@
       <link>https://nmohnblatt.github.io/witness-encryption-from-ibe/</link>
       <pubDate>Fri, 12 May 2023 00:00:00 +0000</pubDate>
       <guid>https://nmohnblatt.github.io/witness-encryption-from-ibe/</guid>
-      <description>&lt;p&gt;This short document outlines how to emulate witness encryption using threshold cryptography - and more specifically, threshold identity-based encryption (IBE). The ideas presented here are heavily inspired but the &lt;code&gt;tlock&lt;/code&gt; construction from &lt;a href=&#34;https://eprint.iacr.org/2023/189&#34;&gt;[GMR23]&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;Disclaimer: I have not done a thorough review of the existing literature, if you are aware of existing constructions that work in the same way please let me know!&lt;/em&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;background&#34;&gt;Background&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Witness Encryption.&lt;/strong&gt; The &lt;em&gt;extractable witness encryption&lt;/em&gt; paradigm is the following: given an instance of some hard problem, one can encrypt a message using the instance such that it may only be decrypted by someone who &lt;em&gt;knows&lt;/em&gt; the problem&amp;rsquo;s solution (the witness).&lt;/p&gt;</description>
+      <description>&lt;p&gt;This short document outlines how to emulate witness encryption using threshold cryptography - and more specifically, threshold identity-based encryption (IBE). The ideas presented here are heavily inspired by the &lt;code&gt;tlock&lt;/code&gt; construction from &lt;a href=&#34;https://eprint.iacr.org/2023/189&#34;&gt;[GMR23]&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;Disclaimer: I have not done a thorough review of the existing literature, if you are aware of existing constructions that work in the same way please let me know!&lt;/em&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;background&#34;&gt;Background&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Witness Encryption.&lt;/strong&gt; The &lt;em&gt;extractable witness encryption&lt;/em&gt; paradigm is the following: given an instance of some hard problem, one can encrypt a message using the instance such that it may only be decrypted by someone who &lt;em&gt;knows&lt;/em&gt; the problem&amp;rsquo;s solution (the witness).&lt;/p&gt;</description>
     </item>
     <item>
       <title>Sangria: a Folding Scheme for PLONK</title>

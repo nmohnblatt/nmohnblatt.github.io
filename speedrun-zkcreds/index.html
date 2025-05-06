@@ -289,8 +289,7 @@ TL;DR: zk-creds is an anonymous credentials system. A credential is a Pedersen c
 <p><strong>Title:</strong> zk-creds: Flexible Anonymous Credentials from zkSNARKs and Existing Identity Infrastructure<br>
 <strong>Authors:</strong> Michael Rosenberg, Jacob White, Christina Garman and Ian Miers<br>
 <strong>Links</strong>: paper <a href="https://eprint.iacr.org/2022/878">https://eprint.iacr.org/2022/878</a> , code <a href="https://github.com/rozbb/zkcreds-rs">https://github.com/rozbb/zkcreds-rs</a><br>
-<strong>TL;DR</strong>: zk-creds is an anonymous credentials system. A credential is a Pedersen commitment to attributes. The credential is shown to be valid in ZK and issued by adding it to a public list. A credential can be &ldquo;shown&rdquo; by proving in ZK that the committed values match some access criteria and that the credential is included in the issuance list. Privacy is maintained by blinding proofs. The paper also introduces Merkle forests and a protocol to blind and link Groth16 proofs.</p>
-</blockquote>
+<strong>TL;DR</strong>: zk-creds is an anonymous credentials system. A credential is a Pedersen commitment to attributes. The credential is shown to be valid in ZK and issued by adding it to a public list. A credential can be &ldquo;shown&rdquo; by proving in ZK that the committed values match some access criteria and that the credential is included in the issuance list. Privacy is maintained by blinding proofs. The paper also introduces Merkle forests and a protocol to blind and link Groth16 proofs.</p></blockquote>
 <h2 id="the-need-for-anonymous-credentials">The Need for Anonymous Credentials</h2>
 <p>Typically when we want to prove that we are over some legal age limit we show our identity document in full, revealing our age but also our legal name, address, nationality and much more. The risks of such privacy leaks are compounded by the fact that we now show our identity documents digitally and our precious information is stored by third parties.</p>
 <p>Anonymous credentials offer a privacy-preserving alternative to the scenario above. A User could use their anonymous credential to enter a bar without revealing anything more than the validity of their credential and that they meet legal drinking age. Importantly, multiple shows of the same credential should not be traceable.</p>
@@ -323,7 +322,7 @@ Alice wishes to access age-restricted content from a third party, the Verifier. 
 
 
 
-<figure style="text-align: center;"><img src="/speedrun-zkcreds/benchmarks_hu9212963474247562088.webp"
+<figure style="text-align: center;"><img src="/speedrun-zkcreds/benchmarks_hu_2358f019223b5f85.webp"
   alt="zk-creds benchmarks."><figcaption>
       <p>zk-creds benchmarks.</p>
     </figcaption>
@@ -349,7 +348,7 @@ Alice wishes to access age-restricted content from a third party, the Verifier. 
 
 
 
-<figure style="text-align: center;"><img src="/speedrun-zkcreds/rerand_hu3885847557070856622.webp"
+<figure style="text-align: center;"><img src="/speedrun-zkcreds/rerand_hu_bb88919b15a385c8.webp"
   alt="Screen capture of the re-rand algorithm from zk-creds"><figcaption>
       <p>Screen capture of the re-rand algorithm from zk-creds</p>
     </figcaption>

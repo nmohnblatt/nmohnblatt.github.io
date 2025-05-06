@@ -279,15 +279,14 @@ We will first inspect an instantiation of the verifiable $l$-out-of-$l$ threshol
 <hr>
 <p>In <a href="../mental-poker-in-the-age-of-snarks-part-1">Part 1</a> of our Mental Poker series we highlighted the challenges of decentralised card games and presented the improved Barnett-Smart protocol as a practical solution. In this second part we take a deep dive into the cryptography that enables this protocol.</p>
 <p>We will first inspect an <!-- raw HTML omitted -->instantiation of the verifiable $l$-out-of-$l$ threshold masking functions (VTMFs) using El Gamal encryption<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup><!-- raw HTML omitted -->. We will also show how repeated applications of these functions achieve the necessary properties for a fair card game. In the second section we cover the zero-knowledge argument for a correct shuffle as presented in <!-- raw HTML omitted -->“Efficient Zero-knowledge Argument for Correctness of a Shuffle”<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup><!-- raw HTML omitted -->.</p>
-<h2 id="discrete-log-vtmf-citemental-poker-revisited1cite">Discrete-log VTMF (<!-- raw HTML omitted -->Mental Poker Revisited<sup id="fnref1:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup><!-- raw HTML omitted -->)</h2>
+<h2 id="discrete-log-vtmf-mental-poker-revisited">Discrete-log VTMF (<!-- raw HTML omitted -->Mental Poker Revisited<sup id="fnref1:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup><!-- raw HTML omitted -->)</h2>
 <p>A set of VTMFs is composed of 4 functions: <strong>key generation</strong>, <strong>mask</strong>, <strong>remask</strong> and <strong>unmask</strong>. These can be instantiated using a threshold variant of the El Gamal encryption scheme. Verifiability is achieved by computing zero-knowledge proofs that encryption and decryption are performed correctly.</p>
 <blockquote>
 <p>✍️ Notation:
 We assume that players have agreed to use a finite abelian group $\mathbb{G}$ of prime order $q$. We denote $G$ the generator of $\mathbb{G}$ and use additive notation (”$+$”) for the group operation.
 We assume the existence of a public mapping $\mathcal{M}$ from card values to elements of $\mathbb{G}$; this could be a hash function for example. Given a card value, all players can compute $M = \mathcal{M}(\text{card})$ with $M \in \mathbb{G}$.
 The $\gets$ operator denotes an element chosen uniformly at random from a set, e.g. $X \gets \mathbb{G}$
-In this section we will consider a group of $\ell$ players which we denote with the subscript $i \in \{1, 2, \dots, \ell\}$.</p>
-</blockquote>
+In this section we will consider a group of $\ell$ players which we denote with the subscript $i \in \{1, 2, \dots, \ell\}$.</p></blockquote>
 <h3 id="key-generation">Key Generation</h3>
 <p>Player $i$ generates a private key $x_i \gets \mathbb{Z} _q$. The corresponding public key $H_i$ is computed as $H_i = x_i G$ and published.</p>
 <p>To prevent rogue key attacks, we require that players prove in zero knowledge that they know the private key corresponding to the key they publish. In this discrete logarithm setting, such a proof is easily obtained using the <a href="https://www.zkdocs.com/docs/zkdocs/zero-knowledge-protocols/schnorr/">Schnorr identification scheme</a>.</p>
@@ -380,11 +379,10 @@ C_b - \sum_{i=1} ^\ell D_i &amp;= C_b - \sum_{i=1} ^\ell x_i C_a \\
 $$</p>
 <h3 id="verifiability">Verifiability</h3>
 <p>Verifiability for the operations above (bar the key generation) is obtained by generating <strong>Chaum-Pedersen proofs of discrete log equality</strong>. In this classic $\Sigma$-protocol, a prover produces two values $\alpha G$ and $\beta H$ and proves in zero knowledge that they know $\alpha$ and that $\alpha = \beta$. A mask operation is verified using a Chaum-Pedersen proof for the values $C_a$ and $C_b -M$ with $\alpha = r$, remask using a Chaum-Pedersen proof for $C&rsquo;a - C_a$ and $C&rsquo;b - C_b$ with $\alpha = r&rsquo;$ and finally decrypt using a Chaum-Pedersen proof for $G$ and $C_a$ using $\alpha = x_i$.</p>
-<h2 id="zero-knowledge-argument-for-correctness-of-a-shuffle-citebayer-groth2cite">Zero-Knowledge Argument for Correctness of a Shuffle (<!-- raw HTML omitted -->Bayer-Groth<sup id="fnref1:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup><!-- raw HTML omitted -->)</h2>
+<h2 id="zero-knowledge-argument-for-correctness-of-a-shuffle-bayer-groth">Zero-Knowledge Argument for Correctness of a Shuffle (<!-- raw HTML omitted -->Bayer-Groth<sup id="fnref1:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup><!-- raw HTML omitted -->)</h2>
 <blockquote>
 <p>✍️ Notation:
-As we now consider actions on a deck of cards by a single player, we use subscripts to denote an item’s position in an array (rather than indicating a player as seen in the previous section).</p>
-</blockquote>
+As we now consider actions on a deck of cards by a single player, we use subscripts to denote an item’s position in an array (rather than indicating a player as seen in the previous section).</p></blockquote>
 <h3 id="preliminaries">Preliminaries</h3>
 <p>To understand the argument of a correct shuffle of ciphertexts, we will first look at shuffling a set of $N$ group elements $P_1, P_2, \dots, P_N$, each a member of $\mathbb{G}$. Each element $P_i$ is given a new index and some blinding $\Delta_i \gets \mathbb{G}$ is added. This blinding operation is the same as applying remask to one of the two elements in a masked card. We can express each point at the output of the shuffle $P&rsquo;_i$ as:</p>
 <p>$$
@@ -396,7 +394,7 @@ $$</p>
 
 
 
-<figure style="text-align: center;"><img src="/mental-poker-2/permutation_hu3818648141412932692.webp"
+<figure style="text-align: center;"><img src="/mental-poker-2/permutation_hu_dad49e67edbfa84c.webp"
   alt="Example of a six-point permutation"><figcaption>
       <p>An example of a 6 point shuffle using the permutation π defined as π(1) = 2, π(2) = 5, π(3) = 1, π(4) = 3, π(5) = 6, π(6) = 4 . The permutation is read “backwards” on the diagram since equation 12 is indexed with respect to the output.</p>
     </figcaption>

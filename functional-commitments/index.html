@@ -278,7 +278,7 @@ In ZKP schemes, the typical paradigm is that a programme (or “circuit”) is p
 
 
 
-<figure style="text-align: center;"><img src="/functional-commitments/definition_hu5016024841139076261.webp"
+<figure style="text-align: center;"><img src="/functional-commitments/definition_hu_3df85f24ab01c818.webp"
   alt="Description of a functional commitment scheme."><figcaption>
       <p>Description of a functional commitment scheme.</p>
     </figcaption>
@@ -299,7 +299,7 @@ In ZKP schemes, the typical paradigm is that a programme (or “circuit”) is p
 
 
 
-<figure style="text-align: center;"><img src="/functional-commitments/circuits_hu7048565072580360189.webp">
+<figure style="text-align: center;"><img src="/functional-commitments/circuits_hu_32c32622d029f03a.webp">
 </figure>
 <p>We can follow along the wires to write out the equations relating satisfactory instance-witness pairs:
 $$
@@ -312,7 +312,7 @@ $$</p>
 
 
 
-<figure style="text-align: center;"><img src="/functional-commitments/plots_hu10783190548657722472.webp">
+<figure style="text-align: center;"><img src="/functional-commitments/plots_hu_56128e5c915429a.webp">
 </figure>
 <p>Notice that in circuit $A$, for a given $x$ value there is only one satisfying $y$ value. On the other hand, circuit $B$ allows for multiple satisfying $y$ values for a fixed $x$.</p>
 <p>This property of relations would allow a prover to &ldquo;cheat&rdquo; the commitment scheme. For circuit $B$, given the value $x=0$ a malicious prover can now choose which value it wants to show ($y=10$ or $y=-10$). The circuit will be satisfied in both cases, however this ability to choose breaks the <em>binding</em> property of the functional commitment. What is worse, as the circuit is perfectly hidden the verifier has no means of checking whether it is in case $A$ or $B$!</p>

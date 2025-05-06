@@ -3,10 +3,19 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://nmohnblatt.github.io/blog/</loc>
-    <lastmod>2025-01-08T00:00:00+00:00</lastmod>
+    <lastmod>2025-05-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nmohnblatt.github.io/ligerito-and-whir/</loc>
+    <lastmod>2025-05-06T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://nmohnblatt.github.io/</loc>
-    <lastmod>2025-01-08T00:00:00+00:00</lastmod>
+    <lastmod>2025-05-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nmohnblatt.github.io/blog/proximity-testing/</loc>
+    <lastmod>2025-05-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nmohnblatt.github.io/blog/succinct-proofs/</loc>
+    <lastmod>2025-05-06T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://nmohnblatt.github.io/blog/identity-based-encryption/</loc>
     <lastmod>2024-12-11T00:00:00+00:00</lastmod>

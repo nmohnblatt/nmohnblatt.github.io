@@ -8,7 +8,7 @@
 <link rel="shortcut icon" href="https://nmohnblatt.github.io/images/favicon.png" />
 <title>Emulating Witness Encryption with Threshold Cryptography and ZKPs | Nicolas Mohnblatt</title>
 <meta name="title" content="Emulating Witness Encryption with Threshold Cryptography and ZKPs" />
-<meta name="description" content="This short document outlines how to emulate witness encryption using threshold cryptography - and more specifically, threshold identity-based encryption (IBE). The ideas presented here are heavily inspired but the tlock construction from [GMR23].
+<meta name="description" content="This short document outlines how to emulate witness encryption using threshold cryptography - and more specifically, threshold identity-based encryption (IBE). The ideas presented here are heavily inspired by the tlock construction from [GMR23].
 Disclaimer: I have not done a thorough review of the existing literature, if you are aware of existing constructions that work in the same way please let me know!
 Background
 Witness Encryption. The extractable witness encryption paradigm is the following: given an instance of some hard problem, one can encrypt a message using the instance such that it may only be decrypted by someone who knows the problem&rsquo;s solution (the witness)." />
@@ -18,7 +18,7 @@ Witness Encryption. The extractable witness encryption paradigm is the following
 <meta property="og:url" content="https://nmohnblatt.github.io/witness-encryption-from-ibe/">
   <meta property="og:site_name" content="Nicolas Mohnblatt">
   <meta property="og:title" content="Emulating Witness Encryption with Threshold Cryptography and ZKPs">
-  <meta property="og:description" content="This short document outlines how to emulate witness encryption using threshold cryptography - and more specifically, threshold identity-based encryption (IBE). The ideas presented here are heavily inspired but the tlock construction from [GMR23].
+  <meta property="og:description" content="This short document outlines how to emulate witness encryption using threshold cryptography - and more specifically, threshold identity-based encryption (IBE). The ideas presented here are heavily inspired by the tlock construction from [GMR23].
 Disclaimer: I have not done a thorough review of the existing literature, if you are aware of existing constructions that work in the same way please let me know!
 Background Witness Encryption. The extractable witness encryption paradigm is the following: given an instance of some hard problem, one can encrypt a message using the instance such that it may only be decrypted by someone who knows the problem’s solution (the witness).">
   <meta property="og:locale" content="en_US">
@@ -37,7 +37,7 @@ Background Witness Encryption. The extractable witness encryption paradigm is th
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://nmohnblatt.github.io/images/share.png">
   <meta name="twitter:title" content="Emulating Witness Encryption with Threshold Cryptography and ZKPs">
-  <meta name="twitter:description" content="This short document outlines how to emulate witness encryption using threshold cryptography - and more specifically, threshold identity-based encryption (IBE). The ideas presented here are heavily inspired but the tlock construction from [GMR23].
+  <meta name="twitter:description" content="This short document outlines how to emulate witness encryption using threshold cryptography - and more specifically, threshold identity-based encryption (IBE). The ideas presented here are heavily inspired by the tlock construction from [GMR23].
 Disclaimer: I have not done a thorough review of the existing literature, if you are aware of existing constructions that work in the same way please let me know!
 Background Witness Encryption. The extractable witness encryption paradigm is the following: given an instance of some hard problem, one can encrypt a message using the instance such that it may only be decrypted by someone who knows the problem’s solution (the witness).">
 
@@ -45,7 +45,7 @@ Background Witness Encryption. The extractable witness encryption paradigm is th
 
 
   <meta itemprop="name" content="Emulating Witness Encryption with Threshold Cryptography and ZKPs">
-  <meta itemprop="description" content="This short document outlines how to emulate witness encryption using threshold cryptography - and more specifically, threshold identity-based encryption (IBE). The ideas presented here are heavily inspired but the tlock construction from [GMR23].
+  <meta itemprop="description" content="This short document outlines how to emulate witness encryption using threshold cryptography - and more specifically, threshold identity-based encryption (IBE). The ideas presented here are heavily inspired by the tlock construction from [GMR23].
 Disclaimer: I have not done a thorough review of the existing literature, if you are aware of existing constructions that work in the same way please let me know!
 Background Witness Encryption. The extractable witness encryption paradigm is the following: given an instance of some hard problem, one can encrypt a message using the instance such that it may only be decrypted by someone who knows the problem’s solution (the witness).">
   <meta itemprop="datePublished" content="2023-05-12T00:00:00+00:00">
@@ -272,7 +272,7 @@ Background Witness Encryption. The extractable witness encryption paradigm is th
 </p>
 
 <content>
-  <p>This short document outlines how to emulate witness encryption using threshold cryptography - and more specifically, threshold identity-based encryption (IBE). The ideas presented here are heavily inspired but the <code>tlock</code> construction from <a href="https://eprint.iacr.org/2023/189">[GMR23]</a>.</p>
+  <p>This short document outlines how to emulate witness encryption using threshold cryptography - and more specifically, threshold identity-based encryption (IBE). The ideas presented here are heavily inspired by the <code>tlock</code> construction from <a href="https://eprint.iacr.org/2023/189">[GMR23]</a>.</p>
 <p><em>Disclaimer: I have not done a thorough review of the existing literature, if you are aware of existing constructions that work in the same way please let me know!</em></p>
 <h2 id="background">Background</h2>
 <p><strong>Witness Encryption.</strong> The <em>extractable witness encryption</em> paradigm is the following: given an instance of some hard problem, one can encrypt a message using the instance such that it may only be decrypted by someone who <em>knows</em> the problem&rsquo;s solution (the witness).</p>

@@ -289,8 +289,7 @@ TL;DR: ProtoStar presents three results: 1) a generic toolchain to obtain effici
 <p><strong>Title</strong>: ProtoStar: Generic Efficient Accumulation/Folding for Special Sound Protocols<br>
 <strong>Authors</strong>: Benedikt Bünz and Binyi Chen<br>
 <strong>Link</strong>: <a href="https://eprint.iacr.org/2023/620">https://eprint.iacr.org/2023/620</a><br>
-<strong>TL;DR</strong>: ProtoStar presents three results: 1) a generic toolchain to obtain efficient folding schemes from special sound protocols, 2) a simple special sound protocol for Plonkup where the prover does not depend on the size of the lookup table and 3) a non-uniform IVC scheme based on the former results. Their folding scheme follows the same pattern described in Nova/Sangria (relaxation of the equations) but introduces an optimisation to avoid committing to cross-terms: instead of checking $l$ equations of degree $d$, ProtoStar batches them into a single equation of degree $(d+2)$ and $2\sqrt{l}$ equations of degree 2. The cross-terms from the degree-2 equations can be committed to using the Pedersen vector commitment (as in Nova) and those arising from the single high degree check can be committed to using the identity function (the &ldquo;commitments&rdquo; are still short enough and binding!).</p>
-</blockquote>
+<strong>TL;DR</strong>: ProtoStar presents three results: 1) a generic toolchain to obtain efficient folding schemes from special sound protocols, 2) a simple special sound protocol for Plonkup where the prover does not depend on the size of the lookup table and 3) a non-uniform IVC scheme based on the former results. Their folding scheme follows the same pattern described in Nova/Sangria (relaxation of the equations) but introduces an optimisation to avoid committing to cross-terms: instead of checking $l$ equations of degree $d$, ProtoStar batches them into a single equation of degree $(d+2)$ and $2\sqrt{l}$ equations of degree 2. The cross-terms from the degree-2 equations can be committed to using the Pedersen vector commitment (as in Nova) and those arising from the single high degree check can be committed to using the identity function (the &ldquo;commitments&rdquo; are still short enough and binding!).</p></blockquote>
 <p>ProtoStar is one of the latest instalments in a line of work concerned with constructing efficient IVC schemes (incrementally verifiable computation). It presents three important results:</p>
 <ol>
 <li>folding schemes for generic interactive protocols where the verifier is expressed as a series of equations (more formally, an <em>algebraic</em> check). These folding schemes are based on the techniques of Nova <a href="https://eprint.iacr.org/2021/370">[KST22]</a> / Sangria <a href="https://github.com/geometryresearch/technical_notes/blob/main/sangria_folding_plonk.pdf">[Moh23]</a> and introduce optimisations to avoid expensive commitments to cross-terms, especially when dealing with high degree gates.</li>
@@ -318,12 +317,10 @@ TL;DR: ProtoStar presents three results: 1) a generic toolchain to obtain effici
 <p>Now for the second key word in the paper&rsquo;s title: &ldquo;special sound protocols&rdquo;. <strong>Special soundness</strong> is a property of <strong>interactive</strong> protocols. It states that given a tree of accepting transcripts (we will see what that is in a second), there exists an algorithm that can recover a valid witness.</p>
 <p>A <strong>tree of transcripts</strong> is a tree in which each node is a prover message and each edge is verifier challenge. It allows to track what the prover would have sent given different challenges from the verifier. In that sense, the tree is like a multiverse of provers: at each step of the protocol, we branch into different universes where each universe has a different verifier challenge. Looking at the complete tree, each path from the root to one leaf represents the prover-verifier interaction in one of these related universes. Given this multiverse view, one should be able to &ldquo;extract&rdquo; the witness that the prover knows.</p>
 <blockquote>
-<p>Note that in the real world we do not have this multiverse view, so special soundness does not introduce a vulnerability in your protocol.</p>
-</blockquote>
+<p>Note that in the real world we do not have this multiverse view, so special soundness does not introduce a vulnerability in your protocol.</p></blockquote>
 <p><a href="https://eprint.iacr.org/2021/1377">[AFK22]</a> present an important result for special sound protocols: applying the Fiat-Shamir transform to a special sound protocol produces a non-interactive argument of knowledge (NARK) that satisfies the knowledge soundness property. In other words, when we replace the verifier challenges by random oracle calls (Fiat-Shamir), there exists a generic method to obtain this tree of transcript in acceptable time; therefore the resulting NARK is secure.</p>
 <blockquote>
-<p>Note that this method requires to &ldquo;rewind&rdquo; (read &ldquo;debug&rdquo;) the prover and therefore cannot be applied to a proof once it has been produced. Once again, no real-world attacks - phew.</p>
-</blockquote>
+<p>Note that this method requires to &ldquo;rewind&rdquo; (read &ldquo;debug&rdquo;) the prover and therefore cannot be applied to a proof once it has been produced. Once again, no real-world attacks - phew.</p></blockquote>
 <h3 id="the-folding-recipe">The Folding Recipe</h3>
 <p>We are finally ready to describe ProtoStar&rsquo;s generic folding scheme. ProtoStar considers special sound protocols with algebraic verifiers. These are protocols where the verifier checks that all of $l$ equations evaluate to $0$. The inputs to these equations are the public inputs, the prover&rsquo;s messages and the verifier&rsquo;s random challenge.</p>
 <p>The recipe (or toolchain) goes as follows:</p>
@@ -336,7 +333,7 @@ TL;DR: ProtoStar presents three results: 1) a generic toolchain to obtain effici
 <a href="./partial-toolchain.png">
 
 
-<figure style="text-align: center;"><img src="/speedrun-protostar/partial-toolchain_hu13529732653601168011.webp"
+<figure style="text-align: center;"><img src="/speedrun-protostar/partial-toolchain_hu_16b9818058db17bb.webp"
   alt="Partial toolchain for the ProtoStar Folding Scheme."><figcaption>
       <p>Partial toolchain for the ProtoStar Folding Scheme.</p>
     </figcaption>
@@ -368,7 +365,7 @@ $$</p>
 <p><a href="./sangria-fold.png">
 
 
-<figure style="text-align: center;"><img src="/speedrun-protostar/sangria-fold_hu17634315152844794273.webp"
+<figure style="text-align: center;"><img src="/speedrun-protostar/sangria-fold_hu_51967f1a92d5defe.webp"
   alt="Sangria-style folding: each degree $d$ equation produces $d-1$ cross-terms. Committing to these is the performance bottleneck."><figcaption>
       <p>Sangria-style folding: each degree $d$ equation produces $d-1$ cross-terms. Committing to these is the performance bottleneck.</p>
     </figcaption>
@@ -378,7 +375,7 @@ $$</p>
 <p><a href="./full-toolchain.png">
 
 
-<figure style="text-align: center;"><img src="/speedrun-protostar/full-toolchain_hu3505803623843012060.webp"
+<figure style="text-align: center;"><img src="/speedrun-protostar/full-toolchain_hu_6682a9b86e02eb31.webp"
   alt="Full ProtoStar toolchain for generic folding, including cross-term optimizations."><figcaption>
       <p>Full ProtoStar toolchain for generic folding, including cross-term optimizations.</p>
     </figcaption>
@@ -402,7 +399,7 @@ Concretely, for $l=16$, the $\beta$ values would be $(\beta_1 = \mathsf{chal}, \
 <p><a href="./batched.png">
 
 
-<figure style="text-align: center;"><img src="/speedrun-protostar/batched_hu15829089001270008919.webp"
+<figure style="text-align: center;"><img src="/speedrun-protostar/batched_hu_54c38bc5f9c84c.webp"
   alt="The batching of equation leads to a batching of cross-terms (!). Using the identity function as a trivial commitment removes the bottleneck."><figcaption>
       <p>The batching of equation leads to a batching of cross-terms (!). Using the identity function as a trivial commitment removes the bottleneck.</p>
     </figcaption>
