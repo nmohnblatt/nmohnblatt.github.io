@@ -51,7 +51,7 @@ These properties are very similar to those of WHIR: error-correcting codes, pure
 I’ll give a few points of similarity, explaining why many people have suggested that these protocols are closely tied; then discuss the main differences and what we can learn from them. Along the way, I show that some known ideas like code-switching have implicitly made their way into Ligerito.">
   <meta itemprop="datePublished" content="2025-05-06T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-05-06T00:00:00+00:00">
-  <meta itemprop="wordCount" content="1170">
+  <meta itemprop="wordCount" content="1303">
   <meta itemprop="image" content="https://nmohnblatt.github.io/images/share.png">
   <meta itemprop="keywords" content="Succinct Proofs,Proximity Testing">
 <meta name="referrer" content="no-referrer-when-downgrade" />
@@ -332,9 +332,11 @@ During these reductions, the prover and verifier keep track of a running Sumchec
 In both cases, the constraints allow some form of code-switching: in WHIR, we switch from one RS code to a different RS defined on a smaller domain and with a smaller rate; in Ligerito, we switch between arbitrary linear codes.
 In this sense, we can view WHIR and Ligerito (and BaseFold fold those familiar) as protocols from the same family, where WHIR uses RS codes &mdash; and associated tricks &mdash; while Ligerito is almost completely generalized.</p>
 <p><strong>Verifier.</strong>
-The fact that the codes used in WHIR are closely related to each other allow for a cheaper code-switching operation.
-In Ligerito, this operation requires the verifier to evaluate a few rows of every code&rsquo;s generator matrix.
-This difference explains why the Ligerito verifier is slower and has worse asymptotics.</p>
+The fact that the codes used in WHIR are closely related to each other allow for a cheaper code-switching operation and a succinct verifier.
+Ligerito&rsquo;s code-switching requires the verifier to evaluate a few rows of every code&rsquo;s generator matrix.
+For an initial polynomial of size $2^m$ (an $m$-variate multilinear) and first folding parameter $k_1$ (meaning we split the initial polynomial into $2^{k_1}$ constituents), the Ligerito verifier evaluates a polynomial of size $2^{m-k_1}$ without assistance from the prover.
+For a constant $k_1$, this operation is asymptotically linear in the size of the initial polynomial.
+This difference explains why the Ligerito verifier is slower and is not succinct <a href="https://zkjargon.github.io/definitions/succinct.html">in the strict sense of the term</a>.</p>
 <p><strong>Prover.</strong>
 On the other hand, using arbitrary codes means that Ligerito is compatible with linear-time encodable codes and therefore can be implemented with a linear-time prover.</p>
 <p><strong>Proof size.</strong>
@@ -345,7 +347,11 @@ I suspect that with equally optimized folding parameters, WHIR should yield smal
 <p>Since we have mentioned code-switching, I think it is also interesting to compare Ligerito, WHIR and <a href="https://eprint.iacr.org/2024/1609">Blaze</a>.
 Blaze starts with one iteration of something like Ligerito: uses a large folding factor and an arbitrary code.
 The protocol then code-switches to RS codes and proceeds using BaseFold (or optionally WHIR).
-In some way, we can see Blaze as a hybrid protocol, on the WHIR-Ligerito spectrum.</p>
+In some way, we can see Blaze as a hybrid protocol on the WHIR-Ligerito spectrum, with the potential to hit a sweet-spot on the prover-verifer tradeoff curve.</p>
+<p>Importantly, Blaze incorporates a succinct IOP for code-switching in order to avoid the linear(ish) verifier asymptotics we see in Ligerito.
+This is possible because Blaze is describe for a concrete code, rather than the full generality of Ligerito.</p>
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>I would like to thank <a href="https://x.com/AndrijaNovakov6">Andrija Novakovic</a>, <a href="https://x.com/GuilleAngeris">Guillermo Angeris</a> and <a href="https://x.com/ronrothblum">Ron Rothblum</a> for many enlightening conversations on the topic.</p>
 <div class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
