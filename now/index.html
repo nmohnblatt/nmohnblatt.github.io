@@ -61,6 +61,7 @@ data availability sampling from pure-ROM protocols. proofs of proximity. folding
 <style>
   body {
     font-family: Verdana, sans-serif;
+    font-size: 15px;
     margin: auto;
     padding: 20px;
     max-width: 720px;
@@ -89,17 +90,26 @@ data availability sampling from pure-ROM protocols. proofs of proximity. folding
     text-decoration: none;
   }
 
-  a.nounderline {
-    text-decoration: none; 
-  }
-
   a.underline {
     text-decoration: underline; 
+  }
+
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a.nohover:hover {
+    text-decoration: none;
   }
 
   .title {
     text-decoration: none;
     border: 0;
+  }
+
+  a.title:hover{
+    text-decoration: none;
   }
 
   .title span {
@@ -243,16 +253,16 @@ data availability sampling from pure-ROM protocols. proofs of proximity. folding
   <header><a href="/" class="title">
   <h2>Nicolas Mohnblatt</h2>
 </a>
-<nav><a href="/" class="nounderline">Home</a>
+<nav><a href="/" class="nohover">Home</a>
 
-<a href="/about/" class="nounderline">About</a>
+<a href="/about/" class="nohover">About</a>
 
-<a href="/now/" class="nounderline">Now</a>
+<a href="/now/" class="nohover">Now</a>
 
-<a href="/research/" class="nounderline">Research</a>
+<a href="/research/" class="nohover">Research</a>
 
 
-<a href="/blog" class="nounderline">Blog</a>
+<a href="/blog" class="nohover">Blog</a>
 
 </nav>
 </header>
@@ -278,11 +288,11 @@ I am also a recurring co-host on the <a href="https://zeroknowledge.fm">ZeroKnow
 
   </main>
   <footer><p style="font-size: small;">
-    Built using <a href="https://gohugo.io">Hugo</a>. The theme is adapted from <a href="https://github.com/janraasch/hugo-bearblog/">hugo-bearblog</a> and uses colours from <a href="https://github.com/kepano/flexoki?tab=readme-ov-file">Flexoki</a>.
+    Built using <a href="https://gohugo.io" class="nohover">Hugo</a>. The theme is adapted from <a href="https://github.com/janraasch/hugo-bearblog/" class="nohover">hugo-bearblog</a> and uses colours from <a href="https://github.com/kepano/flexoki?tab=readme-ov-file" class="nohover">Flexoki</a>.
 </p>
 
 <p style="font-size: small;">
-    <a href="https://github.com/nmohnblatt" class="nounderline">Github</a> | <a href="https://bsky.app/profile/nicomnbl.bsky.social">Bluesky</a> | <a href="https://x.com/nico_mnbl" class="nounderline">&#x1D54F;</a> | <a href="https://zkjargon.github.io" class="nounderline">ZK Jargon Decoder</a> <br>
+    <a href="https://github.com/nmohnblatt" class="nohover">Github</a> | <a href="https://bsky.app/profile/nicomnbl.bsky.social" class="nohover">Bluesky</a> | <a href="https://x.com/nico_mnbl" class="nohover">&#x1D54F;</a> | <a href="https://zkjargon.github.io" class="nohover">ZK Jargon Decoder</a> <br>
     &copy; 2024-2025, Nicolas Mohnblatt. <br>
 </p>
 </footer>
