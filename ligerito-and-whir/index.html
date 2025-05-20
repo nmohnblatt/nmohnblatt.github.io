@@ -8,21 +8,21 @@
 <link rel="shortcut icon" href="https://nmohnblatt.github.io/images/favicon.png" />
 <title>Comparing Ligerito and WHIR | Nicolas Mohnblatt</title>
 <meta name="title" content="Comparing Ligerito and WHIR" />
-<meta name="description" content="Ligerito is a freshly released multilinear polynomial commitment scheme that combines ideas from Ligero with the Sumcheck protocol.
+<meta name="description" content="
+Edit 20 May, 2025: review comparison after the &ldquo;succinct verification for RS codes&rdquo; update to Ligerito.
+Ligerito is a freshly released multilinear polynomial commitment scheme that combines ideas from Ligero with the Sumcheck protocol.
 It is based on error-correcting codes and is proven secure in the pure random oracle model (pure ROM)1.
 These properties are very similar to those of WHIR: error-correcting codes, pure ROM, partial Sumcheck rounds.
-Naturally one might ask: how does Ligerito compare to WHIR?
-I&rsquo;ll give a few points of similarity, explaining why many people have suggested that these protocols are closely tied; then discuss the main differences and what we can learn from them.
-Along the way, I show that some known ideas like code-switching have implicitly made their way into Ligerito." />
+Naturally one might ask: how does Ligerito compare to WHIR?" />
 <meta name="keywords" content="Succinct proofs,Proximity testing," />
 
 
 <meta property="og:url" content="https://nmohnblatt.github.io/ligerito-and-whir/">
   <meta property="og:site_name" content="Nicolas Mohnblatt">
   <meta property="og:title" content="Comparing Ligerito and WHIR">
-  <meta property="og:description" content="Ligerito is a freshly released multilinear polynomial commitment scheme that combines ideas from Ligero with the Sumcheck protocol. It is based on error-correcting codes and is proven secure in the pure random oracle model (pure ROM)1.
-These properties are very similar to those of WHIR: error-correcting codes, pure ROM, partial Sumcheck rounds. Naturally one might ask: how does Ligerito compare to WHIR?
-I’ll give a few points of similarity, explaining why many people have suggested that these protocols are closely tied; then discuss the main differences and what we can learn from them. Along the way, I show that some known ideas like code-switching have implicitly made their way into Ligerito.">
+  <meta property="og:description" content="Edit 20 May, 2025: review comparison after the “succinct verification for RS codes” update to Ligerito.
+Ligerito is a freshly released multilinear polynomial commitment scheme that combines ideas from Ligero with the Sumcheck protocol. It is based on error-correcting codes and is proven secure in the pure random oracle model (pure ROM)1.
+These properties are very similar to those of WHIR: error-correcting codes, pure ROM, partial Sumcheck rounds. Naturally one might ask: how does Ligerito compare to WHIR?">
   <meta property="og:locale" content="en_US">
   <meta property="og:type" content="article">
     <meta property="article:section" content="blog">
@@ -38,20 +38,20 @@ I’ll give a few points of similarity, explaining why many people have suggeste
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://nmohnblatt.github.io/images/share.png">
   <meta name="twitter:title" content="Comparing Ligerito and WHIR">
-  <meta name="twitter:description" content="Ligerito is a freshly released multilinear polynomial commitment scheme that combines ideas from Ligero with the Sumcheck protocol. It is based on error-correcting codes and is proven secure in the pure random oracle model (pure ROM)1.
-These properties are very similar to those of WHIR: error-correcting codes, pure ROM, partial Sumcheck rounds. Naturally one might ask: how does Ligerito compare to WHIR?
-I’ll give a few points of similarity, explaining why many people have suggested that these protocols are closely tied; then discuss the main differences and what we can learn from them. Along the way, I show that some known ideas like code-switching have implicitly made their way into Ligerito.">
+  <meta name="twitter:description" content="Edit 20 May, 2025: review comparison after the “succinct verification for RS codes” update to Ligerito.
+Ligerito is a freshly released multilinear polynomial commitment scheme that combines ideas from Ligero with the Sumcheck protocol. It is based on error-correcting codes and is proven secure in the pure random oracle model (pure ROM)1.
+These properties are very similar to those of WHIR: error-correcting codes, pure ROM, partial Sumcheck rounds. Naturally one might ask: how does Ligerito compare to WHIR?">
 
 
 
 
   <meta itemprop="name" content="Comparing Ligerito and WHIR">
-  <meta itemprop="description" content="Ligerito is a freshly released multilinear polynomial commitment scheme that combines ideas from Ligero with the Sumcheck protocol. It is based on error-correcting codes and is proven secure in the pure random oracle model (pure ROM)1.
-These properties are very similar to those of WHIR: error-correcting codes, pure ROM, partial Sumcheck rounds. Naturally one might ask: how does Ligerito compare to WHIR?
-I’ll give a few points of similarity, explaining why many people have suggested that these protocols are closely tied; then discuss the main differences and what we can learn from them. Along the way, I show that some known ideas like code-switching have implicitly made their way into Ligerito.">
+  <meta itemprop="description" content="Edit 20 May, 2025: review comparison after the “succinct verification for RS codes” update to Ligerito.
+Ligerito is a freshly released multilinear polynomial commitment scheme that combines ideas from Ligero with the Sumcheck protocol. It is based on error-correcting codes and is proven secure in the pure random oracle model (pure ROM)1.
+These properties are very similar to those of WHIR: error-correcting codes, pure ROM, partial Sumcheck rounds. Naturally one might ask: how does Ligerito compare to WHIR?">
   <meta itemprop="datePublished" content="2025-05-06T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-05-06T00:00:00+00:00">
-  <meta itemprop="wordCount" content="1303">
+  <meta itemprop="wordCount" content="1484">
   <meta itemprop="image" content="https://nmohnblatt.github.io/images/share.png">
   <meta itemprop="keywords" content="Succinct Proofs,Proximity Testing">
 <meta name="referrer" content="no-referrer-when-downgrade" />
@@ -283,7 +283,9 @@ I’ll give a few points of similarity, explaining why many people have suggeste
 </p>
 
 <content>
-  <p><a href="https://angeris.github.io/papers/ligerito.pdf">Ligerito</a> is a freshly released multilinear polynomial commitment scheme that combines ideas from <a href="https://eprint.iacr.org/2022/1608">Ligero</a> with the <a href="https://lance.fortnow.com/papers/files/ip.pdf">Sumcheck</a> protocol.
+  <blockquote>
+<p><em>Edit 20 May, 2025</em>: review comparison after the &ldquo;succinct verification for RS codes&rdquo; update to Ligerito.</p></blockquote>
+<p><a href="https://angeris.github.io/papers/ligerito.pdf">Ligerito</a> is a freshly released multilinear polynomial commitment scheme that combines ideas from <a href="https://eprint.iacr.org/2022/1608">Ligero</a> with the <a href="https://lance.fortnow.com/papers/files/ip.pdf">Sumcheck</a> protocol.
 It is based on error-correcting codes and is proven secure in the pure random oracle model (pure ROM)<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
 <p>These properties are very similar to those of <a href="https://eprint.iacr.org/2024/1586">WHIR</a>: error-correcting codes, pure ROM, partial Sumcheck rounds.
 Naturally one might ask: <em>how does Ligerito compare to WHIR?</em></p>
@@ -333,6 +335,12 @@ Just like the folding operator, this operation is distance-preserving (property 
 Here, uniqueness is guaranteed by running many queries rather than relying on out-of-domain samples as in WHIR.</p>
 <p>This method of changing codes between iterations and enforcing consistency within the protocol itself is known as <em>code-switching</em>.
 While not mentioned in the paper, I find it a lot easier to think of Ligerito in that sense.</p>
+<p>To ensure correct code-switching, the Ligerito verifier must compute a random evaluation of the multilinear extensions of a few rows of every code&rsquo;s generator matrix.
+For an initial vector of size $2^m$ and first folding parameter $k_1$ (meaning we split the initial vector into $2^{k_1}$ constituents), the Ligerito verifier evaluates a a multilinear extension of size $2^{m-k_1}$ without assistance from the prover.
+For a constant $k_1$, this operation is asymptotically linear in the size of the initial polynomial is not succinct <a href="https://zkjargon.github.io/definitions/succinct.html">in the strict sense of the term</a>.</p>
+<p>In a recent update to the paper, Guillermo and Andrija show that certain multilinear extensions can be computed in logarithmic time when the evaluation point also has structure.
+This fact should not be completely surprising: this is something we use all the time in multilinear-based protocols with the $\mathsf{eq}$ polynomial.
+They go on to show that Reed-Solomon codes upholds the required properties.</p>
 <h2 id="comparison">Comparison</h2>
 <p><strong>Summary.</strong>
 WHIR and Ligerito rely on the same core elements.
@@ -342,17 +350,19 @@ During these reductions, the prover and verifier keep track of a running Sumchec
 In both cases, the constraints allow some form of code-switching: in WHIR, we switch from one RS code to a different RS defined on a smaller domain and with a smaller rate; in Ligerito, we switch between arbitrary linear codes.
 In this sense, we can view WHIR and Ligerito (and BaseFold fold those familiar) as protocols from the same family, where WHIR uses RS codes &mdash; and associated tricks &mdash; while Ligerito is almost completely generalized.</p>
 <p><strong>Verifier.</strong>
-The fact that the codes used in WHIR are closely related to each other allow for a cheaper code-switching operation and a succinct verifier.
-Ligerito&rsquo;s code-switching requires the verifier to evaluate a few rows of every code&rsquo;s generator matrix.
-For an initial polynomial of size $2^m$ (an $m$-variate multilinear) and first folding parameter $k_1$ (meaning we split the initial polynomial into $2^{k_1}$ constituents), the Ligerito verifier evaluates a polynomial of size $2^{m-k_1}$ without assistance from the prover.
-For a constant $k_1$, this operation is asymptotically linear in the size of the initial polynomial.
-This difference explains why the Ligerito verifier is slower and is not succinct <a href="https://zkjargon.github.io/definitions/succinct.html">in the strict sense of the term</a>.</p>
+The fact that the codes used in WHIR are closely related to each other allow for an almost-free code-switching operation.
+On the other hand, the Ligerito verifier must enforce &ldquo;correct encoding&rdquo; constraints on its own.
+While in the general case, this operation is almost linear time, it can be succinct in some special cases like RS codes.
+In both cases, I think that the Ligerito verifier does concretely more work than the WHIR verifier.</p>
 <p><strong>Prover.</strong>
-On the other hand, using arbitrary codes means that Ligerito is compatible with linear-time encodable codes and therefore can be implemented with a linear-time prover.</p>
+As we have seen, using arbitrary codes requires the Ligerito verifier to do more work than WHIR&rsquo;s.
+On the other hand, the generality over codes means that Ligerito is compatible with linear-time encodable codes and therefore can be implemented with a linear-time prover.</p>
 <p><strong>Proof size.</strong>
 Both papers show similar numbers for proof sizes within their proven security parameter regimes when using RS codes.
-However, WHIR uses the rate improving technique that Ligerito doesn&rsquo;t, and Ligerito uses more optimized folding parameters than WHIR.
-I suspect that with equally optimized folding parameters, WHIR should yield smaller proofs.</p>
+Ligerito uses optimized folding parameters while WHIR uses progressively decreasing rates.
+Since Ligerito is defined for generic codes, it can also be instantiated with progressively smaller rate <em>à la</em> WHIR.
+Similarly, WHIR can benefit from Ligerito&rsquo;s folding parameter selection techniques.
+The main difference is that WHIR can potentially work beyond the unique-decoding regime of its code, which should lead to smaller proof sizes (and an even faster verifier).</p>
 <h2 id="bonus-comparison-with-blaze">Bonus: comparison with Blaze</h2>
 <p>Since we have mentioned code-switching, I think it is also interesting to compare Ligerito, WHIR and <a href="https://eprint.iacr.org/2024/1609">Blaze</a>.
 Blaze starts with one iteration of something like Ligerito: uses a large folding factor and an arbitrary code.
