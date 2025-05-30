@@ -292,13 +292,9 @@ Below is a quick overview of the discussion points, organized into four categori
 <ul>
 <li>similarly to our &ldquo;client-side proving&rdquo; trend, <code>libZK</code> prioritizes a fast prover and concretely small proofs rather than focusing on proof size asymptotic and verifier time.</li>
 <li>the proof system uses proof composition to reduce commitment costs (using a GKR-like inner proof) and preserve the zero-knowledge property (using a Ligero outer proof).</li>
-</ul>
-</li>
-</ol>
-<ul>
 <li>the proof system composes interactive proofs (IPs) rather than SNARKs to avoid arithmetizing Fiat-Shamir challenges and allow for a cleaner security proof.</li>
 </ul>
-<ol start="2">
+</li>
 <li>Arithmetization:
 <ul>
 <li>the system proves a &ldquo;dual-circuit aritmetization&rdquo;; some constraints are defined over the base field of the secp256r1 curve (useful for verifying ECDSA signatures) while others are defined over a 16-bit binary field (useful for verifying SHA-256 and parsing binary formats such as JSON or CBOR).</li>
