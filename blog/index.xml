@@ -7,8 +7,15 @@
     <generator>Hugo</generator>
     <language>en-US</language>
     <copyright>Copyright © 2024, Nicolas Mohnblatt.</copyright>
-    <lastBuildDate>Tue, 06 May 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 30 May 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://nmohnblatt.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Highlights of libZK, the Google Wallet ZKP</title>
+      <link>https://nmohnblatt.github.io/libzk-highlights/</link>
+      <pubDate>Fri, 30 May 2025 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.github.io/libzk-highlights/</guid>
+      <description>&lt;p&gt;Last month, &lt;a href=&#34;https://blog.google/products/google-pay/google-wallet-age-identity-verifications/&#34;&gt;Google announced&lt;/a&gt; an update to Google Wallet that enables &amp;ldquo;fast and private age verification&amp;rsquo;&amp;rsquo;.&#xA;As you might expect, the system uses zero-knowledge proofs (ZKPs) under the hood.&#xA;This is great news!&#xA;Firstly because these privacy-preserving primitives will get wider distribution and hopefully adoption.&#xA;Secondly because it&amp;rsquo;s great to see high-performance, production-grade ZKPs being developed outside of the blockchain/web3 industry.&#xA;And finally because seeing governments and big tech players like Google take interest in ZKPs is a clear sign of momentum for our beloved privacy-enhancing technologies.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Comparing Ligerito and WHIR</title>
       <link>https://nmohnblatt.github.io/ligerito-and-whir/</link>
