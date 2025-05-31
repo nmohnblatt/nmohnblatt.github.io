@@ -43,7 +43,7 @@ And finally because seeing governments and big tech players like Google take int
   <meta itemprop="description" content="Last month, Google announced an update to Google Wallet that enables “fast and private age verification’’. As you might expect, the system uses zero-knowledge proofs (ZKPs) under the hood. This is great news! Firstly because these privacy-preserving primitives will get wider distribution and hopefully adoption. Secondly because it’s great to see high-performance, production-grade ZKPs being developed outside of the blockchain/web3 industry. And finally because seeing governments and big tech players like Google take interest in ZKPs is a clear sign of momentum for our beloved privacy-enhancing technologies.">
   <meta itemprop="datePublished" content="2025-05-30T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-05-30T00:00:00+00:00">
-  <meta itemprop="wordCount" content="1863">
+  <meta itemprop="wordCount" content="1860">
   <meta itemprop="image" content="https://nmohnblatt.github.io/images/share.png">
 <meta name="referrer" content="no-referrer-when-downgrade" />
 
@@ -290,7 +290,7 @@ Below is a quick overview of the discussion points, organized into four categori
 <ol>
 <li>Proof system:
 <ul>
-<li>similarly to our &ldquo;client-side proving&rdquo; trend, <code>libZK</code> prioritizes a fast prover and concretely small proofs rather than focusing on proof size asymptotic and verifier time.</li>
+<li>similarly to our &ldquo;client-side proving&rdquo; trend, <code>libZK</code> prioritizes a fast prover and concretely small proofs over asymptotic proof size and verifier time.</li>
 <li>the proof system uses proof composition to reduce commitment costs (using a GKR-like inner proof) and preserve the zero-knowledge property (using a Ligero outer proof).</li>
 <li>the proof system composes interactive proofs (IPs) rather than SNARKs to avoid arithmetizing Fiat-Shamir challenges and allow for a cleaner security proof.</li>
 </ul>
@@ -375,7 +375,7 @@ This tension is resolved by having the prover and verifier jointly sample the MA
 I invite you to read more details in <a href="https://eprint.iacr.org/2024/2010">Section 3.4 of the paper</a>.</p>
 <h2 id="implementation-techniques">Implementation techniques</h2>
 <p>Neither of the fields chosen above are FFT-friendly.
-Recall than an FFT-friendly field is one that has a multiplicative subgroup for which the size is a larger power of $2$.
+Recall that an FFT-friendly field is one that has a multiplicative subgroup for which the size is a larger power of $2$.
 Equivalently, a field is FFT-friendly if its order $q$ is such that $q-1$ is divisible by a large power of $2$.</p>
 <h3 id="ffts-for-secp256r1">FFTs for secp256r1</h3>
 <p>The base field of the secp256r1 elliptic curve is not FFT-friendly.
