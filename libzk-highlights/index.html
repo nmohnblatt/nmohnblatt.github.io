@@ -13,7 +13,7 @@ Edit 2 June, 2025:
 In the previous version of the post, I focused on how to compute FFTs in the secp256r1 base field and binary fields.
 That focus was somewhat misguided.
 The interesting insight is in how to efficiently compute Reed-Solomon encodings in any field using a convolution rather than the usual &ldquo;interpolation and evaluation&rdquo; method.
-Having established that convolution method for RS encoding, one can use FFTs to speed it up.
+In some fields, this convolution can be computed faster using FFTs.
 I explain all of this in further detail in the revised &ldquo;implementation techniques&rdquo; section." />
 <meta name="keywords" content="Anonymous Credentials,Privacy,Zero-knowledge," />
 
@@ -21,7 +21,7 @@ I explain all of this in further detail in the revised &ldquo;implementation tec
 <meta property="og:url" content="https://nmohnblatt.github.io/libzk-highlights/">
   <meta property="og:site_name" content="Nicolas Mohnblatt">
   <meta property="og:title" content="Highlights of libZK, the Google Wallet ZKP">
-  <meta property="og:description" content="Edit 2 June, 2025: In the previous version of the post, I focused on how to compute FFTs in the secp256r1 base field and binary fields. That focus was somewhat misguided. The interesting insight is in how to efficiently compute Reed-Solomon encodings in any field using a convolution rather than the usual “interpolation and evaluation” method. Having established that convolution method for RS encoding, one can use FFTs to speed it up. I explain all of this in further detail in the revised “implementation techniques” section.">
+  <meta property="og:description" content="Edit 2 June, 2025: In the previous version of the post, I focused on how to compute FFTs in the secp256r1 base field and binary fields. That focus was somewhat misguided. The interesting insight is in how to efficiently compute Reed-Solomon encodings in any field using a convolution rather than the usual “interpolation and evaluation” method. In some fields, this convolution can be computed faster using FFTs. I explain all of this in further detail in the revised “implementation techniques” section.">
   <meta property="og:locale" content="en_US">
   <meta property="og:type" content="article">
     <meta property="article:section" content="blog">
@@ -38,16 +38,16 @@ I explain all of this in further detail in the revised &ldquo;implementation tec
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://nmohnblatt.github.io/images/share.png">
   <meta name="twitter:title" content="Highlights of libZK, the Google Wallet ZKP">
-  <meta name="twitter:description" content="Edit 2 June, 2025: In the previous version of the post, I focused on how to compute FFTs in the secp256r1 base field and binary fields. That focus was somewhat misguided. The interesting insight is in how to efficiently compute Reed-Solomon encodings in any field using a convolution rather than the usual “interpolation and evaluation” method. Having established that convolution method for RS encoding, one can use FFTs to speed it up. I explain all of this in further detail in the revised “implementation techniques” section.">
+  <meta name="twitter:description" content="Edit 2 June, 2025: In the previous version of the post, I focused on how to compute FFTs in the secp256r1 base field and binary fields. That focus was somewhat misguided. The interesting insight is in how to efficiently compute Reed-Solomon encodings in any field using a convolution rather than the usual “interpolation and evaluation” method. In some fields, this convolution can be computed faster using FFTs. I explain all of this in further detail in the revised “implementation techniques” section.">
 
 
 
 
   <meta itemprop="name" content="Highlights of libZK, the Google Wallet ZKP">
-  <meta itemprop="description" content="Edit 2 June, 2025: In the previous version of the post, I focused on how to compute FFTs in the secp256r1 base field and binary fields. That focus was somewhat misguided. The interesting insight is in how to efficiently compute Reed-Solomon encodings in any field using a convolution rather than the usual “interpolation and evaluation” method. Having established that convolution method for RS encoding, one can use FFTs to speed it up. I explain all of this in further detail in the revised “implementation techniques” section.">
+  <meta itemprop="description" content="Edit 2 June, 2025: In the previous version of the post, I focused on how to compute FFTs in the secp256r1 base field and binary fields. That focus was somewhat misguided. The interesting insight is in how to efficiently compute Reed-Solomon encodings in any field using a convolution rather than the usual “interpolation and evaluation” method. In some fields, this convolution can be computed faster using FFTs. I explain all of this in further detail in the revised “implementation techniques” section.">
   <meta itemprop="datePublished" content="2025-05-30T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-05-30T00:00:00+00:00">
-  <meta itemprop="wordCount" content="2565">
+  <meta itemprop="wordCount" content="2560">
   <meta itemprop="image" content="https://nmohnblatt.github.io/images/share.png">
   <meta itemprop="keywords" content="Anonymous Credentials,Privacy,Zero-Knowledge">
 <meta name="referrer" content="no-referrer-when-downgrade" />
@@ -284,7 +284,7 @@ I explain all of this in further detail in the revised &ldquo;implementation tec
 In the <a href="https://nmohnblatt.github.io/archived/libzk-highlights/">previous version of the post</a>, I focused on how to compute FFTs in the secp256r1 base field and binary fields.
 That focus was somewhat misguided.
 The interesting insight is in how to efficiently compute Reed-Solomon encodings in any field using a convolution rather than the usual &ldquo;interpolation and evaluation&rdquo; method.
-Having established that convolution method for RS encoding, one can use FFTs to speed it up.
+In some fields, this convolution can be computed faster using FFTs.
 I explain all of this in further detail in the revised &ldquo;implementation techniques&rdquo; section.</p>
 <p><em>Changelog</em>: the &ldquo;implementation techniques&rdquo; section and summary have been re-written, as well as the &ldquo;connection to Circle STARK&rdquo;; the acknowledgements now reflect the wonderful help and explanations I received from Matteo and Abhi.
 All other sections of the article remain unchanged.</p></blockquote>
