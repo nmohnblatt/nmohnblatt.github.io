@@ -8,20 +8,19 @@
 <link rel="shortcut icon" href="https://nmohnblatt.github.io/images/favicon.png" />
 <title>Highlights of libZK, the Google Wallet ZKP | Nicolas Mohnblatt</title>
 <meta name="title" content="Highlights of libZK, the Google Wallet ZKP" />
-<meta name="description" content="
-Edit 2 June, 2025:
-In the previous version of the post, I focused on how to compute FFTs in the secp256r1 base field and binary fields.
-That focus was somewhat misguided.
-The interesting insight is in how to efficiently compute Reed-Solomon encodings in any field using a convolution rather than the usual &ldquo;interpolation and evaluation&rdquo; method.
-In some fields, this convolution can be computed faster using FFTs.
-I explain all of this in further detail in the revised &ldquo;implementation techniques&rdquo; section." />
+<meta name="description" content="Last month, Google announced an update to Google Wallet that enables &ldquo;fast and private age verification&rsquo;&rsquo;.
+As you might expect, the system uses zero-knowledge proofs (ZKPs) under the hood.
+This is great news!
+Firstly because these privacy-preserving primitives will get wider distribution and hopefully adoption.
+Secondly because it&rsquo;s great to see high-performance, production-grade ZKPs being developed outside of the blockchain/web3 industry.
+And finally because seeing governments and big tech players like Google take interest in ZKPs is a clear sign of momentum for our beloved privacy-enhancing technologies." />
 <meta name="keywords" content="Anonymous Credentials,Privacy,Zero-knowledge," />
 
 
 <meta property="og:url" content="https://nmohnblatt.github.io/libzk-highlights/">
   <meta property="og:site_name" content="Nicolas Mohnblatt">
   <meta property="og:title" content="Highlights of libZK, the Google Wallet ZKP">
-  <meta property="og:description" content="Edit 2 June, 2025: In the previous version of the post, I focused on how to compute FFTs in the secp256r1 base field and binary fields. That focus was somewhat misguided. The interesting insight is in how to efficiently compute Reed-Solomon encodings in any field using a convolution rather than the usual “interpolation and evaluation” method. In some fields, this convolution can be computed faster using FFTs. I explain all of this in further detail in the revised “implementation techniques” section.">
+  <meta property="og:description" content="Last month, Google announced an update to Google Wallet that enables “fast and private age verification’’. As you might expect, the system uses zero-knowledge proofs (ZKPs) under the hood. This is great news! Firstly because these privacy-preserving primitives will get wider distribution and hopefully adoption. Secondly because it’s great to see high-performance, production-grade ZKPs being developed outside of the blockchain/web3 industry. And finally because seeing governments and big tech players like Google take interest in ZKPs is a clear sign of momentum for our beloved privacy-enhancing technologies.">
   <meta property="og:locale" content="en_US">
   <meta property="og:type" content="article">
     <meta property="article:section" content="blog">
@@ -38,16 +37,16 @@ I explain all of this in further detail in the revised &ldquo;implementation tec
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://nmohnblatt.github.io/images/share.png">
   <meta name="twitter:title" content="Highlights of libZK, the Google Wallet ZKP">
-  <meta name="twitter:description" content="Edit 2 June, 2025: In the previous version of the post, I focused on how to compute FFTs in the secp256r1 base field and binary fields. That focus was somewhat misguided. The interesting insight is in how to efficiently compute Reed-Solomon encodings in any field using a convolution rather than the usual “interpolation and evaluation” method. In some fields, this convolution can be computed faster using FFTs. I explain all of this in further detail in the revised “implementation techniques” section.">
+  <meta name="twitter:description" content="Last month, Google announced an update to Google Wallet that enables “fast and private age verification’’. As you might expect, the system uses zero-knowledge proofs (ZKPs) under the hood. This is great news! Firstly because these privacy-preserving primitives will get wider distribution and hopefully adoption. Secondly because it’s great to see high-performance, production-grade ZKPs being developed outside of the blockchain/web3 industry. And finally because seeing governments and big tech players like Google take interest in ZKPs is a clear sign of momentum for our beloved privacy-enhancing technologies.">
 
 
 
 
   <meta itemprop="name" content="Highlights of libZK, the Google Wallet ZKP">
-  <meta itemprop="description" content="Edit 2 June, 2025: In the previous version of the post, I focused on how to compute FFTs in the secp256r1 base field and binary fields. That focus was somewhat misguided. The interesting insight is in how to efficiently compute Reed-Solomon encodings in any field using a convolution rather than the usual “interpolation and evaluation” method. In some fields, this convolution can be computed faster using FFTs. I explain all of this in further detail in the revised “implementation techniques” section.">
+  <meta itemprop="description" content="Last month, Google announced an update to Google Wallet that enables “fast and private age verification’’. As you might expect, the system uses zero-knowledge proofs (ZKPs) under the hood. This is great news! Firstly because these privacy-preserving primitives will get wider distribution and hopefully adoption. Secondly because it’s great to see high-performance, production-grade ZKPs being developed outside of the blockchain/web3 industry. And finally because seeing governments and big tech players like Google take interest in ZKPs is a clear sign of momentum for our beloved privacy-enhancing technologies.">
   <meta itemprop="datePublished" content="2025-05-30T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-05-30T00:00:00+00:00">
-  <meta itemprop="wordCount" content="2560">
+  <meta itemprop="wordCount" content="2561">
   <meta itemprop="image" content="https://nmohnblatt.github.io/images/share.png">
   <meta itemprop="keywords" content="Anonymous Credentials,Privacy,Zero-Knowledge">
 <meta name="referrer" content="no-referrer-when-downgrade" />
@@ -279,17 +278,7 @@ I explain all of this in further detail in the revised &ldquo;implementation tec
 </p>
 
 <content>
-  <blockquote>
-<p><strong>Edit <em>2 June, 2025</em></strong>:
-In the <a href="https://nmohnblatt.github.io/archived/libzk-highlights/">previous version of the post</a>, I focused on how to compute FFTs in the secp256r1 base field and binary fields.
-That focus was somewhat misguided.
-The interesting insight is in how to efficiently compute Reed-Solomon encodings in any field using a convolution rather than the usual &ldquo;interpolation and evaluation&rdquo; method.
-In some fields, this convolution can be computed faster using FFTs.
-I explain all of this in further detail in the revised &ldquo;implementation techniques&rdquo; section.</p>
-<p><em>Changelog</em>: the &ldquo;implementation techniques&rdquo; section and summary have been re-written, as well as the &ldquo;connection to Circle STARK&rdquo;; the acknowledgements now reflect the wonderful help and explanations I received from Matteo and Abhi.
-All other sections of the article remain unchanged.</p></blockquote>
-<hr>
-<p>Last month, <a href="https://blog.google/products/google-pay/google-wallet-age-identity-verifications/">Google announced</a> an update to Google Wallet that enables &ldquo;fast and private age verification&rsquo;&rsquo;.
+  <p>Last month, <a href="https://blog.google/products/google-pay/google-wallet-age-identity-verifications/">Google announced</a> an update to Google Wallet that enables &ldquo;fast and private age verification&rsquo;&rsquo;.
 As you might expect, the system uses zero-knowledge proofs (ZKPs) under the hood.
 This is great news!
 Firstly because these privacy-preserving primitives will get wider distribution and hopefully adoption.
@@ -443,6 +432,15 @@ For more details I encourage you to read <a href="https://eprint.iacr.org/2024/2
 <h2 id="acknowledgements">Acknowledgements</h2>
 <p>Thank you to <a href="https://x.com/zk_albi">Alberto Centelles</a> for improving this article through his many valuable suggestions.
 Thank you to Matteo Frigo and Abhi Shelat for reaching out, taking the time to clarify my confusion and explaining the relevant sections of the paper and existing works in great and invaluable detail.</p>
+<h2 id="edit-history">Edit history</h2>
+<p><em>2 June, 2025</em>:
+In the <a href="https://nmohnblatt.github.io/archived/libzk-highlights/">previous version of the post</a>, I focused on how to compute FFTs in the secp256r1 base field and binary fields.
+That focus was somewhat misguided.
+The interesting insight is in how to efficiently compute Reed-Solomon encodings in any field using a convolution rather than the usual &ldquo;interpolation and evaluation&rdquo; method.
+In some fields, this convolution can be computed faster using FFTs.
+I explain all of this in further detail in the revised &ldquo;implementation techniques&rdquo; section.
+<em>Changelog</em>: the &ldquo;implementation techniques&rdquo; section and summary have been re-written, as well as the &ldquo;connection to Circle STARK&rdquo;; the acknowledgements now reflect the wonderful help and explanations I received from Matteo and Abhi.
+All other sections of the article remain unchanged.</p>
 <div class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
