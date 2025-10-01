@@ -280,14 +280,14 @@ This definition is slightly different to our usual definition of knowledge sound
 I&rsquo;ll give a quick explainer of what the property is and how it differs from our usual definition.
 Readers familiar with both notions can skip ahead to the next section, knowing that we always refer to Damgård&rsquo;s definition.</p>
 <p>At a high level, Damgård&rsquo;s definition states that we can always extract a valid witness (in acceptable time) from any prover that has a high chance of convincing the verifier. Formally, this property can be expressed as in the following excerpt of <a href="https://cs.au.dk/~ivan/Sigma.pdf">Damgård&rsquo;s lecture notes on Sigma protocols</a>:</p>
-
+<p><a href="./damgard-ks.png">
 
 
 <figure style="text-align: center;"><img src="/notes-on-witness-extended-emulation/damgard-ks_hu_a231fd593776cc24.webp"
   alt="Definition of knowledge soundness from Damgård&rsquo;s lecture notes on Sigma protocols."><figcaption>
       <p>Definition of knowledge soundness from Damgård&rsquo;s lecture notes on Sigma protocols.</p>
     </figcaption>
-</figure>
+</figure></a></p>
 <p>This is not the same as our usual definition of knowledge soundness which state that &ldquo;the probability that the verifier accepts <em>and</em> the extractor fails to output a valid witness is negligible&rdquo;.
 For example, an extractor that has a fixed failure probability against all provers can satisfy the usual definition but not Damgård&rsquo;s.</p>
 <p>We know that Damgård&rsquo;s knowledge soundness implies the knowledge soundness we usually work with, however the opposite direction is unclear.
@@ -296,14 +296,14 @@ Therefore, the rest of this article will exclusively refer to Damgård&rsquo;s d
 <p>Witness-extended emulation is a notion that was defined to avoid a &ldquo;technical difficulty&rdquo; that arises when composing arguments of knowledge.
 As noted by Lindell <a href="https://eprint.iacr.org/2001/107">[Lin03]</a>, we may find ourselves unable to prove the security of a wider, composed system if we just naively use the guarantees given by knowledge soundness.
 The excerpt of [Lin03] below explains why this is the case:</p>
-
+<p><a href="./lindell-excerpt.png">
 
 
 <figure style="text-align: center;"><img src="/notes-on-witness-extended-emulation/lindell-excerpt_hu_874fe9c883e1f623.webp"
   alt="Excerpt from [Lin03]."><figcaption>
       <p>Excerpt from [Lin03].</p>
     </figcaption>
-</figure>
+</figure></a></p>
 <p>In short, the difficulty is the following.
 To prove security of the overall protocol, we need to describe an expected polynomial time &ldquo;simulator&rdquo; that correctly reproduces the views of all parties in the protocol without knowing any secret information.
 To do so, the simulator will internally make use of the &ldquo;extractor&rdquo; defined by the knowledge soundness property.
@@ -331,14 +331,14 @@ They also show that <strong>multi-round special-soundness implies knowledge soun
 <p>Witness-extended emulation is a useful notion to show that our arguments of knowledge can &ldquo;play nice&rdquo; when composed in wider protocols.
 However, we never need to prove it by hand: the heavy lifting has been done for us, we only need to prove knowledge soundness or special-soundness.</p>
 <p>A more concise version of this whole discussion is given in <a href="https://eprint.iacr.org/2021/307">[ACK21]</a>:</p>
-
+<p><a href="./ack21-summary.png">
 
 
 <figure style="text-align: center;"><img src="/notes-on-witness-extended-emulation/ack21-summary_hu_2dc7ba1f6c173a2c.webp"
   alt="Excerpt from [ACK21]."><figcaption>
       <p>Excerpt from [ACK21].</p>
     </figcaption>
-</figure>
+</figure></a></p>
 <p><strong>What about non-interactive proofs?</strong> It is important to note that everything discussed so far only applies to <em>interactive</em> protocols.
 Studying non-interactive protocols obtained from the Fiat-Shamir transform requires further security notions.</p>
 <h2 id="acknowledgements">Acknowledgements</h2>
