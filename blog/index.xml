@@ -7,8 +7,15 @@
     <generator>Hugo</generator>
     <language>en-US</language>
     <copyright>Copyright © 2024, Nicolas Mohnblatt.</copyright>
-    <lastBuildDate>Mon, 29 Sep 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 30 Oct 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://nmohnblatt.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Why does FRI work?</title>
+      <link>https://nmohnblatt.github.io/why-does-fri-work/</link>
+      <pubDate>Thu, 30 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.github.io/why-does-fri-work/</guid>
+      <description>You might be familiar with what FRI is or how it works but do you know &lt;em&gt;why&lt;/em&gt; it works? This blog post gives some intuitive answers to this crucial security question.</description>
+    </item>
     <item>
       <title>Notes on Witness-extended Emulation</title>
       <link>https://nmohnblatt.github.io/notes-on-witness-extended-emulation/</link>
