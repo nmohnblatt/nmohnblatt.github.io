@@ -269,7 +269,7 @@
 </p>
 
 <content>
-  <p><em>This article is cross-posted from the <a href="">ZK Security blog</a>.</em></p>
+  <p><em>This article is cross-posted from the <a href="https://blog.zksecurity.xyz/posts/fri-security/">ZK Security blog</a>.</em></p>
 <hr>
 <p>The <a href="https://drops.dagstuhl.de/storage/00lipics/lipics-vol107-icalp2018/LIPIcs.ICALP.2018.14/LIPIcs.ICALP.2018.14.pdf">FRI protocol</a> is a key building block for many SNARKs deployed in production today.
 There are plenty of great lectures out there explaining <em>what</em> FRI is and <em>how</em> it works.
@@ -328,7 +328,7 @@ In our example, the verifier reads $f_3: \mathcal{L}_3 \to \mathbb{F}$ and check
 Ideally, this observation could &ldquo;bubble up&rdquo; through the prover message graph.
 We can state an ideal property as follows:</p>
 <ul>
-<li><em>(ideal property)</em> if there exists a codeword $u_i \in \mathsf{RS}[ \mathbb{F}, {\mathcal{L}<em>i}, {d_i} ]$ that agrees with $f_i$ on green nodes, then there exists a codeword $u</em>{i-1} \in \mathsf{RS}[ \mathbb{F}, {\mathcal{L}<em>{i-1}}, {d</em>{i-1}} ]$ that agrees with $f_{i-1}$ on green nodes.</li>
+<li><em>(ideal property)</em> if there exists a codeword $u_i \in \mathsf{RS}[ \mathbb{F}, {\mathcal{L}_i}, {d_i} ]$ that agrees with $f_i$ on green nodes, then there exists a codeword $u_{i-1} \in \mathsf{RS}[ \mathbb{F}, {\mathcal{L}_{i-1}}, {d_{i-1}} ]$ that agrees with $f_{i-1}$ on green nodes.</li>
 </ul>
 <p>With such a property our task would be solved!
 We would inductively apply the property working our way up the graph and find that the fraction of green nodes in layer $0$ is at least the agreement between $f_0$ and a codeword.
@@ -337,7 +337,7 @@ The ideal property does not always hold.</p>
 <p>What we can do on the other hand is to relax this property and only require that it holds <em>with high probability</em> over the verifier&rsquo;s folding challenges.
 The yields the following real property:</p>
 <ul>
-<li><em>(real property)</em> if (a) there is a large fraction of green nodes and (b) there exists a codeword $u_i \in \mathsf{RS}[\mathbb{F}, {\mathcal{L}<em>i}, {d_i}]$ that agrees with $f_i$ on green nodes, then with high probability over the verifier message $\alpha_i$ there exists a codeword $u</em>{i-1} \in \mathsf{RS}[\mathbb{F}, {\mathcal{L}<em>{i-1}}, {d</em>{i-1}}]$ that agrees with $f_{i-1}$ on green nodes.</li>
+<li><em>(real property)</em> if (a) there is a large fraction of green nodes and (b) there exists a codeword $u_i \in \mathsf{RS}[\mathbb{F}, {\mathcal{L}_i}, {d_i}]$ that agrees with $f_i$ on green nodes, then with high probability over the verifier message $\alpha_i$ there exists a codeword $u_{i-1} \in \mathsf{RS}[\mathbb{F}, {\mathcal{L}_{i-1}}, {d_{i-1}}]$ that agrees with $f_{i-1}$ on green nodes.</li>
 </ul>
 <p>The notion of what is a &ldquo;large fraction&rdquo; of green nodes is intentionally loose.
 Let&rsquo;s denote $\mathsf{B}^\star$ to be the measure of &ldquo;large enough&rdquo;.
