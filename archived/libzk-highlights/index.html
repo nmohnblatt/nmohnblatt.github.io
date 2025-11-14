@@ -310,7 +310,8 @@ Below is a quick overview of the discussion points, organized into four categori
 <li>the inner proof system is GKR-like and therefore requires &ldquo;layered&rdquo; circuits. The circuit depth for <a href="https://en.wikipedia.org/wiki/CBOR">CBOR</a> parsing is kept low by using parallel-prefix techniques that are well-known (according to the authors) in the hardware world.</li>
 </ul>
 </li>
-</ol></blockquote>
+</ol>
+</blockquote>
 <h2 id="proof-system">Proof system</h2>
 <h3 id="prioritize-prover-time-above-all-else">Prioritize prover time above all else</h3>
 <p>The <code>libZK</code> system in designed for the use case of smartphone-generated anonymous credentials &mdash; or as we like to call it, &ldquo;client-side proving&rdquo;.
@@ -387,7 +388,8 @@ And there is our large power of $2$, meaning that we <em>can</em> perform FFTs i
 Concretely, this represents a 4x overhead compared to a similar-sized FFT-friendly field; but that is better than not doing FFTs or using an FFT-friendly field and implementing an ECDSA circuit with foreign-field arithmetic.</p>
 <blockquote>
 <p><strong>A connection to Circle STARKs.</strong> In fact, we can apply the same idea to any prime $p&rsquo;$: express it as $p&rsquo; := 2^\ell \cdot s - 1$ and then notice that $2^\ell$ divides $p&rsquo;+1$, which itself divides ${(p&rsquo;)}^2-1$, the order of the multiplicative subgroup of $\mathbb{F}_{(p&rsquo;)^2}$.
-Setting $s=1$ gives us primes of the form $2^\ell - 1$; <em>i.e.</em>, Mersenne primes as used in Circle STARK (!). The &ldquo;circle FFT&rdquo; used in Circle STARK can be cast as a special, optimized case of the idea used in <code>libZK</code>.</p></blockquote>
+Setting $s=1$ gives us primes of the form $2^\ell - 1$; <em>i.e.</em>, Mersenne primes as used in Circle STARK (!). The &ldquo;circle FFT&rdquo; used in Circle STARK can be cast as a special, optimized case of the idea used in <code>libZK</code>.</p>
+</blockquote>
 <h3 id="ffts-for-binary-fields">FFTs for binary fields</h3>
 <p>Performing FFTs for binary fields is just as miraculous and comes from a <a href="https://ieeexplore.ieee.org/document/6979016">2014 paper</a>, as exploited in Binius.
 Since this is a technique already known in our research and engineering community, I will conveniently avoid discussing it in this post (especially because I have not looked into how it works).</p>

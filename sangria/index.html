@@ -282,7 +282,8 @@ As shown in Nova [KST22], incrementally verifiable computation (IVC) can be real
 <p>As shown in Nova <a href="https://eprint.iacr.org/2021/370">[KST22]</a>, incrementally verifiable computation (IVC) can be realised using a folding scheme and a zkSNARK. In this article, we present a folding scheme for a variant of the PLONK arithmetization <a href="https://eprint.iacr.org/2019/953">[GWC19]</a>. We then extend our relaxed PLONK arithmetization to accept custom gates of degree 2 and circuits with higher gate arity. Finally we outline avenues for future work including folding higher degree gates, supporting lookup gates and designing an IOP for the relaxed PLONK arithmetization.</p>
 <blockquote>
 <p>⚠️ <em>This article is a condensed version of the <a href="https://github.com/geometryresearch/technical_notes/blob/main/sangria_folding_plonk.pdf">Sangria technical note</a>. See the full version for proofs and extended discussions.
-We assume the reader is familiar with IVC and Nova. Suggested preliminary viewing and reading: <a href="https://youtu.be/SwonTtOQzAk">Justin Drake&rsquo;s ZK Whiteboard Session</a> and this <a href="https://blog.lambdaclass.com/incrementally-verifiable-computation-nova/">Lambdaclass blog entry</a>.</em></p></blockquote>
+We assume the reader is familiar with IVC and Nova. Suggested preliminary viewing and reading: <a href="https://youtu.be/SwonTtOQzAk">Justin Drake&rsquo;s ZK Whiteboard Session</a> and this <a href="https://blog.lambdaclass.com/incrementally-verifiable-computation-nova/">Lambdaclass blog entry</a>.</em></p>
+</blockquote>
 <h2 id="preliminaries">Preliminaries</h2>
 <h3 id="plonk-arithmetization">PLONK Arithmetization</h3>
 <p>In PLONK, computations are represented as a matrix $\mathbf{M}$ with three columns $\mathbf{a}, \mathbf{b}, \mathbf{c}$ and $n+s+1$ rows. $n$ is the number of public inputs, $s$ is the number of gates and the extra row checks that the final result is 1 (i.e. that the circuit is satisfied).</p>
@@ -304,7 +305,8 @@ $$</p>
 <h3 id="folding-schemes">Folding Schemes</h3>
 <p>The Nova paper introduces folding schemes and provide the following intuitive definition:</p>
 <blockquote>
-<p>[&hellip;] a folding scheme for a relation $\mathcal{R}$ is a protocol that reduces the task of checking two instances in $\mathcal{R}$ to the task of checking a single instance in $\mathcal{R}$.</p></blockquote>
+<p>[&hellip;] a folding scheme for a relation $\mathcal{R}$ is a protocol that reduces the task of checking two instances in $\mathcal{R}$ to the task of checking a single instance in $\mathcal{R}$.</p>
+</blockquote>
 <p>The full definition is given in the paper under Definition 6.</p>
 <h3 id="commitment-schemes">Commitment Schemes</h3>
 <p>Our scheme makes use of a hiding and binding additively homomorphic commitment scheme for vectors of elements in a finite field $\mathbb{F}$. We denote such a scheme as $\mathsf{Com}$ and write $\overline{A} = \mathsf{Com}(\mathsf{pp} _ C, \mathbf{a};{r})$ a commitment to the vector $\mathbf{a}$ using randomness value $r \in \mathbb{F}$ and commitment parameters $\mathsf{pp} _ C$.</p>

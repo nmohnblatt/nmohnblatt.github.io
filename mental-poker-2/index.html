@@ -296,7 +296,8 @@ We will first inspect an instantiation of the verifiable $l$-out-of-$l$ threshol
 We assume that players have agreed to use a finite abelian group $\mathbb{G}$ of prime order $q$. We denote $G$ the generator of $\mathbb{G}$ and use additive notation (”$+$”) for the group operation.
 We assume the existence of a public mapping $\mathcal{M}$ from card values to elements of $\mathbb{G}$; this could be a hash function for example. Given a card value, all players can compute $M = \mathcal{M}(\text{card})$ with $M \in \mathbb{G}$.
 The $\gets$ operator denotes an element chosen uniformly at random from a set, e.g. $X \gets \mathbb{G}$
-In this section we will consider a group of $\ell$ players which we denote with the subscript $i \in \{1, 2, \dots, \ell\}$.</p></blockquote>
+In this section we will consider a group of $\ell$ players which we denote with the subscript $i \in \{1, 2, \dots, \ell\}$.</p>
+</blockquote>
 <h3 id="key-generation">Key Generation</h3>
 <p>Player $i$ generates a private key $x_i \gets \mathbb{Z} _q$. The corresponding public key $H_i$ is computed as $H_i = x_i G$ and published.</p>
 <p>To prevent rogue key attacks, we require that players prove in zero knowledge that they know the private key corresponding to the key they publish. In this discrete logarithm setting, such a proof is easily obtained using the <a href="https://www.zkdocs.com/docs/zkdocs/zero-knowledge-protocols/schnorr/">Schnorr identification scheme</a>.</p>
@@ -392,7 +393,8 @@ $$</p>
 <h2 id="zero-knowledge-argument-for-correctness-of-a-shuffle-bayer-groth">Zero-Knowledge Argument for Correctness of a Shuffle (<!-- raw HTML omitted -->Bayer-Groth<sup id="fnref1:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup><!-- raw HTML omitted -->)</h2>
 <blockquote>
 <p>✍️ Notation:
-As we now consider actions on a deck of cards by a single player, we use subscripts to denote an item’s position in an array (rather than indicating a player as seen in the previous section).</p></blockquote>
+As we now consider actions on a deck of cards by a single player, we use subscripts to denote an item’s position in an array (rather than indicating a player as seen in the previous section).</p>
+</blockquote>
 <h3 id="preliminaries">Preliminaries</h3>
 <p>To understand the argument of a correct shuffle of ciphertexts, we will first look at shuffling a set of $N$ group elements $P_1, P_2, \dots, P_N$, each a member of $\mathbb{G}$. Each element $P_i$ is given a new index and some blinding $\Delta_i \gets \mathbb{G}$ is added. This blinding operation is the same as applying remask to one of the two elements in a masked card. We can express each point at the output of the shuffle $P&rsquo;_i$ as:</p>
 <p>$$

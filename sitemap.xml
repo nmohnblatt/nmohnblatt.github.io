@@ -3,12 +3,27 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://nmohnblatt.github.io/blog/</loc>
-    <lastmod>2025-10-30T00:00:00+00:00</lastmod>
+    <lastmod>2025-11-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://nmohnblatt.github.io/</loc>
-    <lastmod>2025-10-30T00:00:00+00:00</lastmod>
+    <lastmod>2025-11-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/why-does-fri-work/</loc>
+    <loc>https://nmohnblatt.github.io/proximity-conjecture/</loc>
+    <lastmod>2025-11-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nmohnblatt.github.io/blog/proximity-testing/</loc>
+    <lastmod>2025-11-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nmohnblatt.github.io/blog/security/</loc>
+    <lastmod>2025-11-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nmohnblatt.github.io/blog/succinct-proofs/</loc>
+    <lastmod>2025-11-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nmohnblatt.github.io/blog/zksecurity/</loc>
+    <lastmod>2025-11-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nmohnblatt.github.io/fri-security/</loc>
     <lastmod>2025-10-30T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://nmohnblatt.github.io/notes-on-witness-extended-emulation/</loc>
@@ -38,12 +53,6 @@
     <loc>https://nmohnblatt.github.io/ligerito-and-whir/</loc>
     <lastmod>2025-05-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/blog/proximity-testing/</loc>
-    <lastmod>2025-05-06T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://nmohnblatt.github.io/blog/succinct-proofs/</loc>
-    <lastmod>2025-05-06T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://nmohnblatt.github.io/blog/identity-based-encryption/</loc>
     <lastmod>2024-12-11T00:00:00+00:00</lastmod>
   </url><url>
@@ -60,9 +69,6 @@
     <lastmod>2024-12-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://nmohnblatt.github.io/chosen-instance-attack/</loc>
-    <lastmod>2024-12-04T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://nmohnblatt.github.io/blog/security/</loc>
     <lastmod>2024-12-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://nmohnblatt.github.io/blog/zk-hack/</loc>
