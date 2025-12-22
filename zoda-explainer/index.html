@@ -5,7 +5,7 @@
   <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="shortcut icon" href="https://nmohnblatt.github.io/images/favicon.png" />
+<link rel="shortcut icon" href="https://nmohnblatt.me/images/favicon.png" />
 <title>ZODA: An Explainer | Nicolas Mohnblatt</title>
 <meta name="title" content="ZODA: An Explainer" />
 <meta name="description" content="This article is cross-posted from the Bain Capital Crypto Insights.
@@ -14,7 +14,7 @@ Data availability sampling (DAS) is critical to scaling blockchains while mainta
 <meta name="keywords" content="BCC,Data Availability Sampling,Proximity testing," />
 
 
-<meta property="og:url" content="https://nmohnblatt.github.io/zoda-explainer/">
+<meta property="og:url" content="https://nmohnblatt.me/zoda-explainer/">
   <meta property="og:site_name" content="Nicolas Mohnblatt">
   <meta property="og:title" content="ZODA: An Explainer">
   <meta property="og:description" content="This article is cross-posted from the Bain Capital Crypto Insights.
@@ -27,13 +27,13 @@ Data availability sampling (DAS) is critical to scaling blockchains while mainta
     <meta property="article:tag" content="BCC">
     <meta property="article:tag" content="Data Availability Sampling">
     <meta property="article:tag" content="Proximity Testing">
-    <meta property="og:image" content="https://nmohnblatt.github.io/images/share.png">
+    <meta property="og:image" content="https://nmohnblatt.me/images/share.png">
 
 
 
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://nmohnblatt.github.io/images/share.png">
+  <meta name="twitter:image" content="https://nmohnblatt.me/images/share.png">
   <meta name="twitter:title" content="ZODA: An Explainer">
   <meta name="twitter:description" content="This article is cross-posted from the Bain Capital Crypto Insights.
 Data availability sampling (DAS) is critical to scaling blockchains while maintaining decentralization [ASB18,HASW23]. In our previous post, we informally introduced DAS and showed how to leverage interaction to reduce overhead for a promising construction based on the FRI protocol. Our newest work, ZODA, short for ‘Zero-Overhead Data Availability,’ takes these ideas a step further. In particular, we show that, with a small change, an extended data square construction, such as that used in Celestia, can be turned into a (validity) proof of its own correctness. Importantly, the change incurs negligible additional work for encoders and no incremental communication costs for the network. This post is an informal introduction to the ZODA protocol.">
@@ -47,7 +47,7 @@ Data availability sampling (DAS) is critical to scaling blockchains while mainta
   <meta itemprop="datePublished" content="2024-12-03T00:00:00+00:00">
   <meta itemprop="dateModified" content="2024-12-03T00:00:00+00:00">
   <meta itemprop="wordCount" content="1853">
-  <meta itemprop="image" content="https://nmohnblatt.github.io/images/share.png">
+  <meta itemprop="image" content="https://nmohnblatt.me/images/share.png">
   <meta itemprop="keywords" content="BCC,Data Availability Sampling,Proximity Testing">
 <meta name="referrer" content="no-referrer-when-downgrade" />
 
@@ -282,7 +282,7 @@ Data availability sampling (DAS) is critical to scaling blockchains while mainta
 <content>
   <p><em>This article is cross-posted from the <a href="https://baincapitalcrypto.com/zoda-explainer/">Bain Capital Crypto Insights</a>.</em></p>
 <hr>
-<p>Data availability sampling (DAS) is critical to scaling blockchains while maintaining decentralization [ASB18,HASW23]. In <a href="https://nmohnblatt.github.io/sampling-for-proximity-and-availability/">our previous post</a>, we informally introduced DAS and showed how to leverage interaction to reduce overhead for a promising construction based on the FRI protocol. Our newest work, ZODA, short for ‘Zero-Overhead Data Availability,’ takes these ideas a step further. In particular, we show that, with a small change, an extended data square construction, such as that used in Celestia, can be turned into a (validity) proof of its own correctness. Importantly, the change incurs negligible additional work for encoders and no incremental communication costs for the network. This post is an informal introduction to the ZODA protocol.</p>
+<p>Data availability sampling (DAS) is critical to scaling blockchains while maintaining decentralization [ASB18,HASW23]. In <a href="https://nmohnblatt.me/sampling-for-proximity-and-availability/">our previous post</a>, we informally introduced DAS and showed how to leverage interaction to reduce overhead for a promising construction based on the FRI protocol. Our newest work, ZODA, short for ‘Zero-Overhead Data Availability,’ takes these ideas a step further. In particular, we show that, with a small change, an extended data square construction, such as that used in Celestia, can be turned into a (validity) proof of its own correctness. Importantly, the change incurs negligible additional work for encoders and no incremental communication costs for the network. This post is an informal introduction to the ZODA protocol.</p>
 <p><strong>Basics of encoding.</strong> To explain ZODA, we briefly sketch how DAS protocols work today. In production, DAS protocols, including those contemplated by Ethereum and implemented by Celestia, block data is organized into a matrix $\tilde X$. This matrix is then encoded into a larger matrix $Z$, called the extended data square. For example, we may first encode by encoding its columns using a Reed–Solomon code matrix $G$. We can then encode the rows of the resulting matrix using another Reed–Solomon matrix $G&rsquo;$ to obtain a matrix $Z = GXG&rsquo;^T$ . (This encoding is called the tensor code resulting from encoding columns using $G$ and rows using $G&rsquo;$.) The procedure is depicted below. In this example, we use a rate of 1/2 for each encoding, meaning the data square $Z$ is $4$ times larger than $\tilde X$.</p>
 
 
@@ -337,11 +337,11 @@ Data availability sampling (DAS) is critical to scaling blockchains while mainta
 </content>
 <p>
   
-  <a href="https://nmohnblatt.github.io/blog/bcc/" class="nohover">#BCC</a>
+  <a href="https://nmohnblatt.me/blog/bcc/" class="nohover">#BCC</a>
   
-  <a href="https://nmohnblatt.github.io/blog/data-availability-sampling/" class="nohover">#Data Availability Sampling</a>
+  <a href="https://nmohnblatt.me/blog/data-availability-sampling/" class="nohover">#Data Availability Sampling</a>
   
-  <a href="https://nmohnblatt.github.io/blog/proximity-testing/" class="nohover">#Proximity Testing</a>
+  <a href="https://nmohnblatt.me/blog/proximity-testing/" class="nohover">#Proximity Testing</a>
   
 </p>
 

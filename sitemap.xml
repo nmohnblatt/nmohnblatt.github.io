@@ -2,130 +2,130 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://nmohnblatt.github.io/blog/</loc>
+    <loc>https://nmohnblatt.me/blog/</loc>
     <lastmod>2025-11-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/</loc>
+    <loc>https://nmohnblatt.me/</loc>
     <lastmod>2025-11-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/proximity-conjecture/</loc>
+    <loc>https://nmohnblatt.me/proximity-conjecture/</loc>
     <lastmod>2025-11-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/blog/proximity-testing/</loc>
+    <loc>https://nmohnblatt.me/blog/proximity-testing/</loc>
     <lastmod>2025-11-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/blog/security/</loc>
+    <loc>https://nmohnblatt.me/blog/security/</loc>
     <lastmod>2025-11-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/blog/succinct-proofs/</loc>
+    <loc>https://nmohnblatt.me/blog/succinct-proofs/</loc>
     <lastmod>2025-11-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/blog/zksecurity/</loc>
+    <loc>https://nmohnblatt.me/blog/zksecurity/</loc>
     <lastmod>2025-11-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/fri-security/</loc>
+    <loc>https://nmohnblatt.me/fri-security/</loc>
     <lastmod>2025-10-30T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/notes-on-witness-extended-emulation/</loc>
+    <loc>https://nmohnblatt.me/notes-on-witness-extended-emulation/</loc>
     <lastmod>2025-09-29T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/blog/resources/</loc>
+    <loc>https://nmohnblatt.me/blog/resources/</loc>
     <lastmod>2025-08-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/proofs-resources/</loc>
+    <loc>https://nmohnblatt.me/proofs-resources/</loc>
     <lastmod>2025-08-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/blog/anonymous-credentials/</loc>
+    <loc>https://nmohnblatt.me/blog/anonymous-credentials/</loc>
     <lastmod>2025-05-30T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/archived/libzk-highlights/</loc>
+    <loc>https://nmohnblatt.me/archived/libzk-highlights/</loc>
     <lastmod>2025-05-30T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/libzk-highlights/</loc>
+    <loc>https://nmohnblatt.me/libzk-highlights/</loc>
     <lastmod>2025-05-30T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/blog/privacy/</loc>
+    <loc>https://nmohnblatt.me/blog/privacy/</loc>
     <lastmod>2025-05-30T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/blog/zero-knowledge/</loc>
+    <loc>https://nmohnblatt.me/blog/zero-knowledge/</loc>
     <lastmod>2025-05-30T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/ligerito-and-whir/</loc>
+    <loc>https://nmohnblatt.me/ligerito-and-whir/</loc>
     <lastmod>2025-05-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/blog/identity-based-encryption/</loc>
+    <loc>https://nmohnblatt.me/blog/identity-based-encryption/</loc>
     <lastmod>2024-12-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/arke-for-bluesky/</loc>
+    <loc>https://nmohnblatt.me/arke-for-bluesky/</loc>
     <lastmod>2024-12-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/blog/social-networks/</loc>
+    <loc>https://nmohnblatt.me/blog/social-networks/</loc>
     <lastmod>2024-12-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/blog/threshold-cryptography/</loc>
+    <loc>https://nmohnblatt.me/blog/threshold-cryptography/</loc>
     <lastmod>2024-12-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/blog/bcc/</loc>
+    <loc>https://nmohnblatt.me/blog/bcc/</loc>
     <lastmod>2024-12-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/chosen-instance-attack/</loc>
+    <loc>https://nmohnblatt.me/chosen-instance-attack/</loc>
     <lastmod>2024-12-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/blog/zk-hack/</loc>
+    <loc>https://nmohnblatt.me/blog/zk-hack/</loc>
     <lastmod>2024-12-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/blog/data-availability-sampling/</loc>
+    <loc>https://nmohnblatt.me/blog/data-availability-sampling/</loc>
     <lastmod>2024-12-03T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/zoda-explainer/</loc>
+    <loc>https://nmohnblatt.me/zoda-explainer/</loc>
     <lastmod>2024-12-03T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/sampling-for-proximity-and-availability/</loc>
+    <loc>https://nmohnblatt.me/sampling-for-proximity-and-availability/</loc>
     <lastmod>2024-11-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/blog/folding/</loc>
+    <loc>https://nmohnblatt.me/blog/folding/</loc>
     <lastmod>2023-08-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/blog/geometry-notebook/</loc>
+    <loc>https://nmohnblatt.me/blog/geometry-notebook/</loc>
     <lastmod>2023-08-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/speedrun-protostar/</loc>
+    <loc>https://nmohnblatt.me/speedrun-protostar/</loc>
     <lastmod>2023-08-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/blog/speedrun/</loc>
+    <loc>https://nmohnblatt.me/blog/speedrun/</loc>
     <lastmod>2023-08-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/witness-encryption-from-ibe/</loc>
+    <loc>https://nmohnblatt.me/witness-encryption-from-ibe/</loc>
     <lastmod>2023-05-12T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/blog/witness-encryption/</loc>
+    <loc>https://nmohnblatt.me/blog/witness-encryption/</loc>
     <lastmod>2023-05-12T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/sangria/</loc>
+    <loc>https://nmohnblatt.me/sangria/</loc>
     <lastmod>2023-02-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/speedrun-zkcreds/</loc>
+    <loc>https://nmohnblatt.me/speedrun-zkcreds/</loc>
     <lastmod>2023-01-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/functional-commitments/</loc>
+    <loc>https://nmohnblatt.me/functional-commitments/</loc>
     <lastmod>2023-01-05T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/blog/mental-poker/</loc>
+    <loc>https://nmohnblatt.me/blog/mental-poker/</loc>
     <lastmod>2022-07-05T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/mental-poker-2/</loc>
+    <loc>https://nmohnblatt.me/mental-poker-2/</loc>
     <lastmod>2022-07-05T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/blog/mpc/</loc>
+    <loc>https://nmohnblatt.me/blog/mpc/</loc>
     <lastmod>2022-07-05T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/mental-poker-1/</loc>
+    <loc>https://nmohnblatt.me/mental-poker-1/</loc>
     <lastmod>2022-06-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://nmohnblatt.github.io/about/</loc>
+    <loc>https://nmohnblatt.me/about/</loc>
   </url><url>
-    <loc>https://nmohnblatt.github.io/now/</loc>
+    <loc>https://nmohnblatt.me/now/</loc>
   </url><url>
-    <loc>https://nmohnblatt.github.io/research/</loc>
+    <loc>https://nmohnblatt.me/research/</loc>
   </url>
 </urlset>
