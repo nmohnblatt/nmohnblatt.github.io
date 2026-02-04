@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://nmohnblatt.me/images/favicon.png" />
+<title>Mental Poker in the Age of SNARKs - Part 1 | Nicolas Mohnblatt</title>
+<meta name="title" content="Mental Poker in the Age of SNARKs - Part 1" />
+<meta name="description" content="This article is cross-posted from the Geometry Notebook.
+The work was produced in collaboration with Andrija Novakovic and Kobi Gurkan for Geometry and MatchboxDAO.
+
+Is it possible to play a classic card game without physical cards, without trusting the participants and without a trusted third party?
+This problem was first formulated and given the name “Mental Poker” in 1979 by none other than Rivest, Shamir and Adleman1. Below is an extract from the original paper in which they explain the notion of Mental Poker." />
+<meta name="keywords" content="MPC,Zero-knowledge,Mental Poker,Geometry Notebook," />
+
+
+<meta property="og:url" content="https://nmohnblatt.me/mental-poker-1/">
+  <meta property="og:site_name" content="Nicolas Mohnblatt">
+  <meta property="og:title" content="Mental Poker in the Age of SNARKs - Part 1">
+  <meta property="og:description" content="This article is cross-posted from the Geometry Notebook. The work was produced in collaboration with Andrija Novakovic and Kobi Gurkan for Geometry and MatchboxDAO.
+Is it possible to play a classic card game without physical cards, without trusting the participants and without a trusted third party?
+This problem was first formulated and given the name “Mental Poker” in 1979 by none other than Rivest, Shamir and Adleman1. Below is an extract from the original paper in which they explain the notion of Mental Poker.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2022-06-28T00:00:00+00:00">
+    <meta property="article:modified_time" content="2022-06-28T00:00:00+00:00">
+    <meta property="article:tag" content="MPC">
+    <meta property="article:tag" content="Zero-Knowledge">
+    <meta property="article:tag" content="Mental Poker">
+    <meta property="article:tag" content="Geometry Notebook">
+    <meta property="og:image" content="https://nmohnblatt.me/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://nmohnblatt.me/images/share.png">
+  <meta name="twitter:title" content="Mental Poker in the Age of SNARKs - Part 1">
+  <meta name="twitter:description" content="This article is cross-posted from the Geometry Notebook. The work was produced in collaboration with Andrija Novakovic and Kobi Gurkan for Geometry and MatchboxDAO.
+Is it possible to play a classic card game without physical cards, without trusting the participants and without a trusted third party?
+This problem was first formulated and given the name “Mental Poker” in 1979 by none other than Rivest, Shamir and Adleman1. Below is an extract from the original paper in which they explain the notion of Mental Poker.">
+
+
+
+
+  <meta itemprop="name" content="Mental Poker in the Age of SNARKs - Part 1">
+  <meta itemprop="description" content="This article is cross-posted from the Geometry Notebook. The work was produced in collaboration with Andrija Novakovic and Kobi Gurkan for Geometry and MatchboxDAO.
+Is it possible to play a classic card game without physical cards, without trusting the participants and without a trusted third party?
+This problem was first formulated and given the name “Mental Poker” in 1979 by none other than Rivest, Shamir and Adleman1. Below is an extract from the original paper in which they explain the notion of Mental Poker.">
+  <meta itemprop="datePublished" content="2022-06-28T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2022-06-28T00:00:00+00:00">
+  <meta itemprop="wordCount" content="2493">
+  <meta itemprop="image" content="https://nmohnblatt.me/images/share.png">
+  <meta itemprop="keywords" content="MPC,Zero-Knowledge,Mental Poker,Geometry Notebook">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  
+
+<style>
+  body {
+    font-family: Verdana, sans-serif;
+    font-size: 15px;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #FFFCF0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #100F0F;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #100F0F;
+  }
+
+  a {
+    color: #24837B;
+     
+    text-decoration: none;
+  }
+
+  a.underline {
+    text-decoration: underline; 
+  }
+
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a.nohover:hover {
+    text-decoration: none;
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  a.title:hover{
+    text-decoration: none;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+   
+
+  td {
+    border-top: 1px solid #E6E4D9;
+  } 
+
+  img {
+    max-width: 100%;
+  }
+
+  figure {
+    margin-inline-start: 20px;
+    margin-inline-end: 20px;
+  }
+
+  figcaption {
+    color: #B7B5AC;
+    font-size: small;
+    text-align: center;
+  }
+
+  figcaption p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #E6E4D9;
+    color: #878580;
+  }
+
+  pre code {
+    color: #6F6E69;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 2px solid #24837B;
+    color: #100F0F;
+    padding-left: 15px;
+    margin-inline-start: 20px;
+     
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #17504b;
+  }
+
+   
+
+</style>
+
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']],     
+      tags: 'ams'
+    }
+  };
+</script>
+  
+
+  
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>Nicolas Mohnblatt</h2>
+</a>
+<nav><a href="/" class="nohover">Home</a>
+
+<a href="/about/" class="nohover">About</a>
+
+<a href="/now/" class="nohover">Now</a>
+
+<a href="/research/" class="nohover">Research</a>
+
+
+<a href="/blog" class="nohover">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>Mental Poker in the Age of SNARKs - Part 1</h1>
+<p>
+  <i>
+    
+  </i>
+</p>
+<p>
+  <i>
+    <time datetime='2022-06-28' pubdate>
+      28 Jun, 2022
+    </time>
+  </i>
+</p>
+
+<content>
+  <p><em>This article is cross-posted from the <a href="https://geometry.xyz/notebook/mental-poker-in-the-age-of-snarks-part-1">Geometry Notebook</a>.</em>
+<em>The work was produced in collaboration with Andrija Novakovic and Kobi Gurkan for Geometry and MatchboxDAO.</em></p>
+<hr>
+<p><strong>Is it possible to play a classic card game without physical cards, without trusting the participants and without a trusted third party?</strong></p>
+<p>This problem was first formulated and given the name “<em>Mental Poker</em>” in 1979 by none other than <!-- raw HTML omitted -->Rivest, Shamir and Adleman<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup><!-- raw HTML omitted -->. Below is an extract from the original paper in which they explain the notion of <em>Mental Poker</em>.</p>
+
+
+
+<figure style="text-align: center;"><img src="/mental-poker-1/paper-excerpt_hu_e1f6975a74eb6dfe.webp"
+  alt="Excerpt from the Mental Poker paper." width="auto">
+</figure>
+<p>Since then, many solutions have been published but none were deemed practical. These protocols incurred computation and communication costs that were too large for a game to be played in real-time. Today with the advent of decentralised ledgers, zero-knowledge rollups and efficient SNARKs, we believe that it is time to revisit <em>Mental Poker</em> once again.</p>
+<p>In this first of two articles we will cover existing solutions and our improvements towards making such protocols practical. We look at <em>Mental Poker</em> from a high level with an emphasis on understanding the cryptographic primitives at work and how they interact. In <a href="../mental-poker-in-the-age-of-snarks-part-2">Part 2</a> we will open Pandora’s box and closely inspect the mathematics and cryptography.</p>
+<p>We implement the protocol described here in a Rust library as part of the collaboration between Geometry and <a href="https://www.matchboxdao.com">MatchboxDAO</a> (see <a href="https://github.com/geometryxyz/mental-poker">source code</a>). Our naive implementation for a 52-card deck allows a player to produce a proof of correct shuffle (the most expensive operation) in just over 50ms on a standard laptop, with verification requiring less than 1ms. Note however that a game is only guaranteed to be fair after all players have taken turns performing this shuffle operation.</p>
+<h2 id="problem-overview">Problem Overview</h2>
+<p>The main challenges in creating a protocol for <em>Mental Poker</em> are:</p>
+<ol>
+<li>hide the card values from all players</li>
+<li>reveal a card to a specific player or group of players</li>
+<li>ensure that the cards are dealt correctly, with fair randomness</li>
+</ol>
+<p>Some additional desirable properties include the ability to keep some information secret after the game ends - effectively allowing for bluff strategies - and the possibility to add or remove players to a game.</p>
+<p>To these requirements we must add performance considerations. How much data do we need to store for each card? How many messages does each player need to send/receive? What kind of computations do players need to run?</p>
+<h2 id="geometry-revisits-mental-poker">Geometry revisits Mental Poker</h2>
+<h3 id="related-work">Related Work</h3>
+<p>The most noteworthy solutions in the literature are <!-- raw HTML omitted --><em>A Toolbox for Mental Card Games</em> (Schindelhauer, 1998)<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup><!-- raw HTML omitted -->, its implementation in a <!-- raw HTML omitted -->C library (Stamer, 2005)<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup><!-- raw HTML omitted --> and a revised approach presented in <!-- raw HTML omitted --><em>Mental Poker Revisited</em> (Barnett and Smart, 2003)<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup><!-- raw HTML omitted -->. While these protocols work on paper they were deemed impractical due to large computation or communication costs. Other approaches focus on the game of <!-- raw HTML omitted -->poker specifically<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup><!-- raw HTML omitted --> (as opposed to general card games), introduce a <!-- raw HTML omitted -->partly trusted party<sup id="fnref1:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup><!-- raw HTML omitted --> or <!-- raw HTML omitted -->require trusted execution environments<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup><!-- raw HTML omitted -->.</p>
+<p>We choose to focus on the protocol by Barnett and Smart for multiple reasons. Firstly, the security of their protocol relies on the well known Decisional Diffie-Hellman assumption. Secondly, the protocol is built on top of clear and logical abstractions which allow for easy “plug-and-play” improvements. Finally the computation and communication costs of their protocol are dominated by zero-knowledge proofs: an area in which we have seen great performance improvements since the paper was published in 2003.</p>
+<h3 id="the-improved-barnett-smart-protocol">The Improved Barnett-Smart Protocol</h3>
+<p>The Barnett-Smart protocol relies on two cryptographic abstractions. Operations on cards are performed using a set of <strong>verifiable $l$-out-of-$l$ threshold masking functions</strong>. Quite a mouthful - we will explain these in the following section. The second abstraction allows to perform operations on a deck and is known as a <strong>zero-knowledge proof of a correct shuffle</strong>. Also a mouthful but a less cryptic one.</p>
+<p>The masking functions described in the original paper make use of a threshold variant of the well-known El Gamal encryption scheme. This scheme can be instantiated over elliptic curves to provide high security while maintaining a compact representation for cards (each card is represented by two elliptic curve points). On the other hand, the shuffle proof presented by Barnett and Smart did not withstand the test of time. Today much cheaper and quicker schemes are available. <strong>Our improvement lies in replacing the original zero-knowledge <em>proof</em> by a zero-knowledge <em>argument</em></strong> - more on this distinction later.</p>
+<h3 id="verifiable-l-out-of-l-threshold-masking-functions">Verifiable $l$-out-of-$l$ Threshold Masking Functions</h3>
+<p><em>Verifiable $l$-out-of-$l$ threshold masking functions</em> (VTMFs) were introduced by Barnett and Smart to abstract away from specific implementation details. We will only focus on what they describe as a “discrete-log VTMF”. First let us break down the name into digestible terms:</p>
+<ul>
+<li><strong>masking</strong>: these functions allow us to “mask” or hide a piece of data. In this sense, encryption is a form of masking.</li>
+<li><strong>verifiable</strong>: an observer should have the ability to check that a masking function was applied correctly, even if the function requires some secret information to be ran.</li>
+<li><strong>$l$-out-of-$l$ threshold</strong>: some of these functions will require a given threshold of participants to be ran. In this case the threshold is set to the number of participants ($l$-out-of-$l$), effectively requiring that <em>all players</em> collaborate.</li>
+</ul>
+<p>Combining these three properties, VTMFs will allow us to hide card values (masking) while guaranteeing that no individual player is cheating (verifiable) nor can a coalition of players cheat ($l$-out-of-$l$ threshold). The functions are: <strong>key generation</strong>, <strong>mask</strong>, <strong>remask</strong> and <strong>unmask</strong>. We cover each of these individually.</p>
+<h4 id="key-generation">Key Generation</h4>
+<p>Each player is expected to run a key generation algorithm which outputs a secret key and a public key. For player $A$, we denote the secret key $\mathsf{sk}_A$ and the public key $\mathsf{pk}_A$. Each player publishes their public key along with a zero-knowledge proof that they know the corresponding secret key. This proof is necessary to prevent denial-of-service attacks and <a href="https://www.iacr.org/archive/eurocrypt2007/45150228/45150228.pdf">rogue key attacks</a>.</p>
+<p>Once each player has completed the above process, an <em>aggregate public key</em>, $\mathsf {pk}_ {Agg}$, can be computed.
+While there exists in theory an aggregate secret key that corresponds to $\mathsf{pk}_ {Agg}$, this secret key will remain unknown to <em>all parties</em> as long as at least one player keeps their secret key hidden. The figure below illustrates this key aggregation process.</p>
+
+
+
+<figure style="text-align: center;"><img src="/mental-poker-1/keygen_hu_8ce3be82df235246.webp"
+  alt="An illustration of a 4-player key aggregation." width="auto"><figcaption>
+      <p>An illustration of a 4-player key aggregation. Importantly, no one can derive the secret key that corresponds to the aggregate public key.</p>
+    </figcaption>
+</figure>
+<h4 id="mask">Mask</h4>
+<p>A <em>mask</em> operation is an encryption. A plaintext card is processed along with the aggregate public key and some randomness to produce a ciphertext: the masked card. To recover the plaintext card, one must decrypt (<em>unmask</em>) the masked card. As we will see, this process can only be performed by a coalition of all players.</p>
+<p>A good mental model is to picture a masked card as an opaque box with a set of padlocks on it. Each padlock can be opened by one of the players’ secret key. Notice however that each ciphertext is unique: this is akin to having a label on the box. The figure below illustrates this mental model.</p>
+
+
+
+<figure style="text-align: center;"><img src="/mental-poker-1/mask_hu_8f6fd909b9d3e530.webp"
+  alt="An illustration of a mask operation." width="auto"><figcaption>
+      <p>A mask operation can be understood as placing a card in an opaque box with padlocks for each player and a label.</p>
+    </figcaption>
+</figure>
+<p>Masking alone does not guarantee a fair game. Indeed the player who performed the mask operation will be able to maintain a mapping from card value to box label. In the above example the ace of clubs maps to the label “A”. To break this mapping, we introduce the <em>remask</em> operation.</p>
+<h4 id="remask">Remask</h4>
+<p>A <em>remask</em> operation takes a masked card (ciphertext) and produces a new masked card for the same underlying card value (plaintext). This operation does not require to decrypt the ciphertext and therefore can be performed by any player. To follow our box analogy, a remask operation just replaces the label on a box.</p>
+
+
+
+<figure style="text-align: center;"><img src="/mental-poker-1/remask_hu_287c0d3b87136f19.webp"
+  alt="An illustartion of the remask operation."><figcaption>
+      <p>A remask operation can be understood as re-labelling a box (masked card).</p>
+    </figcaption>
+</figure>
+<h4 id="unmask">Unmask</h4>
+<p>The <em>unmask</em> operation is a threshold decryption. Each player must use their secret key to contribute to the decryption. Crucially, this group decryption can be performed in stages. This allows to give out cards to specific players. For example players $A$, $B$ and $C$ can perform their part of the unmasking process such that the resulting ciphertext can be decrypted by player $D$ alone. Player $D$ can now decrypt the card in private and will be the only one to know its value.</p>
+<p>To complete our box analogy, unmasking allows each player to remove their padlock from a box.</p>
+
+
+
+<figure style="text-align: center;"><img src="/mental-poker-1/unmask_hu_634f05c2164fa799.webp"
+  alt="An illustration of the unmask operation."><figcaption>
+      <p>An unmask operation requires every player to use their secret key to remove their padlock from a box.</p>
+    </figcaption>
+</figure>
+<h3 id="zero-knowledge-argument-of-a-correct-shuffle">Zero-knowledge Argument of a Correct Shuffle</h3>
+<p>In this model, a shuffle is obtained by changing the order of a deck of masked cards and remasking them. Indeed recall that each masked card is uniquely identifiable, as opposed to a physical card that has been flipped. Simply changing the order of masked cards would not hide any information. Performing an additional remask allows to truly “lose” the cards in the deck.</p>
+
+
+
+<figure style="text-align: center;"><img src="/mental-poker-1/shuffle_hu_bce76b88174e949a.webp"
+  alt="An illustration of a shuffle."><figcaption>
+      <p>An illustration of a shuffle: we apply a permutation to the input masked cards and remask them.</p>
+    </figcaption>
+</figure>
+<p>The original protocol from Barnett and Smart produces a zero-knowledge proof to attest that this operation was computed correctly. This proof is expensive to compute as it requires the prover to perform a large number of shuffles, and therefore a large number of <em>remask</em> operations. Instead we replace the proof by an <em>argument of knowledge</em>.</p>
+<p>An argument is cheaper to compute but yields slightly weaker security. While a valid proof can never be forged by a malicious prover, a valid argument can be forged by a sufficiently powerful adversary. Therefore, an argument is only meaningful under the assumption that the adversary is <em>computationally bounded</em>. Notice however that other cryptographic primitives such as public key encryption also share this property.</p>
+<p>Today, there exists an incredible variety of arguments of knowledge that could be used to prove a correct shuffle: universal SNARKs (e.g. Marlin, PlonK), circuit-specific SNARKs (Groth16) and inner-product arguments (Bulletproofs, Bayer-Groth) to list a few. All of these are valid choices. We differentiate them based on the operations they require, any potential setups, the size of an argument, and running time for the prover and verifier.</p>
+<p>The setting for <em>Mental Poker</em> is very different to the usual SNARK setting. First notice that we are dealing with a small number of participants that will all be online at the same time. In this case, the infamous trusted setup becomes a respectable option. Secondly, our input sizes are relatively small. A classic deck of cards is composed of 52 cards; other games rarely use more than a few hundred. In these ranges, computations that run in $\mathcal{O}(\sqrt{n})$ steps and $\mathcal{O}(\log(n))$ steps are relatively similar. The same reasoning applies for proof sizes.</p>
+<p>To build our <a href="https://github.com/geometryxyz/mental-poker">proof-of-concept code</a>, we chose to prioritise arguments with no special requirements for the underlying curve (no need for pairings or FFTs) and with simple implementations. Based on these criteria we used the argument presented by Bayer and Groth in <!-- raw HTML omitted --><em>Efficient Zero-Knowledge Argument for Correctness of a Shuffle</em> (2014)<sup id="fnref:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup><!-- raw HTML omitted -->. We stress however that any of the options mentioned above would yield a functioning and efficient protocol.</p>
+<h3 id="an-example-round-of-texas-holdem">An example round of Texas Hold’Em</h3>
+<p>The table below presents an example round of Texas Hold’Em, showing on the left the actions that players would take in the classic (physical) version of the game, and on the right the digital equivalents.</p>
+<h4 id="setup">Setup</h4>
+<table>
+  <thead>
+      <tr>
+          <th></th>
+          <th>Texas Hold’Em</th>
+          <th>Mental Texas Hold’Em</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>1.</td>
+          <td>Gather a group of players around a table</td>
+          <td>Players each run the key generation algorithm, publish their public key and prove in zk that they own the corresponding secret key. A master public key is computed.</td>
+      </tr>
+      <tr>
+          <td>2.</td>
+          <td>Bring a deck of 52 standard cards.	Publicly encode each card value to a card (plaintext).</td>
+          <td>Mask all 52 cards with a public randomness value and publish all proofs.</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="round-n">Round $n$</h4>
+<table>
+  <thead>
+      <tr>
+          <th></th>
+          <th>Texas Hold’Em</th>
+          <th>Mental Texas Hold’Em</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>3.</td>
+          <td>Dealer shuffles the deck.</td>
+          <td>All players take turns running a shuffle and provide a zero-knowledge proof.</td>
+      </tr>
+      <tr>
+          <td>4.</td>
+          <td>Give out the cards: top card goes to the first player, second card goes to second, etc&hellip;</td>
+          <td>Take part in the unmask process to allow players to see their cards: all players but the first partially unmask the first card, all players but the second partially unmask the second card, etc&hellip;</td>
+      </tr>
+      <tr>
+          <td>5.</td>
+          <td>Betting using physical chips.</td>
+          <td>Betting using physical chips.</td>
+      </tr>
+      <tr>
+          <td>6.</td>
+          <td>Discard and reveal cards using the game rules.</td>
+          <td>Following the order of the deck, ignore discarded cards. To open a card, all players collaborate to perform a full unmask of the chosen card.</td>
+      </tr>
+      <tr>
+          <td>7.</td>
+          <td>Repeat 5 and 6 as mandated by the rules.</td>
+          <td>Repeat 5 and 6 as mandated by the rules.</td>
+      </tr>
+      <tr>
+          <td>8.</td>
+          <td>Final betting. Open hands and declare a winner.</td>
+          <td>Final betting. Each player can complete the unmask process for their private cards. Compare hand values and declare a winner.</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="benefits-of-on-chain-coordination">Benefits of On-chain Coordination</h3>
+<p>One final aspect in which we can improve the existing protocols is to make use of decentralised ledgers and smart contracts running on top of them. The Barnett-Smart protocol already requires “a broadcast channel between all players”. A smart contract can be seen as an extension of such a broadcast channel where the channel itself can perform some computation.</p>
+<p>In this context, we can delegate all the proof verifications to the smart contract: rather than having every player run a verifier for every proof, we only need one verification of each proof. The code for the smart contract is public and can therefore be audited by all players if they wish so. A particularly distrusting player can still choose to verify the proofs themselves.</p>
+<p>Furthermore, a multi-round betting game like poker benefits greatly from the payment security offered by decentralised ledgers. Research such as <a href="http://www.cs.technion.ac.il/~ranjit/papers/poker.pdf">this paper</a> by Kumaresan <em>et al.</em> consider incentive and slashing mechanisms to force players to behave honestly.</p>
+<h3 id="to-be-continued">To be continued&hellip;</h3>
+<p>In this first article we have covered the Barnett-Smart protocol for Mental Poker as well as our improvement to make the protocol practical. In <a href="../mental-poker-in-the-age-of-snarks-part-2">Part 2</a> we show how and why the cryptography works.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>A. Shamir, R. Rivest, and L. Adleman, &ldquo;Mental Poker&rdquo;, Technical Memo LCS/TM-125, Massachusetts Institute of Technology, April 1979. <a href="https://apps.dtic.mil/dtic/tr/fulltext/u2/a066331.pdf">Link to paper</a>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Schindelhauer, C. A Toolbox for Mental Card Games. Tech. Rep. of Medizinische Universitat Lubeck.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>Stamer, H. Efficient Electronic Gambling: An Extended Implementation of the Toolbox for Mental Card Games. WEWoRC 2005, LN P-74, 1-12, 2005&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>Barnett, Adam, and Nigel P. Smart. &ldquo;Mental poker revisited.&rdquo; In <em>IMA International Conference on Cryptography and Coding</em>, pp. 370-383. Springer, Berlin, Heidelberg, 2003.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p>Golle, P. Dealing Cards in Poker Games. In Proceedings of the International Conference on Information Technology: Coding and Computing, (2005)&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6">
+<p>Castellà-Roca, J., Domingo-Ferrer, J., Sebé, F. (2006). A Smart Card-Based Mental Poker System. In: Domingo-Ferrer, J., Posegga, J., Schreckling, D. (eds) Smart Card Research and Advanced Applications. CARDIS 2006. Lecture Notes in Computer Science, vol 3928. Springer, Berlin, Heidelberg. <a href="https://doi.org/10.1007/11733447_4">Link to paper</a>.&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:7">
+<p>Bayer, Stephanie, and Jens Groth. &ldquo;Efficient zero-knowledge argument for correctness of a shuffle.&rdquo; In <em>Annual International Conference on the Theory and Applications of Cryptographic Techniques</em>, pp. 263-280. Springer, Berlin, Heidelberg, 2012&#160;<a href="#fnref:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+</content>
+<p>
+  
+  <a href="https://nmohnblatt.me/blog/mpc/" class="nohover">#MPC</a>
+  
+  <a href="https://nmohnblatt.me/blog/zero-knowledge/" class="nohover">#Zero-Knowledge</a>
+  
+  <a href="https://nmohnblatt.me/blog/mental-poker/" class="nohover">#Mental Poker</a>
+  
+  <a href="https://nmohnblatt.me/blog/geometry-notebook/" class="nohover">#Geometry Notebook</a>
+  
+</p>
+
+  </main>
+  <footer><p style="font-size: small;">
+    Built using <a href="https://gohugo.io" class="nohover">Hugo</a>. The theme is adapted from <a href="https://github.com/janraasch/hugo-bearblog/" class="nohover">hugo-bearblog</a> and uses colours from <a href="https://github.com/kepano/flexoki?tab=readme-ov-file" class="nohover">Flexoki</a>.
+</p>
+
+<p style="font-size: small;">
+    <a href="https://github.com/nmohnblatt" class="nohover">Github</a> | <a href="https://bsky.app/profile/nicomnbl.bsky.social" class="nohover">Bluesky</a> | <a href="https://x.com/nico_mnbl" class="nohover">&#x1D54F;</a> | <a href="https://zkjargon.github.io" class="nohover">ZK Jargon Decoder</a> <br>
+    &copy; 2024-2026, Nicolas Mohnblatt. <br>
+</p>
+</footer>
+
+    
+</body>
+
+</html>

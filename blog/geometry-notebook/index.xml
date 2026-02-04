@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Geometry Notebook on Nicolas Mohnblatt</title>
+    <link>https://nmohnblatt.me/blog/geometry-notebook/</link>
+    <description>Recent content in Geometry Notebook on Nicolas Mohnblatt</description>
+    <generator>Hugo</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2024-2026, Nicolas Mohnblatt.</copyright>
+    <lastBuildDate>Thu, 17 Aug 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://nmohnblatt.me/blog/geometry-notebook/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Paper Speedrun: Protostar</title>
+      <link>https://nmohnblatt.me/speedrun-protostar/</link>
+      <pubDate>Thu, 17 Aug 2023 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/speedrun-protostar/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://geometry.xyz/notebook/paper-speedrun-protostar&#34;&gt;Geometry Notebook&lt;/a&gt;.&lt;/em&gt;&#xA;&lt;em&gt;Note that the ProtoStar paper has received many updates and some of the cross-term optimisations described in this speedrunm may no longer be up to date.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;&lt;strong&gt;Title&lt;/strong&gt;: ProtoStar: Generic Efficient Accumulation/Folding for Special Sound Protocols&lt;br&gt;&#xA;&lt;strong&gt;Authors&lt;/strong&gt;: Benedikt Bünz and Binyi Chen&lt;br&gt;&#xA;&lt;strong&gt;Link&lt;/strong&gt;: &lt;a href=&#34;https://eprint.iacr.org/2023/620&#34;&gt;https://eprint.iacr.org/2023/620&lt;/a&gt;&lt;br&gt;&#xA;&lt;strong&gt;TL;DR&lt;/strong&gt;: ProtoStar presents three results: 1) a generic toolchain to obtain efficient folding schemes from special sound protocols, 2) a simple special sound protocol for Plonkup where the prover does not depend on the size of the lookup table and 3) a non-uniform IVC scheme based on the former results. Their folding scheme follows the same pattern described in Nova/Sangria (relaxation of the equations) but introduces an optimisation to avoid committing to cross-terms: instead of checking $l$ equations of degree $d$, ProtoStar batches them into a single equation of degree $(d+2)$ and $2\sqrt{l}$ equations of degree 2. The cross-terms from the degree-2 equations can be committed to using the Pedersen vector commitment (as in Nova) and those arising from the single high degree check can be committed to using the identity function (the &amp;ldquo;commitments&amp;rdquo; are still short enough and binding!).&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Sangria: a Folding Scheme for PLONK</title>
+      <link>https://nmohnblatt.me/sangria/</link>
+      <pubDate>Fri, 17 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/sangria/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://geometry.xyz/notebook/sangria-a-folding-scheme-for-plonk&#34;&gt;Geometry Notebook&lt;/a&gt;&lt;/em&gt;.&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;As shown in Nova &lt;a href=&#34;https://eprint.iacr.org/2021/370&#34;&gt;[KST22]&lt;/a&gt;, incrementally verifiable computation (IVC) can be realised using a folding scheme and a zkSNARK. In this article, we present a folding scheme for a variant of the PLONK arithmetization &lt;a href=&#34;https://eprint.iacr.org/2019/953&#34;&gt;[GWC19]&lt;/a&gt;. We then extend our relaxed PLONK arithmetization to accept custom gates of degree 2 and circuits with higher gate arity. Finally we outline avenues for future work including folding higher degree gates, supporting lookup gates and designing an IOP for the relaxed PLONK arithmetization.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Paper Speedrun: zk-creds</title>
+      <link>https://nmohnblatt.me/speedrun-zkcreds/</link>
+      <pubDate>Wed, 18 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/speedrun-zkcreds/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://geometry.xyz/notebook/paper-speedrun-zkcreds&#34;&gt;Geometry Notebook&lt;/a&gt;&lt;/em&gt;.&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;&lt;strong&gt;Title:&lt;/strong&gt; zk-creds: Flexible Anonymous Credentials from zkSNARKs and Existing Identity Infrastructure&lt;br&gt;&#xA;&lt;strong&gt;Authors:&lt;/strong&gt; Michael Rosenberg, Jacob White, Christina Garman and Ian Miers&lt;br&gt;&#xA;&lt;strong&gt;Links&lt;/strong&gt;: paper &lt;a href=&#34;https://eprint.iacr.org/2022/878&#34;&gt;https://eprint.iacr.org/2022/878&lt;/a&gt; , code &lt;a href=&#34;https://github.com/rozbb/zkcreds-rs&#34;&gt;https://github.com/rozbb/zkcreds-rs&lt;/a&gt;&lt;br&gt;&#xA;&lt;strong&gt;TL;DR&lt;/strong&gt;: zk-creds is an anonymous credentials system. A credential is a Pedersen commitment to attributes. The credential is shown to be valid in ZK and issued by adding it to a public list. A credential can be &amp;ldquo;shown&amp;rdquo; by proving in ZK that the committed values match some access criteria and that the credential is included in the issuance list. Privacy is maintained by blinding proofs. The paper also introduces Merkle forests and a protocol to blind and link Groth16 proofs.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Functional Commitments: ZK under a different lens</title>
+      <link>https://nmohnblatt.me/functional-commitments/</link>
+      <pubDate>Thu, 05 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/functional-commitments/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://geometry.xyz/notebook/functional-commitments-zk-under-a-different-lens&#34;&gt;Geometry Notebook&lt;/a&gt; and relates to an implementation co-written with Andrija Novakovic.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;In ZKP schemes, the typical paradigm is that a programme (or &amp;ldquo;circuit&amp;rdquo;) is publicly known, and a proof is produced to attest to the correct execution of the programme over some (potentially private) inputs. But what if we are working with sensitive, proprietary algorithms? Could we instead prove the execution of a &lt;em&gt;private&lt;/em&gt; programme over public inputs?&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Mental Poker in the Age of SNARKs - Part 2</title>
+      <link>https://nmohnblatt.me/mental-poker-2/</link>
+      <pubDate>Tue, 05 Jul 2022 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/mental-poker-2/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://geometry.xyz/notebook/mental-poker-in-the-age-of-snarks-part-1&#34;&gt;Geometry Notebook&lt;/a&gt;.&lt;/em&gt;&#xA;&lt;em&gt;The work was produced in collaboration with Andrija Novakovic and Kobi Gurkan for Geometry and MatchboxDAO.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;In &lt;a href=&#34;../mental-poker-in-the-age-of-snarks-part-1&#34;&gt;Part 1&lt;/a&gt; of our Mental Poker series we highlighted the challenges of decentralised card games and presented the improved Barnett-Smart protocol as a practical solution. In this second part we take a deep dive into the cryptography that enables this protocol.&lt;/p&gt;&#xA;&lt;p&gt;We will first inspect an &lt;!-- raw HTML omitted --&gt;instantiation of the verifiable $l$-out-of-$l$ threshold masking functions (VTMFs) using El Gamal encryption&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;!-- raw HTML omitted --&gt;. We will also show how repeated applications of these functions achieve the necessary properties for a fair card game. In the second section we cover the zero-knowledge argument for a correct shuffle as presented in &lt;!-- raw HTML omitted --&gt;“Efficient Zero-knowledge Argument for Correctness of a Shuffle”&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;!-- raw HTML omitted --&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Mental Poker in the Age of SNARKs - Part 1</title>
+      <link>https://nmohnblatt.me/mental-poker-1/</link>
+      <pubDate>Tue, 28 Jun 2022 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/mental-poker-1/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://geometry.xyz/notebook/mental-poker-in-the-age-of-snarks-part-1&#34;&gt;Geometry Notebook&lt;/a&gt;.&lt;/em&gt;&#xA;&lt;em&gt;The work was produced in collaboration with Andrija Novakovic and Kobi Gurkan for Geometry and MatchboxDAO.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;&lt;strong&gt;Is it possible to play a classic card game without physical cards, without trusting the participants and without a trusted third party?&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;This problem was first formulated and given the name “&lt;em&gt;Mental Poker&lt;/em&gt;” in 1979 by none other than &lt;!-- raw HTML omitted --&gt;Rivest, Shamir and Adleman&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;!-- raw HTML omitted --&gt;. Below is an extract from the original paper in which they explain the notion of &lt;em&gt;Mental Poker&lt;/em&gt;.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

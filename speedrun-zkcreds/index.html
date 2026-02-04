@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://nmohnblatt.me/images/favicon.png" />
+<title>Paper Speedrun: zk-creds | Nicolas Mohnblatt</title>
+<meta name="title" content="Paper Speedrun: zk-creds" />
+<meta name="description" content="This article is cross-posted from the Geometry Notebook.
+
+
+Title: zk-creds: Flexible Anonymous Credentials from zkSNARKs and Existing Identity Infrastructure
+Authors: Michael Rosenberg, Jacob White, Christina Garman and Ian Miers
+Links: paper https://eprint.iacr.org/2022/878 , code https://github.com/rozbb/zkcreds-rs
+TL;DR: zk-creds is an anonymous credentials system. A credential is a Pedersen commitment to attributes. The credential is shown to be valid in ZK and issued by adding it to a public list. A credential can be &ldquo;shown&rdquo; by proving in ZK that the committed values match some access criteria and that the credential is included in the issuance list. Privacy is maintained by blinding proofs. The paper also introduces Merkle forests and a protocol to blind and link Groth16 proofs." />
+<meta name="keywords" content="Geometry Notebook,Speedrun,Privacy,Zero-Knowledge,Anonymous Credentials," />
+
+
+<meta property="og:url" content="https://nmohnblatt.me/speedrun-zkcreds/">
+  <meta property="og:site_name" content="Nicolas Mohnblatt">
+  <meta property="og:title" content="Paper Speedrun: zk-creds">
+  <meta property="og:description" content="This article is cross-posted from the Geometry Notebook.
+Title: zk-creds: Flexible Anonymous Credentials from zkSNARKs and Existing Identity Infrastructure
+Authors: Michael Rosenberg, Jacob White, Christina Garman and Ian Miers
+Links: paper https://eprint.iacr.org/2022/878 , code https://github.com/rozbb/zkcreds-rs
+TL;DR: zk-creds is an anonymous credentials system. A credential is a Pedersen commitment to attributes. The credential is shown to be valid in ZK and issued by adding it to a public list. A credential can be “shown” by proving in ZK that the committed values match some access criteria and that the credential is included in the issuance list. Privacy is maintained by blinding proofs. The paper also introduces Merkle forests and a protocol to blind and link Groth16 proofs.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2023-01-18T00:00:00+00:00">
+    <meta property="article:modified_time" content="2023-01-18T00:00:00+00:00">
+    <meta property="article:tag" content="Geometry Notebook">
+    <meta property="article:tag" content="Speedrun">
+    <meta property="article:tag" content="Privacy">
+    <meta property="article:tag" content="Zero-Knowledge">
+    <meta property="article:tag" content="Anonymous Credentials">
+    <meta property="og:image" content="https://nmohnblatt.me/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://nmohnblatt.me/images/share.png">
+  <meta name="twitter:title" content="Paper Speedrun: zk-creds">
+  <meta name="twitter:description" content="This article is cross-posted from the Geometry Notebook.
+Title: zk-creds: Flexible Anonymous Credentials from zkSNARKs and Existing Identity Infrastructure
+Authors: Michael Rosenberg, Jacob White, Christina Garman and Ian Miers
+Links: paper https://eprint.iacr.org/2022/878 , code https://github.com/rozbb/zkcreds-rs
+TL;DR: zk-creds is an anonymous credentials system. A credential is a Pedersen commitment to attributes. The credential is shown to be valid in ZK and issued by adding it to a public list. A credential can be “shown” by proving in ZK that the committed values match some access criteria and that the credential is included in the issuance list. Privacy is maintained by blinding proofs. The paper also introduces Merkle forests and a protocol to blind and link Groth16 proofs.">
+
+
+
+
+  <meta itemprop="name" content="Paper Speedrun: zk-creds">
+  <meta itemprop="description" content="This article is cross-posted from the Geometry Notebook.
+Title: zk-creds: Flexible Anonymous Credentials from zkSNARKs and Existing Identity Infrastructure
+Authors: Michael Rosenberg, Jacob White, Christina Garman and Ian Miers
+Links: paper https://eprint.iacr.org/2022/878 , code https://github.com/rozbb/zkcreds-rs
+TL;DR: zk-creds is an anonymous credentials system. A credential is a Pedersen commitment to attributes. The credential is shown to be valid in ZK and issued by adding it to a public list. A credential can be “shown” by proving in ZK that the committed values match some access criteria and that the credential is included in the issuance list. Privacy is maintained by blinding proofs. The paper also introduces Merkle forests and a protocol to blind and link Groth16 proofs.">
+  <meta itemprop="datePublished" content="2023-01-18T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2023-01-18T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1706">
+  <meta itemprop="image" content="https://nmohnblatt.me/images/share.png">
+  <meta itemprop="keywords" content="Geometry Notebook,Speedrun,Privacy,Zero-Knowledge,Anonymous Credentials">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  
+
+<style>
+  body {
+    font-family: Verdana, sans-serif;
+    font-size: 15px;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #FFFCF0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #100F0F;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #100F0F;
+  }
+
+  a {
+    color: #24837B;
+     
+    text-decoration: none;
+  }
+
+  a.underline {
+    text-decoration: underline; 
+  }
+
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a.nohover:hover {
+    text-decoration: none;
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  a.title:hover{
+    text-decoration: none;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+   
+
+  td {
+    border-top: 1px solid #E6E4D9;
+  } 
+
+  img {
+    max-width: 100%;
+  }
+
+  figure {
+    margin-inline-start: 20px;
+    margin-inline-end: 20px;
+  }
+
+  figcaption {
+    color: #B7B5AC;
+    font-size: small;
+    text-align: center;
+  }
+
+  figcaption p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #E6E4D9;
+    color: #878580;
+  }
+
+  pre code {
+    color: #6F6E69;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 2px solid #24837B;
+    color: #100F0F;
+    padding-left: 15px;
+    margin-inline-start: 20px;
+     
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #17504b;
+  }
+
+   
+
+</style>
+
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']],     
+      tags: 'ams'
+    }
+  };
+</script>
+  
+
+  
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>Nicolas Mohnblatt</h2>
+</a>
+<nav><a href="/" class="nohover">Home</a>
+
+<a href="/about/" class="nohover">About</a>
+
+<a href="/now/" class="nohover">Now</a>
+
+<a href="/research/" class="nohover">Research</a>
+
+
+<a href="/blog" class="nohover">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>Paper Speedrun: zk-creds</h1>
+<p>
+  <i>
+    
+  </i>
+</p>
+<p>
+  <i>
+    <time datetime='2023-01-18' pubdate>
+      18 Jan, 2023
+    </time>
+  </i>
+</p>
+
+<content>
+  <p><em>This article is cross-posted from the <a href="https://geometry.xyz/notebook/paper-speedrun-zkcreds">Geometry Notebook</a></em>.</p>
+<hr>
+<blockquote>
+<p><strong>Title:</strong> zk-creds: Flexible Anonymous Credentials from zkSNARKs and Existing Identity Infrastructure<br>
+<strong>Authors:</strong> Michael Rosenberg, Jacob White, Christina Garman and Ian Miers<br>
+<strong>Links</strong>: paper <a href="https://eprint.iacr.org/2022/878">https://eprint.iacr.org/2022/878</a> , code <a href="https://github.com/rozbb/zkcreds-rs">https://github.com/rozbb/zkcreds-rs</a><br>
+<strong>TL;DR</strong>: zk-creds is an anonymous credentials system. A credential is a Pedersen commitment to attributes. The credential is shown to be valid in ZK and issued by adding it to a public list. A credential can be &ldquo;shown&rdquo; by proving in ZK that the committed values match some access criteria and that the credential is included in the issuance list. Privacy is maintained by blinding proofs. The paper also introduces Merkle forests and a protocol to blind and link Groth16 proofs.</p>
+</blockquote>
+<h2 id="the-need-for-anonymous-credentials">The Need for Anonymous Credentials</h2>
+<p>Typically when we want to prove that we are over some legal age limit we show our identity document in full, revealing our age but also our legal name, address, nationality and much more. The risks of such privacy leaks are compounded by the fact that we now show our identity documents digitally and our precious information is stored by third parties.</p>
+<p>Anonymous credentials offer a privacy-preserving alternative to the scenario above. A User could use their anonymous credential to enter a bar without revealing anything more than the validity of their credential and that they meet legal drinking age. Importantly, multiple shows of the same credential should not be traceable.</p>
+<h2 id="previous-work">Previous Work</h2>
+<p>Classic solutions for anonymous credentials usually involve re-randomisable signatures. An official authority issues an anonymous credential by signing a User&rsquo;s attributes: the signature proves that the Issuer approved the User&rsquo;s attribute while re-randomisation provides unlinkability.</p>
+<p>Such signature schemes are often custom-built for specific anonymous credentials schemes. Although these papers do present security proofs, their signatures are still seen as more &ldquo;exotic&rdquo; than standardised and battle-tested signatures such as DSA or ECDSA.</p>
+<p>Unfortunately anonymous credentials are rarely deployed in practice, usually because official authorities are reticent to change the format of their (often physical) credentials, maintain signing keys and the relevant public key infrastructure, or deploy non-standard cryptography. zk-creds addresses these concerns and moves away from re-randomisable signatures to instead explore re-randomisable ZK proofs. Additionally, it reduces the burden and trust assumption put on the credential issuer.</p>
+<h2 id="zk-creds-overview">zk-creds Overview</h2>
+<p>In zk-creds, a credential is a Pedersen commitment to some attributes. The credential is issued by adding the commitment to a public Merkle tree or &ldquo;Merkle forest&rdquo; as detailed <a href="#merkle-forests-tunable-trade-off-for-merkle-trees">later</a>. Finally, the owner of the credential can anonymously &ldquo;show&rdquo; it by producing a ZK proof that 1) the attributes inside the credential match the access criteria and 2) the credential is included in the issuer&rsquo;s tree (or forest).</p>
+<p>Notice how in zk-creds, the Issuer is no longer equated to the official authority that emits identity documents. A zk-creds Issuer is only expected to verify a ZK proof and add a credential to their tree. In fact as we will see, this role can be fulfilled by a smart contract.</p>
+<p>Let&rsquo;s immediately consider a concrete example given in the paper: accessing age-restricted content online using a credential formed from a US passport.</p>
+<h2 id="an-end-to-end-demo-accessing-age-restricted-content-online">An end-to-end demo: accessing age-restricted content online</h2>
+<p>To access age-restricted content online, Alice must prove that she is over 18, that her identity document is not expired and that the proof isn&rsquo;t being replayed. Let&rsquo;s see how zk-creds allow her to build a credential from her US passport, how she convinces an issuer that her credential is valid and finally how she can convince a third party that her credential passes the age restriction.</p>
+<p><strong>1. Generate a credential</strong><br>
+Alice scans her NFC-enabled passport with a mobile application that extracts signed data from it. She can then commit to the extracted attributes, namely nationality, full name, date of birth, passport expiry date and a hash of her ID picture. To these, Alice adds a &ldquo;rate key&rdquo; which can be used for more complex access criteria such as creating pseudonyms or enforcing rate limiting. Alice produces a Pedersen commitment to these attributes (this is her credential) along with a ZK proof that the committed values are also signed in the passport by the relevant authority (an issuance proof).</p>
+<p><strong>2. ZK issuance</strong><br>
+Alice sends her credential and the issuance proof to an Issuer. Upon verifying the proof, the Issuer adds Alice&rsquo;s credential to a public list (Merkle tree or forest).</p>
+<p><strong>3. Verify age</strong><br>
+Alice wishes to access age-restricted content from a third party, the Verifier. For ease of exposure, we will ignore protection against replay attacks at first. Alice produces:</p>
+<ul>
+<li>a Groth16 proof that her credential commits to a date of birth value $\mathsf{dob}$ such that $\text{today} - \mathsf{dob} \geq 18\text{yrs}$</li>
+<li>a Groth16 proof that her credential commits to an expiry date $\mathsf{exp}$ such that $\mathsf{exp} &gt; \text{today}$.</li>
+<li>a Groth16 proof that she knows an authentication path for her credential in one of the Issuer&rsquo;s trees.</li>
+</ul>
+<p>She then <em>blinds</em> and <em>links</em> these proofs using the LinkGroth16 protocol described in <a href="#linking-groth16-proofs">Techniques below</a>. This operation ensures that multiple &ldquo;shows&rdquo; of the same credential cannot be tracked and that all these separate proofs are <em>about the same credential</em>.</p>
+<p>The Verifier can verify all these proofs in zero knowledge and upon successful verification grant access to Alice. Notice how Alice&rsquo;s private information has remained private throughout the whole run of zk-creds!</p>
+<p>Note however that these proofs are inherently re-randomisable: a malicious actor could copy Alice&rsquo;s proofs, re-randomise them and convince an unsuspecting Verifier. zk-creds prevent these replay attacks by enforcing that proofs are &ldquo;session binding&rdquo;: a credential show is only valid with respect to a unique verifier-chosen challenge. As noted in the paper, this property can be achieved by including an additional &ldquo;empty&rdquo; proof that takes the challenge as public input.</p>
+<h2 id="implementation-and-benchmarks">Implementation and Benchmarks</h2>
+<p>The zk-creds team have released code that covers all steps of this example, <a href="https://github.com/rozbb/zkcreds-rs">repo here</a>. Their benchmarks show that the system is usable in practice. $\mathsf{ShowCred}$ is the time it takes to compute all the proofs except the inclusion of the credential in the Issuer&rsquo;s list, $\mathsf{ShowCred} , (\text{full})$ includes the latter.</p>
+
+
+
+<figure style="text-align: center;"><img src="/speedrun-zkcreds/benchmarks_hu_97d3caf86a3e3030.webp"
+  alt="zk-creds benchmarks."><figcaption>
+      <p>zk-creds benchmarks.</p>
+    </figcaption>
+</figure>
+<p>Notice how the inclusion proof takes approximately 800ms and dominates the proving time of $\mathsf{ShowCred} , (\text{full})$.</p>
+<h2 id="some-noteworthy-properties">Some Noteworthy Properties</h2>
+<p>Here is a quick overview of some noteworthy properties of zk-creds:</p>
+<ul>
+<li>this system does not require official authorities such as a passport issuer to change their format or include heavyweight cryptography. All that is needed is that documents are digitally signed.</li>
+<li>the access criteria and circuits used to prove them in zero-knowledge can be set and updated <em>after</em> credentials are created and issued.</li>
+<li>credentials are auditable: anyone can see the whole list of issued credentials.</li>
+<li>issuance lists can be maintained by an automated, trustless party (smart contract).</li>
+<li>revocation is achieved by removing a credential from the issuer&rsquo;s list.</li>
+</ul>
+<p>There are however some drawbacks, the main one being that users must prove that their credential appears is the Issuer&rsquo;s Merkle tree. Such a proof can be costly for deep trees as they require to prove <em>a lot</em> of hashes. Furthermore, if the tree changes (i.e. new credentials are issued), then the tree root and authentication path also change; users will have to recompute their witness and proof. The authors introduce the idea of a Merkle forest - a group of Merkle trees - to minimise this adverse effect while not compromising performance elsewhere.</p>
+<h2 id="cryptographic-techniques">Cryptographic Techniques</h2>
+<p>In this section we look at specific techniques introduced in the paper to achieve the system&rsquo;s goals efficiently.</p>
+<h3 id="merkle-forests-tunable-trade-off-for-merkle-trees">Merkle Forests: tunable trade-off for Merkle Trees</h3>
+<p>Merkle forests address the &ldquo;witness management&rdquo; issue mentioned above. Rather than having one large monolithic tree, a Merkle forest will separate the data into $m$ Merkle trees, each with their own tree root as we would expect. Each of these are shorter than the would-be monolithic tree. Proving membership of an item in the Merkle forest is done in two stages: first prove that the item is included in one of the tree roots (classic inclusion proof) and then prove that the tree root is one of the forest&rsquo;s many trees.</p>
+<p>This allows for a tunable trade-off: a larger number of shorter trees allows for less hashing but requires to keep a larger set of tree roots. The other benefit is that a smaller tree fills up faster; once it is full, the authentication path will no longer change.</p>
+<h3 id="blind-groth16-proofs">Blind Groth16 Proofs</h3>
+<p>zk-creds rely on a result from <a href="https://eprint.iacr.org/2020/811">[BKSV21]</a> to re-randomise Groth16 proofs. Using random scalars, the three group elements that compose a Groth16 proof are blinded in such a way that they follow the same distribution as a regular proof and that the Groth16 verification equation still holds. The procedure is shown in the screen capture below, I encourage you to plug in these new values into the verification equation to convince yourself that it works.</p>
+
+
+
+<figure style="text-align: center;"><img src="/speedrun-zkcreds/rerand_hu_2dbd163c8d0231d4.webp"
+  alt="Screen capture of the re-rand algorithm from zk-creds"><figcaption>
+      <p>Screen capture of the re-rand algorithm from zk-creds</p>
+    </figcaption>
+</figure>
+<h3 id="linking-groth16-proofs">Linking Groth16 Proofs</h3>
+<p>zk-creds also introduce a protocol to <em>link</em> Groth16 proofs. This non-interactive zero-knowledge proof (NIZK) shows that the prover knows $k$ valid Groth16 proofs over different circuits that all share the same first $t$ wires. The protocol does so while <em>keeping the proofs and shared wires private</em>. It takes all $k$ common reference strings and all the non-shared wire values as public inputs.</p>
+<p>The proving strategy is as follows: first blind each proof, then produce a proof that all the input proofs share the same first $t$ wire values; finally send the blinded proofs and wire equality proof. The verifier can then verify each proof individually and accepts if they all accept. Notice that this protocol is <em>not succinct</em>: overall proof size and verifier computation grow linearly in the number of input proofs.</p>
+<p>The wire equality proof is a classic sigma protocol. The Groth16 verification equation uses a sum of common reference string elements (EC points) multiplied by wire values (scalars). The sigma protocol proves that although these sums are over different $\mathsf{crs}$ elements (the EC point basis), they involve the same scalars (wire values). Similar proofs are used to show that two Pedersen commitments commit to the same values.</p>
+<h2 id="references">References</h2>
+<p><a href="https://eprint.iacr.org/2020/811">[BKSV21]</a> Baghery, K., Kohlweiss, M., Siim, J. and Volkhov, M., 2021, March. Another look at extraction and randomization of Groth’s zk-SNARK. In International Conference on Financial Cryptography and Data Security (pp. 457-475). Springer, Berlin, Heidelberg.</p>
+
+</content>
+<p>
+  
+  <a href="https://nmohnblatt.me/blog/geometry-notebook/" class="nohover">#Geometry Notebook</a>
+  
+  <a href="https://nmohnblatt.me/blog/speedrun/" class="nohover">#Speedrun</a>
+  
+  <a href="https://nmohnblatt.me/blog/privacy/" class="nohover">#Privacy</a>
+  
+  <a href="https://nmohnblatt.me/blog/zero-knowledge/" class="nohover">#Zero-Knowledge</a>
+  
+  <a href="https://nmohnblatt.me/blog/anonymous-credentials/" class="nohover">#Anonymous Credentials</a>
+  
+</p>
+
+  </main>
+  <footer><p style="font-size: small;">
+    Built using <a href="https://gohugo.io" class="nohover">Hugo</a>. The theme is adapted from <a href="https://github.com/janraasch/hugo-bearblog/" class="nohover">hugo-bearblog</a> and uses colours from <a href="https://github.com/kepano/flexoki?tab=readme-ov-file" class="nohover">Flexoki</a>.
+</p>
+
+<p style="font-size: small;">
+    <a href="https://github.com/nmohnblatt" class="nohover">Github</a> | <a href="https://bsky.app/profile/nicomnbl.bsky.social" class="nohover">Bluesky</a> | <a href="https://x.com/nico_mnbl" class="nohover">&#x1D54F;</a> | <a href="https://zkjargon.github.io" class="nohover">ZK Jargon Decoder</a> <br>
+    &copy; 2024-2026, Nicolas Mohnblatt. <br>
+</p>
+</footer>
+
+    
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Zero-Knowledge on Nicolas Mohnblatt</title>
+    <link>https://nmohnblatt.me/blog/zero-knowledge/</link>
+    <description>Recent content in Zero-Knowledge on Nicolas Mohnblatt</description>
+    <generator>Hugo</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2024-2026, Nicolas Mohnblatt.</copyright>
+    <lastBuildDate>Fri, 30 May 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://nmohnblatt.me/blog/zero-knowledge/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Archived Highlights of libZK, the Google Wallet ZKP</title>
+      <link>https://nmohnblatt.me/archived/libzk-highlights/</link>
+      <pubDate>Fri, 30 May 2025 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/archived/libzk-highlights/</guid>
+      <description>&lt;h1 id=&#34;archived-libzk-highlights-original-article&#34;&gt;Archived: libZK Highlights (Original Article)&lt;/h1&gt;&#xA;&lt;p&gt;&lt;em&gt;Find the up-to-date edit &lt;a href=&#34;https://nmohnblatt.me/libzk-highlights/&#34;&gt;here&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;Last month, &lt;a href=&#34;https://blog.google/products/google-pay/google-wallet-age-identity-verifications/&#34;&gt;Google announced&lt;/a&gt; an update to Google Wallet that enables &amp;ldquo;fast and private age verification&amp;rsquo;&amp;rsquo;.&#xA;As you might expect, the system uses zero-knowledge proofs (ZKPs) under the hood.&#xA;This is great news!&#xA;Firstly because these privacy-preserving primitives will get wider distribution and hopefully adoption.&#xA;Secondly because it&amp;rsquo;s great to see high-performance, production-grade ZKPs being developed outside of the blockchain/web3 industry.&#xA;And finally because seeing governments and big tech players like Google take interest in ZKPs is a clear sign of momentum for our beloved privacy-enhancing technologies.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Highlights of libZK, the Google Wallet ZKP</title>
+      <link>https://nmohnblatt.me/libzk-highlights/</link>
+      <pubDate>Fri, 30 May 2025 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/libzk-highlights/</guid>
+      <description>&lt;p&gt;Last month, &lt;a href=&#34;https://blog.google/products/google-pay/google-wallet-age-identity-verifications/&#34;&gt;Google announced&lt;/a&gt; an update to Google Wallet that enables &amp;ldquo;fast and private age verification&amp;rsquo;&amp;rsquo;.&#xA;As you might expect, the system uses zero-knowledge proofs (ZKPs) under the hood.&#xA;This is great news!&#xA;Firstly because these privacy-preserving primitives will get wider distribution and hopefully adoption.&#xA;Secondly because it&amp;rsquo;s great to see high-performance, production-grade ZKPs being developed outside of the blockchain/web3 industry.&#xA;And finally because seeing governments and big tech players like Google take interest in ZKPs is a clear sign of momentum for our beloved privacy-enhancing technologies.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Chosen-instance Attack</title>
+      <link>https://nmohnblatt.me/chosen-instance-attack/</link>
+      <pubDate>Wed, 04 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/chosen-instance-attack/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://baincapitalcrypto.com/chosen-instance-attack/&#34;&gt;Bain Capital Crypto Insights&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;how-succinct-proofs-leak-information&#34;&gt;How succinct proofs leak information.&lt;/h2&gt;&#xA;&lt;p&gt;What happens when a succinct proof does not have the zero-knowledge property?&#xA;There is a common misconception that &amp;ldquo;succinct proofs are too short to leak information about the witness&amp;rdquo;.&#xA;This is &lt;strong&gt;incorrect&lt;/strong&gt; and in the interest of privacy it is very important that we challenge this belief.&#xA;The &lt;a href=&#34;https://zkhack.dev/zkhackV/puzzleV1.html&#34;&gt;Zeitgeist puzzle at ZK Hack V&lt;/a&gt; was based on the themes discussed here.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Paper Speedrun: zk-creds</title>
+      <link>https://nmohnblatt.me/speedrun-zkcreds/</link>
+      <pubDate>Wed, 18 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/speedrun-zkcreds/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://geometry.xyz/notebook/paper-speedrun-zkcreds&#34;&gt;Geometry Notebook&lt;/a&gt;&lt;/em&gt;.&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;&lt;strong&gt;Title:&lt;/strong&gt; zk-creds: Flexible Anonymous Credentials from zkSNARKs and Existing Identity Infrastructure&lt;br&gt;&#xA;&lt;strong&gt;Authors:&lt;/strong&gt; Michael Rosenberg, Jacob White, Christina Garman and Ian Miers&lt;br&gt;&#xA;&lt;strong&gt;Links&lt;/strong&gt;: paper &lt;a href=&#34;https://eprint.iacr.org/2022/878&#34;&gt;https://eprint.iacr.org/2022/878&lt;/a&gt; , code &lt;a href=&#34;https://github.com/rozbb/zkcreds-rs&#34;&gt;https://github.com/rozbb/zkcreds-rs&lt;/a&gt;&lt;br&gt;&#xA;&lt;strong&gt;TL;DR&lt;/strong&gt;: zk-creds is an anonymous credentials system. A credential is a Pedersen commitment to attributes. The credential is shown to be valid in ZK and issued by adding it to a public list. A credential can be &amp;ldquo;shown&amp;rdquo; by proving in ZK that the committed values match some access criteria and that the credential is included in the issuance list. Privacy is maintained by blinding proofs. The paper also introduces Merkle forests and a protocol to blind and link Groth16 proofs.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Functional Commitments: ZK under a different lens</title>
+      <link>https://nmohnblatt.me/functional-commitments/</link>
+      <pubDate>Thu, 05 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/functional-commitments/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://geometry.xyz/notebook/functional-commitments-zk-under-a-different-lens&#34;&gt;Geometry Notebook&lt;/a&gt; and relates to an implementation co-written with Andrija Novakovic.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;In ZKP schemes, the typical paradigm is that a programme (or &amp;ldquo;circuit&amp;rdquo;) is publicly known, and a proof is produced to attest to the correct execution of the programme over some (potentially private) inputs. But what if we are working with sensitive, proprietary algorithms? Could we instead prove the execution of a &lt;em&gt;private&lt;/em&gt; programme over public inputs?&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Mental Poker in the Age of SNARKs - Part 2</title>
+      <link>https://nmohnblatt.me/mental-poker-2/</link>
+      <pubDate>Tue, 05 Jul 2022 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/mental-poker-2/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://geometry.xyz/notebook/mental-poker-in-the-age-of-snarks-part-1&#34;&gt;Geometry Notebook&lt;/a&gt;.&lt;/em&gt;&#xA;&lt;em&gt;The work was produced in collaboration with Andrija Novakovic and Kobi Gurkan for Geometry and MatchboxDAO.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;In &lt;a href=&#34;../mental-poker-in-the-age-of-snarks-part-1&#34;&gt;Part 1&lt;/a&gt; of our Mental Poker series we highlighted the challenges of decentralised card games and presented the improved Barnett-Smart protocol as a practical solution. In this second part we take a deep dive into the cryptography that enables this protocol.&lt;/p&gt;&#xA;&lt;p&gt;We will first inspect an &lt;!-- raw HTML omitted --&gt;instantiation of the verifiable $l$-out-of-$l$ threshold masking functions (VTMFs) using El Gamal encryption&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;!-- raw HTML omitted --&gt;. We will also show how repeated applications of these functions achieve the necessary properties for a fair card game. In the second section we cover the zero-knowledge argument for a correct shuffle as presented in &lt;!-- raw HTML omitted --&gt;“Efficient Zero-knowledge Argument for Correctness of a Shuffle”&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;!-- raw HTML omitted --&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Mental Poker in the Age of SNARKs - Part 1</title>
+      <link>https://nmohnblatt.me/mental-poker-1/</link>
+      <pubDate>Tue, 28 Jun 2022 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/mental-poker-1/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://geometry.xyz/notebook/mental-poker-in-the-age-of-snarks-part-1&#34;&gt;Geometry Notebook&lt;/a&gt;.&lt;/em&gt;&#xA;&lt;em&gt;The work was produced in collaboration with Andrija Novakovic and Kobi Gurkan for Geometry and MatchboxDAO.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;&lt;strong&gt;Is it possible to play a classic card game without physical cards, without trusting the participants and without a trusted third party?&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;This problem was first formulated and given the name “&lt;em&gt;Mental Poker&lt;/em&gt;” in 1979 by none other than &lt;!-- raw HTML omitted --&gt;Rivest, Shamir and Adleman&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;!-- raw HTML omitted --&gt;. Below is an extract from the original paper in which they explain the notion of &lt;em&gt;Mental Poker&lt;/em&gt;.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

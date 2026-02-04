@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Home on Nicolas Mohnblatt</title>
+    <link>https://nmohnblatt.me/</link>
+    <description>Recent content in Home on Nicolas Mohnblatt</description>
+    <generator>Hugo</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2024-2026, Nicolas Mohnblatt.</copyright>
+    <lastBuildDate>Fri, 14 Nov 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://nmohnblatt.me/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Proximity Gaps: What Happened and How Does It Affect our SNARKs</title>
+      <link>https://nmohnblatt.me/proximity-conjecture/</link>
+      <pubDate>Fri, 14 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/proximity-conjecture/</guid>
+      <description>A series of recent papers just disproved the proximity gaps conjecture, which has everyone wondering if hash-based SNARKs are in trouble. We break down what actually happened using some helpful visuals—think of it as understanding which parameter choices are safe versus which ones are now confirmed to be risky. The post walks you through the different security zones (proven safe, conjectured safe, and definitely not safe), explains how these new results connect to other open math problems, and shows what it means for real-world SNARKs in terms of proof sizes and performance trade-offs.</description>
+    </item>
+    <item>
+      <title>Why does FRI work?</title>
+      <link>https://nmohnblatt.me/fri-security/</link>
+      <pubDate>Thu, 30 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/fri-security/</guid>
+      <description>You might be familiar with what FRI is or how it works but do you know &lt;em&gt;why&lt;/em&gt; it works? This blog post gives some intuitive answers to this crucial security question.</description>
+    </item>
+    <item>
+      <title>Notes on Witness-extended Emulation</title>
+      <link>https://nmohnblatt.me/notes-on-witness-extended-emulation/</link>
+      <pubDate>Mon, 29 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/notes-on-witness-extended-emulation/</guid>
+      <description>&lt;p&gt;I recently came across some papers that were using the notion of &lt;em&gt;witness-extended emulation&lt;/em&gt; (WEE).&#xA;This is a term that I first encountered a while ago when first learning about &lt;a href=&#34;https://eprint.iacr.org/2017/1066&#34;&gt;Bulletproofs&lt;/a&gt; but that I had ignored as it was &amp;ldquo;too technical for me&amp;rdquo; at the time.&#xA;This article is a summary of my recent notes on witness-extended emulation and why you should not prove it directly.&lt;/p&gt;&#xA;&lt;p&gt;The main conclusion is that witness-extended emulation is helpful to analyze protocol composition but is more complicated than knowledge soundness.&#xA;It should never be proven directly since &lt;strong&gt;conceptually simpler properties like Damgård&amp;rsquo;s knowledge soundness and special-soundness both imply WEE.&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Resources for Writing Security Proofs</title>
+      <link>https://nmohnblatt.me/proofs-resources/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/proofs-resources/</guid>
+      <description>&lt;p&gt;This brief post collects resources and tutorials that I found helpful when learning and teaching &lt;em&gt;how to write security proofs&lt;/em&gt;. The main tools are &lt;em&gt;security reductions&lt;/em&gt; and &lt;em&gt;game-hopping&lt;/em&gt;.&#xA;I list resources for each of them and then expand on what I found useful in each.&lt;/p&gt;&#xA;&lt;h2 id=&#34;security-reductions&#34;&gt;Security Reductions&lt;/h2&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Katz and Lindell, &lt;a href=&#34;(https://archive.org/download/strategic_intelligence_network/communication/encryption/introduction_to_modern_cryptography.pdf)&#34;&gt;&lt;em&gt;Introduction to Modern Cryptography&lt;/em&gt;&lt;/a&gt;, Chapter 3.1.3.&lt;/li&gt;&#xA;&lt;li&gt;Boneh and Shoup, &lt;a href=&#34;https://toc.cryptobook.us&#34;&gt;&lt;em&gt;A Graduate Course in Applied Cryptography&lt;/em&gt;&lt;/a&gt;, Section 2.2.3.1.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;&lt;em&gt;Security reductions&lt;/em&gt; are the basic building block of security proofs.&#xA;The idea is to show that breaking a protocol $\Pi$ is at least as hard as breaking some underlying assumption or protocol $\Pi&amp;rsquo;$.&#xA;I like the introduction given in &lt;em&gt;Introduction to Modern Cryptography&lt;/em&gt; by Katz and Lindell in Chapter 3.1.3, p. 58.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Archived Highlights of libZK, the Google Wallet ZKP</title>
+      <link>https://nmohnblatt.me/archived/libzk-highlights/</link>
+      <pubDate>Fri, 30 May 2025 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/archived/libzk-highlights/</guid>
+      <description>&lt;h1 id=&#34;archived-libzk-highlights-original-article&#34;&gt;Archived: libZK Highlights (Original Article)&lt;/h1&gt;&#xA;&lt;p&gt;&lt;em&gt;Find the up-to-date edit &lt;a href=&#34;https://nmohnblatt.me/libzk-highlights/&#34;&gt;here&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;Last month, &lt;a href=&#34;https://blog.google/products/google-pay/google-wallet-age-identity-verifications/&#34;&gt;Google announced&lt;/a&gt; an update to Google Wallet that enables &amp;ldquo;fast and private age verification&amp;rsquo;&amp;rsquo;.&#xA;As you might expect, the system uses zero-knowledge proofs (ZKPs) under the hood.&#xA;This is great news!&#xA;Firstly because these privacy-preserving primitives will get wider distribution and hopefully adoption.&#xA;Secondly because it&amp;rsquo;s great to see high-performance, production-grade ZKPs being developed outside of the blockchain/web3 industry.&#xA;And finally because seeing governments and big tech players like Google take interest in ZKPs is a clear sign of momentum for our beloved privacy-enhancing technologies.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Highlights of libZK, the Google Wallet ZKP</title>
+      <link>https://nmohnblatt.me/libzk-highlights/</link>
+      <pubDate>Fri, 30 May 2025 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/libzk-highlights/</guid>
+      <description>&lt;p&gt;Last month, &lt;a href=&#34;https://blog.google/products/google-pay/google-wallet-age-identity-verifications/&#34;&gt;Google announced&lt;/a&gt; an update to Google Wallet that enables &amp;ldquo;fast and private age verification&amp;rsquo;&amp;rsquo;.&#xA;As you might expect, the system uses zero-knowledge proofs (ZKPs) under the hood.&#xA;This is great news!&#xA;Firstly because these privacy-preserving primitives will get wider distribution and hopefully adoption.&#xA;Secondly because it&amp;rsquo;s great to see high-performance, production-grade ZKPs being developed outside of the blockchain/web3 industry.&#xA;And finally because seeing governments and big tech players like Google take interest in ZKPs is a clear sign of momentum for our beloved privacy-enhancing technologies.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Comparing Ligerito and WHIR</title>
+      <link>https://nmohnblatt.me/ligerito-and-whir/</link>
+      <pubDate>Tue, 06 May 2025 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/ligerito-and-whir/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;&lt;em&gt;Edit 20 May, 2025&lt;/em&gt;: review comparison after the &amp;ldquo;succinct verification for RS codes&amp;rdquo; update to Ligerito.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://angeris.github.io/papers/ligerito.pdf&#34;&gt;Ligerito&lt;/a&gt; is a freshly released multilinear polynomial commitment scheme that combines ideas from &lt;a href=&#34;https://eprint.iacr.org/2022/1608&#34;&gt;Ligero&lt;/a&gt; with the &lt;a href=&#34;https://lance.fortnow.com/papers/files/ip.pdf&#34;&gt;Sumcheck&lt;/a&gt; protocol.&#xA;It is based on error-correcting codes and is proven secure in the pure random oracle model (pure ROM)&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;&#xA;&lt;p&gt;These properties are very similar to those of &lt;a href=&#34;https://eprint.iacr.org/2024/1586&#34;&gt;WHIR&lt;/a&gt;: error-correcting codes, pure ROM, partial Sumcheck rounds.&#xA;Naturally one might ask: &lt;em&gt;how does Ligerito compare to WHIR?&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Privacy-preserving Contact Discovery for Bluesky</title>
+      <link>https://nmohnblatt.me/arke-for-bluesky/</link>
+      <pubDate>Wed, 11 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/arke-for-bluesky/</guid>
+      <description>&lt;p&gt;Last year, we released Arke &lt;a href=&#34;https://eprint.iacr.org/2023/1218&#34;&gt;[MSGJ24]&lt;/a&gt;, a protocol for &lt;strong&gt;privacy-preserving contact discovery&lt;/strong&gt;. We also shared an &lt;a href=&#34;https://github.com/asonnino/arke&#34;&gt;experimental prototype&lt;/a&gt; of the system which we used to run geo-distributed benchmarks for our paper. Since then, the paper has been peer-reviewed and published in ACM-CCS&#39;24.&lt;/p&gt;&#xA;&lt;p&gt;The goal is to allow users of an existing social graph (&lt;em&gt;e.g.&lt;/em&gt;, 𝕏) to find each other and construct a new graph (&lt;em&gt;e.g.&lt;/em&gt;, Bluesky) without revealing either of the social graphs nor publicly linking the existing and new accounts. I encourage you to read &lt;a href=&#34;https://signal.org/blog/contact-discovery/&#34;&gt;this article by Moxie Marlinspike&lt;/a&gt; for more context on why contact discovery is desirable and hard to do privately.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Chosen-instance Attack</title>
+      <link>https://nmohnblatt.me/chosen-instance-attack/</link>
+      <pubDate>Wed, 04 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/chosen-instance-attack/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://baincapitalcrypto.com/chosen-instance-attack/&#34;&gt;Bain Capital Crypto Insights&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;how-succinct-proofs-leak-information&#34;&gt;How succinct proofs leak information.&lt;/h2&gt;&#xA;&lt;p&gt;What happens when a succinct proof does not have the zero-knowledge property?&#xA;There is a common misconception that &amp;ldquo;succinct proofs are too short to leak information about the witness&amp;rdquo;.&#xA;This is &lt;strong&gt;incorrect&lt;/strong&gt; and in the interest of privacy it is very important that we challenge this belief.&#xA;The &lt;a href=&#34;https://zkhack.dev/zkhackV/puzzleV1.html&#34;&gt;Zeitgeist puzzle at ZK Hack V&lt;/a&gt; was based on the themes discussed here.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>ZODA: An Explainer</title>
+      <link>https://nmohnblatt.me/zoda-explainer/</link>
+      <pubDate>Tue, 03 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/zoda-explainer/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://baincapitalcrypto.com/zoda-explainer/&#34;&gt;Bain Capital Crypto Insights&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;Data availability sampling (DAS) is critical to scaling blockchains while maintaining decentralization [ASB18,HASW23]. In &lt;a href=&#34;https://nmohnblatt.me/sampling-for-proximity-and-availability/&#34;&gt;our previous post&lt;/a&gt;, we informally introduced DAS and showed how to leverage interaction to reduce overhead for a promising construction based on the FRI protocol. Our newest work, ZODA, short for ‘Zero-Overhead Data Availability,’ takes these ideas a step further. In particular, we show that, with a small change, an extended data square construction, such as that used in Celestia, can be turned into a (validity) proof of its own correctness. Importantly, the change incurs negligible additional work for encoders and no incremental communication costs for the network. This post is an informal introduction to the ZODA protocol.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Sampling for Proximity and Availability</title>
+      <link>https://nmohnblatt.me/sampling-for-proximity-and-availability/</link>
+      <pubDate>Fri, 08 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/sampling-for-proximity-and-availability/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://baincapitalcrypto.com/sampling-for-proximity-and-availability/&#34;&gt;Bain Capital Crypto Insights&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;In blockchains, nodes can ensure that the chain is valid without trusting anyone, not even the validators or miners.&#xA;Early blockchain design can achieve this by having each of these nodes download and re-execute all transactions itself.&#xA;The inefficiency of this approach motivated the adoption of fraud and validity proofs.&#xA;While these proofs provide assurances that the underlying state transitions of the blockchain were computed correctly, malicious block producers may still withhold the data required to compute the latest state.&#xA;(In other words, while a node without this data may ensure that every change performed to the state was valid—since the proofs verify—the node may not be able to know what the underlying state &lt;em&gt;actually is&lt;/em&gt;.)&#xA;Such an attack could prevent users from composing valid transactions (&lt;em&gt;e.g.&lt;/em&gt;, to withdraw assets from some pool) or could prevent other nodes from constructing proofs of their own.&#xA;The simplest way to ensure that the data needed to construct the underlying state can be downloaded is, of course, to try and download it.&#xA;This is the approach most current blockchains take.&#xA;The downside of this approach is that, as usage increases, every node must download all the data, which, in turn, puts strain on the network and its available bandwidth.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Paper Speedrun: Protostar</title>
+      <link>https://nmohnblatt.me/speedrun-protostar/</link>
+      <pubDate>Thu, 17 Aug 2023 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/speedrun-protostar/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://geometry.xyz/notebook/paper-speedrun-protostar&#34;&gt;Geometry Notebook&lt;/a&gt;.&lt;/em&gt;&#xA;&lt;em&gt;Note that the ProtoStar paper has received many updates and some of the cross-term optimisations described in this speedrunm may no longer be up to date.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;&lt;strong&gt;Title&lt;/strong&gt;: ProtoStar: Generic Efficient Accumulation/Folding for Special Sound Protocols&lt;br&gt;&#xA;&lt;strong&gt;Authors&lt;/strong&gt;: Benedikt Bünz and Binyi Chen&lt;br&gt;&#xA;&lt;strong&gt;Link&lt;/strong&gt;: &lt;a href=&#34;https://eprint.iacr.org/2023/620&#34;&gt;https://eprint.iacr.org/2023/620&lt;/a&gt;&lt;br&gt;&#xA;&lt;strong&gt;TL;DR&lt;/strong&gt;: ProtoStar presents three results: 1) a generic toolchain to obtain efficient folding schemes from special sound protocols, 2) a simple special sound protocol for Plonkup where the prover does not depend on the size of the lookup table and 3) a non-uniform IVC scheme based on the former results. Their folding scheme follows the same pattern described in Nova/Sangria (relaxation of the equations) but introduces an optimisation to avoid committing to cross-terms: instead of checking $l$ equations of degree $d$, ProtoStar batches them into a single equation of degree $(d+2)$ and $2\sqrt{l}$ equations of degree 2. The cross-terms from the degree-2 equations can be committed to using the Pedersen vector commitment (as in Nova) and those arising from the single high degree check can be committed to using the identity function (the &amp;ldquo;commitments&amp;rdquo; are still short enough and binding!).&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Emulating Witness Encryption with Threshold Cryptography and ZKPs</title>
+      <link>https://nmohnblatt.me/witness-encryption-from-ibe/</link>
+      <pubDate>Fri, 12 May 2023 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/witness-encryption-from-ibe/</guid>
+      <description>&lt;p&gt;This short document outlines how to emulate witness encryption using threshold cryptography - and more specifically, threshold identity-based encryption (IBE). The ideas presented here are heavily inspired by the &lt;code&gt;tlock&lt;/code&gt; construction from &lt;a href=&#34;https://eprint.iacr.org/2023/189&#34;&gt;[GMR23]&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;Disclaimer: I have not done a thorough review of the existing literature, if you are aware of existing constructions that work in the same way please let me know!&lt;/em&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;background&#34;&gt;Background&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Witness Encryption.&lt;/strong&gt; The &lt;em&gt;extractable witness encryption&lt;/em&gt; paradigm is the following: given an instance of some hard problem, one can encrypt a message using the instance such that it may only be decrypted by someone who &lt;em&gt;knows&lt;/em&gt; the problem&amp;rsquo;s solution (the witness).&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Sangria: a Folding Scheme for PLONK</title>
+      <link>https://nmohnblatt.me/sangria/</link>
+      <pubDate>Fri, 17 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/sangria/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://geometry.xyz/notebook/sangria-a-folding-scheme-for-plonk&#34;&gt;Geometry Notebook&lt;/a&gt;&lt;/em&gt;.&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;As shown in Nova &lt;a href=&#34;https://eprint.iacr.org/2021/370&#34;&gt;[KST22]&lt;/a&gt;, incrementally verifiable computation (IVC) can be realised using a folding scheme and a zkSNARK. In this article, we present a folding scheme for a variant of the PLONK arithmetization &lt;a href=&#34;https://eprint.iacr.org/2019/953&#34;&gt;[GWC19]&lt;/a&gt;. We then extend our relaxed PLONK arithmetization to accept custom gates of degree 2 and circuits with higher gate arity. Finally we outline avenues for future work including folding higher degree gates, supporting lookup gates and designing an IOP for the relaxed PLONK arithmetization.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Paper Speedrun: zk-creds</title>
+      <link>https://nmohnblatt.me/speedrun-zkcreds/</link>
+      <pubDate>Wed, 18 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/speedrun-zkcreds/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://geometry.xyz/notebook/paper-speedrun-zkcreds&#34;&gt;Geometry Notebook&lt;/a&gt;&lt;/em&gt;.&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;&lt;strong&gt;Title:&lt;/strong&gt; zk-creds: Flexible Anonymous Credentials from zkSNARKs and Existing Identity Infrastructure&lt;br&gt;&#xA;&lt;strong&gt;Authors:&lt;/strong&gt; Michael Rosenberg, Jacob White, Christina Garman and Ian Miers&lt;br&gt;&#xA;&lt;strong&gt;Links&lt;/strong&gt;: paper &lt;a href=&#34;https://eprint.iacr.org/2022/878&#34;&gt;https://eprint.iacr.org/2022/878&lt;/a&gt; , code &lt;a href=&#34;https://github.com/rozbb/zkcreds-rs&#34;&gt;https://github.com/rozbb/zkcreds-rs&lt;/a&gt;&lt;br&gt;&#xA;&lt;strong&gt;TL;DR&lt;/strong&gt;: zk-creds is an anonymous credentials system. A credential is a Pedersen commitment to attributes. The credential is shown to be valid in ZK and issued by adding it to a public list. A credential can be &amp;ldquo;shown&amp;rdquo; by proving in ZK that the committed values match some access criteria and that the credential is included in the issuance list. Privacy is maintained by blinding proofs. The paper also introduces Merkle forests and a protocol to blind and link Groth16 proofs.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Functional Commitments: ZK under a different lens</title>
+      <link>https://nmohnblatt.me/functional-commitments/</link>
+      <pubDate>Thu, 05 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/functional-commitments/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://geometry.xyz/notebook/functional-commitments-zk-under-a-different-lens&#34;&gt;Geometry Notebook&lt;/a&gt; and relates to an implementation co-written with Andrija Novakovic.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;In ZKP schemes, the typical paradigm is that a programme (or &amp;ldquo;circuit&amp;rdquo;) is publicly known, and a proof is produced to attest to the correct execution of the programme over some (potentially private) inputs. But what if we are working with sensitive, proprietary algorithms? Could we instead prove the execution of a &lt;em&gt;private&lt;/em&gt; programme over public inputs?&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Mental Poker in the Age of SNARKs - Part 2</title>
+      <link>https://nmohnblatt.me/mental-poker-2/</link>
+      <pubDate>Tue, 05 Jul 2022 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/mental-poker-2/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://geometry.xyz/notebook/mental-poker-in-the-age-of-snarks-part-1&#34;&gt;Geometry Notebook&lt;/a&gt;.&lt;/em&gt;&#xA;&lt;em&gt;The work was produced in collaboration with Andrija Novakovic and Kobi Gurkan for Geometry and MatchboxDAO.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;In &lt;a href=&#34;../mental-poker-in-the-age-of-snarks-part-1&#34;&gt;Part 1&lt;/a&gt; of our Mental Poker series we highlighted the challenges of decentralised card games and presented the improved Barnett-Smart protocol as a practical solution. In this second part we take a deep dive into the cryptography that enables this protocol.&lt;/p&gt;&#xA;&lt;p&gt;We will first inspect an &lt;!-- raw HTML omitted --&gt;instantiation of the verifiable $l$-out-of-$l$ threshold masking functions (VTMFs) using El Gamal encryption&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;!-- raw HTML omitted --&gt;. We will also show how repeated applications of these functions achieve the necessary properties for a fair card game. In the second section we cover the zero-knowledge argument for a correct shuffle as presented in &lt;!-- raw HTML omitted --&gt;“Efficient Zero-knowledge Argument for Correctness of a Shuffle”&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;!-- raw HTML omitted --&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Mental Poker in the Age of SNARKs - Part 1</title>
+      <link>https://nmohnblatt.me/mental-poker-1/</link>
+      <pubDate>Tue, 28 Jun 2022 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/mental-poker-1/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://geometry.xyz/notebook/mental-poker-in-the-age-of-snarks-part-1&#34;&gt;Geometry Notebook&lt;/a&gt;.&lt;/em&gt;&#xA;&lt;em&gt;The work was produced in collaboration with Andrija Novakovic and Kobi Gurkan for Geometry and MatchboxDAO.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;&lt;strong&gt;Is it possible to play a classic card game without physical cards, without trusting the participants and without a trusted third party?&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;This problem was first formulated and given the name “&lt;em&gt;Mental Poker&lt;/em&gt;” in 1979 by none other than &lt;!-- raw HTML omitted --&gt;Rivest, Shamir and Adleman&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;!-- raw HTML omitted --&gt;. Below is an extract from the original paper in which they explain the notion of &lt;em&gt;Mental Poker&lt;/em&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>About</title>
+      <link>https://nmohnblatt.me/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/about/</guid>
+      <description>&lt;h1 id=&#34;about&#34;&gt;About&lt;/h1&gt;&#xA;&lt;p&gt;I am a researcher focusing on privacy-enhancing technologies and all the cryptographic tools that enable them.&#xA;My work is mainly centred around proof systems (zero-knowledge or not) and their security.&#xA;I also touch on related topics such as threshold cryptography and MPC.&lt;/p&gt;&#xA;&lt;p&gt;I enjoy writing and producing educational content. Mostly in the form of explainers, technical summaries and whiteboard sessions for all levels of understanding.&#xA;You can find some of these in the &lt;a href=&#34;https://nmohnblatt.me/blog/&#34;&gt;Blog&lt;/a&gt; section, in the &lt;a href=&#34;https://zkjargon.github.io&#34;&gt;ZK Jargon Decoder&lt;/a&gt; or on &lt;a href=&#34;https://zkhack.dev&#34;&gt;ZK Hack&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Now</title>
+      <link>https://nmohnblatt.me/now/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/now/</guid>
+      <description>&lt;h1 id=&#34;now&#34;&gt;Now&lt;/h1&gt;&#xA;&lt;p&gt;&lt;em&gt;Last edited on 22 Dec, 2025&lt;/em&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Currently, I am working as a researcher and auditor at &lt;a href=&#34;https://zksecurity.xyz&#34;&gt;ZKSecurity&lt;/a&gt;.&#xA;I am also a recurring co-host on the &lt;a href=&#34;https://zeroknowledge.fm&#34;&gt;ZeroKnowledge Podcast&lt;/a&gt; and a core contributor to &lt;a href=&#34;https://zkhack.dev&#34;&gt;ZK Hack&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Ongoing projects and topics of interest include:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;data availability sampling from pure-ROM protocols.&lt;/li&gt;&#xA;&lt;li&gt;proofs of proximity.&lt;/li&gt;&#xA;&lt;li&gt;identity systems.&lt;/li&gt;&#xA;&lt;li&gt;learning about lattice-based cryptography.&lt;/li&gt;&#xA;&lt;li&gt;maintaining the &lt;a href=&#34;https://zkjargon.github.io&#34;&gt;ZK Jargon Decoder&lt;/a&gt; 💟.&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+    <item>
+      <title>Research</title>
+      <link>https://nmohnblatt.me/research/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/research/</guid>
+      <description>&lt;h1 id=&#34;research--projects&#34;&gt;Research &amp;amp; Projects&lt;/h1&gt;&#xA;&lt;p&gt;A non-exhaustive, somewhat-ordered list of papers, projects and talks that I have given.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Papers&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;[GMW25] &lt;a href=&#34;https://eprint.iacr.org/2025/1993&#34;&gt;A Simplified Round-by-round Soundness Proof of FRI&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;li&gt;[CSPMLK25] &lt;a href=&#34;https://arxiv.org/abs/2509.17126&#34;&gt;Unaligned Incentives: Pricing Attacks Against Blockchain Rollups&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;li&gt;[MMZ25] &lt;a href=&#34;https://eprint.iacr.org/2025/1663&#34;&gt;IVC in the Open-and-sign Random Oracle Model&lt;/a&gt;, Asiacrypt &#39;25.&lt;/li&gt;&#xA;&lt;li&gt;[EMA24] &lt;a href=&#34;https://eprint.iacr.org/2025/34&#34;&gt;ZODA: Zero-Overhead Data Availability&lt;/a&gt;, now deployed and enabling 1 Tb/s blockspace as part of Celestia&amp;rsquo;s &lt;a href=&#34;https://blog.celestia.org/introducing-fibre-1tb-s-of-blockspace/&#34;&gt;Fibre&lt;/a&gt; upgrade.&lt;/li&gt;&#xA;&lt;li&gt;[CMKL24] &lt;a href=&#34;https://arxiv.org/abs/2410.13277&#34;&gt;Pricing Factors and TFMs for Scalability-Focused ZK-Rollups&lt;/a&gt;, MARBLE &#39;25.&lt;/li&gt;&#xA;&lt;li&gt;[MSGJ24] &lt;a href=&#34;https://eprint.iacr.org/2023/1218&#34;&gt;Arke: Scalable and Byzantine Fault Tolerant Privacy-Preserving Contact Discovery&lt;/a&gt;, ACM CCS &#39;24.&lt;/li&gt;&#xA;&lt;li&gt;[Moh23] &lt;a href=&#34;https://github.com/geometryxyz/technical_notes/blob/main/sangria_folding_plonk.pdf&#34;&gt;Sangria: a Folding Scheme for PLONK&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Projects&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

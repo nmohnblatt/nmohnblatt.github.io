@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://nmohnblatt.me/images/favicon.png" />
+<title>Paper Speedrun: Protostar | Nicolas Mohnblatt</title>
+<meta name="title" content="Paper Speedrun: Protostar" />
+<meta name="description" content="This article is cross-posted from the Geometry Notebook.
+Note that the ProtoStar paper has received many updates and some of the cross-term optimisations described in this speedrunm may no longer be up to date.
+
+
+Title: ProtoStar: Generic Efficient Accumulation/Folding for Special Sound Protocols
+Authors: Benedikt Bünz and Binyi Chen
+Link: https://eprint.iacr.org/2023/620
+TL;DR: ProtoStar presents three results: 1) a generic toolchain to obtain efficient folding schemes from special sound protocols, 2) a simple special sound protocol for Plonkup where the prover does not depend on the size of the lookup table and 3) a non-uniform IVC scheme based on the former results. Their folding scheme follows the same pattern described in Nova/Sangria (relaxation of the equations) but introduces an optimisation to avoid committing to cross-terms: instead of checking $l$ equations of degree $d$, ProtoStar batches them into a single equation of degree $(d&#43;2)$ and $2\sqrt{l}$ equations of degree 2. The cross-terms from the degree-2 equations can be committed to using the Pedersen vector commitment (as in Nova) and those arising from the single high degree check can be committed to using the identity function (the &ldquo;commitments&rdquo; are still short enough and binding!)." />
+<meta name="keywords" content="Geometry Notebook,Speedrun,Folding," />
+
+
+<meta property="og:url" content="https://nmohnblatt.me/speedrun-protostar/">
+  <meta property="og:site_name" content="Nicolas Mohnblatt">
+  <meta property="og:title" content="Paper Speedrun: Protostar">
+  <meta property="og:description" content="This article is cross-posted from the Geometry Notebook. Note that the ProtoStar paper has received many updates and some of the cross-term optimisations described in this speedrunm may no longer be up to date.
+Title: ProtoStar: Generic Efficient Accumulation/Folding for Special Sound Protocols
+Authors: Benedikt Bünz and Binyi Chen
+Link: https://eprint.iacr.org/2023/620
+TL;DR: ProtoStar presents three results: 1) a generic toolchain to obtain efficient folding schemes from special sound protocols, 2) a simple special sound protocol for Plonkup where the prover does not depend on the size of the lookup table and 3) a non-uniform IVC scheme based on the former results. Their folding scheme follows the same pattern described in Nova/Sangria (relaxation of the equations) but introduces an optimisation to avoid committing to cross-terms: instead of checking $l$ equations of degree $d$, ProtoStar batches them into a single equation of degree $(d&#43;2)$ and $2\sqrt{l}$ equations of degree 2. The cross-terms from the degree-2 equations can be committed to using the Pedersen vector commitment (as in Nova) and those arising from the single high degree check can be committed to using the identity function (the “commitments” are still short enough and binding!).">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2023-08-17T00:00:00+00:00">
+    <meta property="article:modified_time" content="2023-08-17T00:00:00+00:00">
+    <meta property="article:tag" content="Geometry Notebook">
+    <meta property="article:tag" content="Speedrun">
+    <meta property="article:tag" content="Folding">
+    <meta property="og:image" content="https://nmohnblatt.me/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://nmohnblatt.me/images/share.png">
+  <meta name="twitter:title" content="Paper Speedrun: Protostar">
+  <meta name="twitter:description" content="This article is cross-posted from the Geometry Notebook. Note that the ProtoStar paper has received many updates and some of the cross-term optimisations described in this speedrunm may no longer be up to date.
+Title: ProtoStar: Generic Efficient Accumulation/Folding for Special Sound Protocols
+Authors: Benedikt Bünz and Binyi Chen
+Link: https://eprint.iacr.org/2023/620
+TL;DR: ProtoStar presents three results: 1) a generic toolchain to obtain efficient folding schemes from special sound protocols, 2) a simple special sound protocol for Plonkup where the prover does not depend on the size of the lookup table and 3) a non-uniform IVC scheme based on the former results. Their folding scheme follows the same pattern described in Nova/Sangria (relaxation of the equations) but introduces an optimisation to avoid committing to cross-terms: instead of checking $l$ equations of degree $d$, ProtoStar batches them into a single equation of degree $(d&#43;2)$ and $2\sqrt{l}$ equations of degree 2. The cross-terms from the degree-2 equations can be committed to using the Pedersen vector commitment (as in Nova) and those arising from the single high degree check can be committed to using the identity function (the “commitments” are still short enough and binding!).">
+
+
+
+
+  <meta itemprop="name" content="Paper Speedrun: Protostar">
+  <meta itemprop="description" content="This article is cross-posted from the Geometry Notebook. Note that the ProtoStar paper has received many updates and some of the cross-term optimisations described in this speedrunm may no longer be up to date.
+Title: ProtoStar: Generic Efficient Accumulation/Folding for Special Sound Protocols
+Authors: Benedikt Bünz and Binyi Chen
+Link: https://eprint.iacr.org/2023/620
+TL;DR: ProtoStar presents three results: 1) a generic toolchain to obtain efficient folding schemes from special sound protocols, 2) a simple special sound protocol for Plonkup where the prover does not depend on the size of the lookup table and 3) a non-uniform IVC scheme based on the former results. Their folding scheme follows the same pattern described in Nova/Sangria (relaxation of the equations) but introduces an optimisation to avoid committing to cross-terms: instead of checking $l$ equations of degree $d$, ProtoStar batches them into a single equation of degree $(d&#43;2)$ and $2\sqrt{l}$ equations of degree 2. The cross-terms from the degree-2 equations can be committed to using the Pedersen vector commitment (as in Nova) and those arising from the single high degree check can be committed to using the identity function (the “commitments” are still short enough and binding!).">
+  <meta itemprop="datePublished" content="2023-08-17T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2023-08-17T00:00:00+00:00">
+  <meta itemprop="wordCount" content="3210">
+  <meta itemprop="image" content="https://nmohnblatt.me/images/share.png">
+  <meta itemprop="keywords" content="Geometry Notebook,Speedrun,Folding">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  
+
+<style>
+  body {
+    font-family: Verdana, sans-serif;
+    font-size: 15px;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #FFFCF0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #100F0F;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #100F0F;
+  }
+
+  a {
+    color: #24837B;
+     
+    text-decoration: none;
+  }
+
+  a.underline {
+    text-decoration: underline; 
+  }
+
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a.nohover:hover {
+    text-decoration: none;
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  a.title:hover{
+    text-decoration: none;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+   
+
+  td {
+    border-top: 1px solid #E6E4D9;
+  } 
+
+  img {
+    max-width: 100%;
+  }
+
+  figure {
+    margin-inline-start: 20px;
+    margin-inline-end: 20px;
+  }
+
+  figcaption {
+    color: #B7B5AC;
+    font-size: small;
+    text-align: center;
+  }
+
+  figcaption p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #E6E4D9;
+    color: #878580;
+  }
+
+  pre code {
+    color: #6F6E69;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 2px solid #24837B;
+    color: #100F0F;
+    padding-left: 15px;
+    margin-inline-start: 20px;
+     
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #17504b;
+  }
+
+   
+
+</style>
+
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']],     
+      tags: 'ams'
+    }
+  };
+</script>
+  
+
+  
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>Nicolas Mohnblatt</h2>
+</a>
+<nav><a href="/" class="nohover">Home</a>
+
+<a href="/about/" class="nohover">About</a>
+
+<a href="/now/" class="nohover">Now</a>
+
+<a href="/research/" class="nohover">Research</a>
+
+
+<a href="/blog" class="nohover">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>Paper Speedrun: Protostar</h1>
+<p>
+  <i>
+    
+  </i>
+</p>
+<p>
+  <i>
+    <time datetime='2023-08-17' pubdate>
+      17 Aug, 2023
+    </time>
+  </i>
+</p>
+
+<content>
+  <p><em>This article is cross-posted from the <a href="https://geometry.xyz/notebook/paper-speedrun-protostar">Geometry Notebook</a>.</em>
+<em>Note that the ProtoStar paper has received many updates and some of the cross-term optimisations described in this speedrunm may no longer be up to date.</em></p>
+<hr>
+<blockquote>
+<p><strong>Title</strong>: ProtoStar: Generic Efficient Accumulation/Folding for Special Sound Protocols<br>
+<strong>Authors</strong>: Benedikt Bünz and Binyi Chen<br>
+<strong>Link</strong>: <a href="https://eprint.iacr.org/2023/620">https://eprint.iacr.org/2023/620</a><br>
+<strong>TL;DR</strong>: ProtoStar presents three results: 1) a generic toolchain to obtain efficient folding schemes from special sound protocols, 2) a simple special sound protocol for Plonkup where the prover does not depend on the size of the lookup table and 3) a non-uniform IVC scheme based on the former results. Their folding scheme follows the same pattern described in Nova/Sangria (relaxation of the equations) but introduces an optimisation to avoid committing to cross-terms: instead of checking $l$ equations of degree $d$, ProtoStar batches them into a single equation of degree $(d+2)$ and $2\sqrt{l}$ equations of degree 2. The cross-terms from the degree-2 equations can be committed to using the Pedersen vector commitment (as in Nova) and those arising from the single high degree check can be committed to using the identity function (the &ldquo;commitments&rdquo; are still short enough and binding!).</p>
+</blockquote>
+<p>ProtoStar is one of the latest instalments in a line of work concerned with constructing efficient IVC schemes (incrementally verifiable computation). It presents three important results:</p>
+<ol>
+<li>folding schemes for generic interactive protocols where the verifier is expressed as a series of equations (more formally, an <em>algebraic</em> check). These folding schemes are based on the techniques of Nova <a href="https://eprint.iacr.org/2021/370">[KST22]</a> / Sangria <a href="https://github.com/geometryresearch/technical_notes/blob/main/sangria_folding_plonk.pdf">[Moh23]</a> and introduce optimisations to avoid expensive commitments to cross-terms, especially when dealing with high degree gates.</li>
+<li>a 3-move interactive protocol for Plonkup relations (custom gates PLONK with lookups).</li>
+<li>a non-uniform IVC scheme (like SuperNova <a href="https://eprint.iacr.org/2022/1758">[KS22]</a>) for Plonkup circuits.</li>
+</ol>
+<p>We cover each of these results separately in the following sections.</p>
+<h2 id="result-1-folding-for-special-sound-protocols">Result 1: Folding for Special Sound Protocols</h2>
+<p>We start with the central result of the paper: how do we build a folding scheme for <em>any</em> &ldquo;secure&rdquo; interactive protocol?</p>
+<p>Before we cover ProtoStar&rsquo;s answer, we have a few notions to unpack:</p>
+<ul>
+<li>what do we mean by &ldquo;folding scheme&rdquo;?</li>
+<li>what notion of security are we using?</li>
+</ul>
+<h3 id="folding--accumulation-schemes">Folding / Accumulation Schemes</h3>
+<p>Recently, a lot of attention has been focused on constructing efficient schemes that realise <em>incrementally verifiable computation</em> (IVC). These parallel attempts have unfortunately led to the appearance of many formal definitions for variants of a generic class of protocols. Readers may already have come across the notions of nested amortisation <a href="https://eprint.iacr.org/2019/1021">[BGH19]</a>, aggregation <a href="https://eprint.iacr.org/2020/1536">[BDFG20]</a>, (atomic) accumulation <a href="https://eprint.iacr.org/2020/499">[BCMS20]</a>, split accumulation <a href="https://eprint.iacr.org/2020/1618">[BCLMS21]</a>, folding <a href="https://eprint.iacr.org/2021/370">[KST22]</a> and/or multi-folding <a href="https://eprint.iacr.org/2023/573">[KS23]</a>. Here, <strong>we use the terms &ldquo;folding scheme&rdquo; to describe any scheme from this group of protocols</strong>.</p>
+<p>The core idea of a folding scheme is to &ldquo;fold&rdquo; (combine, accumulate, compress, aggregate, etc&hellip;) instances of a problem that we are concerned with - the <em>predicate</em> - into a single problem - the <em>accumulator</em>. <strong>Often, the predicate will be the circuit satisfiability problem</strong>: given an arithmetic circuit and a partial wire assignments (the instance), the prover must demonstrate knowledge of a complete wire assignment (the witness) that would make the circuit evaluate to $0$ (or $1$ in some definitions). Choosing a corresponding accumulator is one of the differentiating features between folding schemes. In earlier schemes, the accumulator was the opening proof to a polynomial commitment. Later schemes such as Nova <a href="https://eprint.iacr.org/2021/370">[KST22]</a> use a &ldquo;relaxed&rdquo; variant of R1CS (a particular representation of the circuit satisfiability problem).</p>
+<p>Folding schemes are formalised as interactive protocols between a Prover and a Verifier. The Prover is given an instance-witness pair from the predicate relation, $(x, w) \in \mathcal{R}$, and an instance-witness pair from the accumulator relation $(u, v) \in \mathcal{S}$. The verifier is only given the instances $x$ and $u$. At the end of the protocol, the prover outputs an updated accumulator $(u&rsquo;, v&rsquo;) \in \mathcal{S}$, and the verifier outputs the updated accumulator instance $u&rsquo;$. The folding is performed such that:</p>
+<ul>
+<li>any party that knew the witnesses $w$ and $v$ can easily derive the witness $v&rsquo;$. (Perfect completeness).</li>
+<li>any party that knows a valid witness for $u&rsquo;$ must know (with overwhelming probability) valid witnesses for $x$ and $u$. (Knowledge soundness).</li>
+</ul>
+<p>Importantly, it should be cheaper to fold instances and verify the resulting accumulator than simply verifying all the original instances.</p>
+<h3 id="special-soundness">Special Soundness</h3>
+<p>Now for the second key word in the paper&rsquo;s title: &ldquo;special sound protocols&rdquo;. <strong>Special soundness</strong> is a property of <strong>interactive</strong> protocols. It states that given a tree of accepting transcripts (we will see what that is in a second), there exists an algorithm that can recover a valid witness.</p>
+<p>A <strong>tree of transcripts</strong> is a tree in which each node is a prover message and each edge is verifier challenge. It allows to track what the prover would have sent given different challenges from the verifier. In that sense, the tree is like a multiverse of provers: at each step of the protocol, we branch into different universes where each universe has a different verifier challenge. Looking at the complete tree, each path from the root to one leaf represents the prover-verifier interaction in one of these related universes. Given this multiverse view, one should be able to &ldquo;extract&rdquo; the witness that the prover knows.</p>
+<blockquote>
+<p>Note that in the real world we do not have this multiverse view, so special soundness does not introduce a vulnerability in your protocol.</p>
+</blockquote>
+<p><a href="https://eprint.iacr.org/2021/1377">[AFK22]</a> present an important result for special sound protocols: applying the Fiat-Shamir transform to a special sound protocol produces a non-interactive argument of knowledge (NARK) that satisfies the knowledge soundness property. In other words, when we replace the verifier challenges by random oracle calls (Fiat-Shamir), there exists a generic method to obtain this tree of transcript in acceptable time; therefore the resulting NARK is secure.</p>
+<blockquote>
+<p>Note that this method requires to &ldquo;rewind&rdquo; (read &ldquo;debug&rdquo;) the prover and therefore cannot be applied to a proof once it has been produced. Once again, no real-world attacks - phew.</p>
+</blockquote>
+<h3 id="the-folding-recipe">The Folding Recipe</h3>
+<p>We are finally ready to describe ProtoStar&rsquo;s generic folding scheme. ProtoStar considers special sound protocols with algebraic verifiers. These are protocols where the verifier checks that all of $l$ equations evaluate to $0$. The inputs to these equations are the public inputs, the prover&rsquo;s messages and the verifier&rsquo;s random challenge.</p>
+<p>The recipe (or toolchain) goes as follows:</p>
+<ol>
+<li>Define a suitable accumulator (see &ldquo;Commit-and-Open&rdquo; and &ldquo;Cross-term Compression&rdquo; below).</li>
+<li>Compile the special sound protocol to a NARK using the Fiat-Shamir transform.</li>
+<li>Apply Nova/Sangria-style relaxation and random linear combinations to define a folding scheme.</li>
+</ol>
+<p>Below, we show a partial diagram of this toolchain:<br>
+<a href="./partial-toolchain.png">
+
+
+<figure style="text-align: center;"><img src="/speedrun-protostar/partial-toolchain_hu_6648bb36ca0a7463.webp"
+  alt="Partial toolchain for the ProtoStar Folding Scheme."><figcaption>
+      <p>Partial toolchain for the ProtoStar Folding Scheme.</p>
+    </figcaption>
+</figure></a></p>
+<p><strong>Commit-and-Open.</strong> To define an efficient accumulator, ProtoStar uses an additively homomorphic commitment scheme. Indeed, as explained in <a href="https://eprint.iacr.org/2020/1618">[BCLMS21]</a>, accumulators are particularly efficient when they can be broken into a short instance part and a longer witness part. Therefore, ProtoStar applies what they call the &ldquo;Commit-and-Open&rdquo; transform: rather than sending messages, the prover sends <em>commitments</em> to the messages prescribed by the protocol. In the last step, the prover sends all the messages in clear. Although this transformation introduces redundancy, it allows to create an accumulator where the instance is the collection of all commitments (short) and the witness is the collection of all messages (longer).</p>
+<p><strong>Accumulation.</strong> To define a folding scheme, ProtoStar applies the same relaxation technique described in Nova <a href="https://eprint.iacr.org/2021/370">[KST22]</a> and generalised by Sangria <a href="https://github.com/geometryresearch/technical_notes/blob/main/sangria_folding_plonk.pdf">[Moh23]</a>. Starting from the verifier equations, we introduce a new variable $u$ and use it to make each constraint into a homogenous function. Then, rather than checking that the $i$-th function evaluates to $0$, the verifier checks that it evaluates to some expected error $e_i$. For example:</p>
+<p>$$
+\begin{equation*}
+\begin{array}{c c c}
+\text{Original equation} &amp; &amp; \text{Relaxed equation} \\
+f(X) = 5X + 3 X^2 = 0 &amp;\rightarrow  &amp;f&rsquo;(X, {\color{blue}{u}}) = 5{\color{blue}{u}}X + 3 X^2 = {\color{blue}{e_f}} \\
+g(X, Y) = X^3 + 5X + 9 - Y^2 = 0 &amp;\rightarrow &amp;g&rsquo;(X, Y, {\color{blue}{u}}) = X^3 + 5{\color{blue}{u^2}}X + 9{\color{blue}{u^3}} - {\color{blue}{u}}Y^2 = {\color{blue}{e_g}}
+\end{array}
+\end{equation*}
+$$</p>
+<p>Unfortunately, the construction described so far runs into the same efficiency issue we came across in Sangria: a degree $d$ equation will produce $(d-1)$ cross-terms. Consider the functions $h_2(X) = X^2$ as a simple example of a degree-2 homogeneous function. Evaluating $h_2$ at some value $a+b$ yields 1 cross-term:
+$$
+\begin{equation*}
+h_2(a+b) = a^2 + 2ab + b^2 = h_2(a) + {\color{red}{2ab}} + h_2(b)
+\end{equation*}
+$$
+Similarly, for a degree-3 function $h_3(X) = X^3$, we would get 2 cross-terms:
+$$
+\begin{equation*}
+h_3(a+b) =  a^3 + 3a^2b + 3b^2a + b^3 = h_3(a) + {\color{red}{3a^2b + 3b^2a}} + h_3(b)
+\end{equation*}
+$$</p>
+<p>As shown in the diagram below, accounting for $l$ equations of degree $d$, the relaxation method would produce $(d-1)$ cross-term vectors each of length $l$. Committing to these vectors would require the prover to perform $(d-1)$ MSMs (multi-scalar multiplications) of length $l$. This would constitute a clear performance bottleneck for the folding scheme.</p>
+<p><a href="./sangria-fold.png">
+
+
+<figure style="text-align: center;"><img src="/speedrun-protostar/sangria-fold_hu_42b383d3a41ef685.webp"
+  alt="Sangria-style folding: each degree $d$ equation produces $d-1$ cross-terms. Committing to these is the performance bottleneck."><figcaption>
+      <p>Sangria-style folding: each degree $d$ equation produces $d-1$ cross-terms. Committing to these is the performance bottleneck.</p>
+    </figcaption>
+</figure></a></p>
+<h4 id="cross-term-compression">Cross-term Compression</h4>
+<p>ProtoStar remediates this by introducing a 0th stage in the toolchain (see section 3.5 of the paper). Using an additional round of interaction, they modify the original protocol such that instead of checking that $l$ equations all evaluate to $0$, they run a <strong>single batch check</strong> on these equations and a series of <strong>low degree &ldquo;nothing-up-my-sleeve&rdquo; checks</strong> to convince the verifier that the batching was performed correctly. The end-to-end folding toolchain is shown below:</p>
+<p><a href="./full-toolchain.png">
+
+
+<figure style="text-align: center;"><img src="/speedrun-protostar/full-toolchain_hu_501cd9fcb2027f70.webp"
+  alt="Full ProtoStar toolchain for generic folding, including cross-term optimizations."><figcaption>
+      <p>Full ProtoStar toolchain for generic folding, including cross-term optimizations.</p>
+    </figcaption>
+</figure></a></p>
+<p><strong>Random Linear Combination.</strong> The classic way to batch $l$ zero checks into one is to take a random linear combination of the values being checked. Omitting the arguments, let&rsquo;s denote $v_1(\cdot), \dots, v_l(\cdot)$ the $l$ original verifier equations and $\beta_1, \dots, \beta_{l-1}$ the random batching coefficients. The batch check $v_{batch}(\cdot, \beta_1, \dots, \beta_{l-1})$ can be expressed as:
+$$
+v_{batch}(\cdot, \beta_1, \dots, \beta_l) = v_1(\cdot) + \beta_1, v_2(\cdot) + \beta_2 , v_3(\cdot) + \dots + \beta_{l-1} , v_l(\cdot)
+$$</p>
+<p>Notice that if all of the $v_i$ were of degree $d$, then $v_{batch}(\cdot, \beta_1, \dots, \beta_l)$ is of degree $d+1$.</p>
+<p><strong>Attempt 1.</strong> Rather than requiring $(l-1)$ random challenges from the verifier, the prover can take powers of a single random challenge $\mathsf{chal}$, i.e. $\beta_i = \mathsf{chal}^i$. From one challenge, the prover has artificially produced more challenges (!). These artificial challenges need to be checked by the verifier to ensure that the prover did not choose them in an advantageous manner. Therefore, the verifier also needs to check that $\beta_1 = \mathsf{chal}$ and $\beta_{i+1} = \beta_i * \beta_1$ (degree 1 and 2 respectively). These are the &ldquo;nothing-up-my-sleeve&rdquo; checks mentioned earlier!</p>
+<p><strong>Attempt 2.</strong> The method described above would require the prover to send a message containing all $(l-1)$ artificial challenges. A better trade-off can be obtained by getting the prover to produce two chains of challenges $\beta_1, \dots, \beta_{\sqrt{l} - 1}$ and $\gamma_1, \dots, \gamma_{\sqrt{l} - 1}$ as shown below:
+$$
+\begin{align*}
+&amp;\beta_1 = \mathsf{chal}, ; \beta_2 = \mathsf{chal}^2, ; \dots, ; \beta_{\sqrt{l} - 1} = \mathsf{chal}^{\sqrt{l} - 1} \\
+&amp;\gamma_1 = \mathsf{chal}^{\sqrt{l}}, ; \gamma_2 = \mathsf{chal}^{2\sqrt{l}}, ; \dots, ; \gamma_{\sqrt{l} - 1} = \mathsf{chal}^{(\sqrt{l} - 1)\sqrt{l}} \\
+\end{align*}
+$$
+Concretely, for $l=16$, the $\beta$ values would be $(\beta_1 = \mathsf{chal}, \beta_2 = \mathsf{chal}^2, \beta_3 = \mathsf{chal}^3)$ and the $\gamma$ value would be $(\gamma_1 = \mathsf{chal}^4, \gamma_2 = \mathsf{chal}^8, \gamma_3 = \mathsf{chal}^{12})$. Importantly, any power of $\mathsf{chal}$ can be computed from a single multiplication between a $\beta_i$ and a $\gamma_j$ value, e.g. $\mathsf{chal}^{10} = \beta_2 \cdot \gamma_2$. Therefore, the verifier can still perform the nothing-up-my-sleeve checks using only degree-1 and degree-2 equations. The multiplication between $\beta_i$ and $\gamma_j$ values will also arise in the batch check equation to construct the batching coefficient, therefore raising its degree to $(d+2)$.</p>
+<p>At this point, the reader may be wondering whether this whole process has been counter-productive. Indeed, the verifier now has to relax and accumulate an equation of degree $d+2$. ProtoStar&rsquo;s idea is that there is only one equation of such degree and the total number of cross-terms has been reduced: $d+1$ cross-terms for the batch check, and $1$ cross-term for each of the $2\sqrt l$ nothing-up-my-sleeve checks.</p>
+<p>Furthermore, the cost of committing to the cross-terms can also be reduced. Rather than using a Pedersen commitment for all the cross-terms, ProtoStar uses Pedersen for the cross-terms that arise from equations of degree 2 (like Nova) but <strong>use the identity function as a trivial commitment</strong> for the equation of high degree. The resulting costs and proof size are summarised in the diagram and table below.</p>
+<p><a href="./batched.png">
+
+
+<figure style="text-align: center;"><img src="/speedrun-protostar/batched_hu_1e1715d7154abbfe.webp"
+  alt="The batching of equation leads to a batching of cross-terms (!). Using the identity function as a trivial commitment removes the bottleneck."><figcaption>
+      <p>The batching of equation leads to a batching of cross-terms (!). Using the identity function as a trivial commitment removes the bottleneck.</p>
+    </figcaption>
+</figure></a></p>
+<table>
+  <thead>
+      <tr>
+          <th></th>
+          <th style="text-align: center">Before compression</th>
+          <th style="text-align: center">After compression</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Number of equations</td>
+          <td style="text-align: center">$l$</td>
+          <td style="text-align: center">$1$ (the batch check) $+$ $2\sqrt{l}$ (the nothing-up-my-sleeve checks)</td>
+      </tr>
+      <tr>
+          <td>Degrees of equations</td>
+          <td style="text-align: center">$d$</td>
+          <td style="text-align: center">$d +2$ (one equation), $2$ or less ($2\sqrt{l}$ equations)</td>
+      </tr>
+      <tr>
+          <td>Number of cross-terms (in $\mathbb{F}$ elements)</td>
+          <td style="text-align: center">$l*(d-1)$</td>
+          <td style="text-align: center">$d+1 + 2\sqrt{l}$</td>
+      </tr>
+      <tr>
+          <td>Cross-term commitment cost</td>
+          <td style="text-align: center">$(d-1)$ MSMs of length $l$</td>
+          <td style="text-align: center">$1$ MSM of length $2\sqrt{l}$</td>
+      </tr>
+      <tr>
+          <td>Cross-term commitment size</td>
+          <td style="text-align: center">$(d-1)$ $\mathbb{G}$ elements</td>
+          <td style="text-align: center">$(d+1)$ $\mathbb{F}$ elements and $1$ $\mathbb{G}$ element</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="result-2-special-sound-protocol-for-plonkup-relations">Result 2: Special-Sound Protocol for Plonkup Relations</h2>
+<p>Having established the above toolchain for efficient folding schemes, the authors proceed to describe <em>special-sound protocols with algebraic verifiers</em> for Plonkup relations (high degree custom gates, copy constraints and lookup tables). The authors are not concerned with achieving succinctness or zero-knowledge: this can be achieved at a later stage, as done in Nova <a href="https://eprint.iacr.org/2021/370">[KST22]</a>.</p>
+<h3 id="gate-and-copy-constraints">Gate and Copy Constraints</h3>
+<p>The protocols for proving the gate equation and the copy constraints are trivial: the prover sends a claimed witness and the verifier checks the corresponding equation(s).</p>
+<h3 id="lookup-arguments">Lookup Arguments</h3>
+<p>To prove lookup relations, ProtoStar uses the &ldquo;set inclusion&rdquo; lemma from <a href="https://eprint.iacr.org/2022/1530">[Hab22]</a> (Lemma 5): the elements of a witness vector $\mathbf{w} \in \mathbf{F}^l$ all appear in the &ldquo;table&rdquo; $\mathbf{t} \in \mathbf{F}^T$ <em>if and only if</em> there exists a vector $\mathbf{m} \in \mathbf{F}^T$ of <em>multiplicities</em> such that
+$$
+\sum_{i=1}^l \frac{1}{\mathbf{w}<em>i + X} = \sum</em>{i=1}^T \mathbf{m}_i \cdot \frac{1}{\mathbf{t}_i + X}
+$$</p>
+<p>The vector $\mathbf{m}$ provides a <em>count</em> of how many times each element of $\mathbf{t}$ is present in $\mathbf{w}$, as made explicit by the concrete example below:</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">Witness $\mathbf{w}$</th>
+          <th></th>
+          <th style="text-align: center">Table $\mathbf{t}$</th>
+          <th style="text-align: center">Multiplicities $\mathbf{m}$</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">2</td>
+          <td></td>
+          <td style="text-align: center">1</td>
+          <td style="text-align: center">0</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">2</td>
+          <td></td>
+          <td style="text-align: center">2</td>
+          <td style="text-align: center"><strong>2</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: center">6</td>
+          <td></td>
+          <td style="text-align: center">3</td>
+          <td style="text-align: center">0</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td></td>
+          <td style="text-align: center">4</td>
+          <td style="text-align: center">0</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td></td>
+          <td style="text-align: center">5</td>
+          <td style="text-align: center">0</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td></td>
+          <td style="text-align: center">6</td>
+          <td style="text-align: center"><strong>1</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td></td>
+          <td style="text-align: center">7</td>
+          <td style="text-align: center">0</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td></td>
+          <td style="text-align: center">8</td>
+          <td style="text-align: center">0</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td></td>
+          <td style="text-align: center">9</td>
+          <td style="text-align: center">0</td>
+      </tr>
+  </tbody>
+</table>
+<p>To get intuition as to why the lemma holds, consider the LHS and RHS of the equation: the LHS creates a &ldquo;target&rdquo; sum of ratios of the form $\frac{1}{\mathbf{w}_i + X}$; the RHS has access to all the possible ratios built from the table (these are the $\frac{1}{\mathbf{t}_i + X}$) and must use the vector $\mathbf{m}$ to pick which ratios are required to reach the target.</p>
+<p>The lemma&rsquo;s equation can be checked by evaluating both sums at the same randomly chosen point (Schwartz-Zippel lemma) as done by the following protocol:</p>
+<ol>
+<li>the prover sends all terms that are required to construct the ratios, effectively sending $\mathbf{w}$ and $\mathbf{m}$. ($\mathbf{t}$ is public).</li>
+<li>the verifier sends a random challenge $r$.</li>
+<li>the prover computes and sends all the $\frac{1}{\mathbf{w}_i + r}$ and $\frac{\mathbf{m}_i}{\mathbf{t}_i + r}$ ratios. The verifier checks the well-formation of these ratios and the equality of the sums.</li>
+</ol>
+<p><strong>Efficiency.</strong> The protocol is highly efficient:</p>
+<ul>
+<li>the prover&rsquo;s work and messages do not depend on the size of the table. This is because as highlighted by our example, the vector $\mathbf{m}$ is sparse (most of its elements are $0$). Similarly, most of the $\frac{\mathbf{m}_i}{\mathbf{t}_i + r}$ ratios will be $0$. On the other hand, the accumulated $\mathbf{m}$ vector will not be sparse. However this specific vector can be cached, with updates only affecting a low number of entries (as the incoming $\mathbf{m}$ is sparse).</li>
+<li>the verifier only checks degree-$2$ equations (or $3$ if we need <em>perfect</em> completeness).</li>
+<li>the accumulation work is also independent of the table assuming that $\mathbf{m}$ is sparse.</li>
+</ul>
+<p><strong>Lookups (vector-valued).</strong> In practice, we are interested in performing lookups for vector values rather than single field elements as in the protocol above. Vector-valued lookups allow to perform efficient range checks or efficient bit operations.</p>
+<p>The standard technique is to collapse the columns of the vector-value into a single value by performing a weighted sum across columns with verifier challenges. ProtoStar is no exception. As in the &ldquo;cross-term compression&rdquo; section, rather than using $c-1$ verifier challenges, the prover can compute powers of a single challenge. This requires sending an additional message containing all $c-1$ powers of the challenge, and raises the degree of the verifier checks from $2$ as above, to $3$.</p>
+<h3 id="plonkup">Plonkup</h3>
+<p>Bringing this all together in a single protocol for Plonkup relations is simple: the prover only sends one witness and the verifier performs the checks (and subsequent interactive rounds) from all three protocols described above on this single witness.</p>
+<p>Combining results 1 and 2, one can now build an IVC scheme comparable to Nova without the final &ldquo;compression&rdquo; SNARK. This scheme however supports circuits with high degree gates (at a low accumulation cost) and lookup tables.</p>
+<h2 id="result-3-non-uniform-ivc-for-plonkup-circuits">Result 3: Non-uniform IVC for Plonkup Circuits</h2>
+<p>Non-uniform IVC (NIVC) is introduced in SuperNova <a href="https://eprint.iacr.org/2022/1758">[KS22]</a> and described incrementally verifiable computations where each step of the computation executes one of many circuits. This is in contrast to classical (or uniform) IVC, where the same circuit is applied at every step.</p>
+<p>ProtoStar devise a NIVC scheme by describing a special sound protocol for non-uniform Plonkup relations. This protocol allows the verifier to check different sets of equations depending on the current state of the program counter (a variable included in the public inputs). This program counter acts as a selector for which verifier equations need to be used.</p>
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>Thank you to Kobi Gurkan, Ying Tong Lai and Tom Walton-Pocock for their thorough review and helpful comments.</p>
+<h2 id="references">References</h2>
+<p><a href="https://eprint.iacr.org/2021/1377">[AFK22]</a> Attema, Thomas, Serge Fehr, and Michael Klooß. &ldquo;Fiat-shamir transformation of multi-round interactive proofs.&rdquo; Theory of Cryptography: 20th International Conference, TCC 2022, Chicago, IL, USA, November 7–10, 2022, Proceedings, Part I. Cham: Springer Nature Switzerland, 2022.</p>
+<p><a href="https://eprint.iacr.org/2023/620">[BC23]</a> Bünz, Benedikt, and Binyi Chen. &ldquo;ProtoStar: Generic Efficient Accumulation/Folding for Special Sound Protocols.&rdquo; Cryptology ePrint Archive (2023).</p>
+<p><a href="https://eprint.iacr.org/2020/1618">[BCLMS21]</a> Bünz, Benedikt, Alessandro Chiesa, William Lin, Pratyush Mishra, and Nicholas Spooner. &ldquo;Proof-carrying data without succinct arguments.&rdquo; In Advances in Cryptology–CRYPTO 2021: 41st Annual International Cryptology Conference, CRYPTO 2021, Virtual Event, August 16–20, 2021, Proceedings, Part I 41, pp. 681-710. Springer International Publishing, 2021.</p>
+<p><a href="https://eprint.iacr.org/2020/499">[BCMS20]</a> Bünz, B., Chiesa, A., Mishra, P., &amp; Spooner, N. (2020). Proof-carrying data from accumulation schemes. Cryptology ePrint Archive.</p>
+<p><a href="https://eprint.iacr.org/2020/1536">[BDFG20]</a> Boneh, D., Drake, J., Fisch, B., &amp; Gabizon, A. (2020). Halo infinite: Recursive zk-snarks from any additive polynomial commitment scheme. Cryptology ePrint Archive.</p>
+<p><a href="https://eprint.iacr.org/2019/1021">[BGH19]</a> Bowe, S., Grigg, J., &amp; Hopwood, D. (2019). Recursive proof composition without a trusted setup. Cryptology ePrint Archive.</p>
+<p><a href="https://eprint.iacr.org/2022/1530">[Hab22]</a> Haböck, Ulrich. &ldquo;Multivariate lookups based on logarithmic derivatives.&rdquo; Cryptology ePrint Archive (2022).</p>
+<p><a href="https://eprint.iacr.org/2022/1758">[KS22]</a> Kothapalli, Abhiram, and Srinath Setty. &ldquo;SuperNova: Proving universal machine executions without universal circuits.&rdquo; Cryptology ePrint Archive (2022).</p>
+<p><a href="https://eprint.iacr.org/2023/573">[KS23]</a> Kothapalli, Abhiram, and Srinath Setty. &ldquo;HyperNova: Recursive arguments for customizable constraint systems.&rdquo; Cryptology ePrint Archive (2023).</p>
+<p><a href="https://eprint.iacr.org/2021/370">[KST22]</a> Kothapalli, Abhiram, Srinath Setty, and Ioanna Tzialla. &ldquo;Nova: Recursive zero-knowledge arguments from folding schemes.&rdquo; Advances in Cryptology–CRYPTO 2022: 42nd Annual International Cryptology Conference, CRYPTO 2022, Santa Barbara, CA, USA, August 15–18, 2022, Proceedings, Part IV. Cham: Springer Nature Switzerland, 2022.</p>
+<p><a href="https://github.com/geometryresearch/technical_notes/blob/main/sangria_folding_plonk.pdf">[Moh23]</a> Mohnblatt, Nicolas. &ldquo;Sangria: a Folding Scheme for PLONK&rdquo;. Online <a href="https://github.com/geometryresearch/technical_notes/blob/main/sangria_folding_plonk.pdf">https://github.com/geometryresearch/technical_notes/blob/main/sangria_folding_plonk.pdf</a> (2023)</p>
+
+</content>
+<p>
+  
+  <a href="https://nmohnblatt.me/blog/geometry-notebook/" class="nohover">#Geometry Notebook</a>
+  
+  <a href="https://nmohnblatt.me/blog/speedrun/" class="nohover">#Speedrun</a>
+  
+  <a href="https://nmohnblatt.me/blog/folding/" class="nohover">#Folding</a>
+  
+</p>
+
+  </main>
+  <footer><p style="font-size: small;">
+    Built using <a href="https://gohugo.io" class="nohover">Hugo</a>. The theme is adapted from <a href="https://github.com/janraasch/hugo-bearblog/" class="nohover">hugo-bearblog</a> and uses colours from <a href="https://github.com/kepano/flexoki?tab=readme-ov-file" class="nohover">Flexoki</a>.
+</p>
+
+<p style="font-size: small;">
+    <a href="https://github.com/nmohnblatt" class="nohover">Github</a> | <a href="https://bsky.app/profile/nicomnbl.bsky.social" class="nohover">Bluesky</a> | <a href="https://x.com/nico_mnbl" class="nohover">&#x1D54F;</a> | <a href="https://zkjargon.github.io" class="nohover">ZK Jargon Decoder</a> <br>
+    &copy; 2024-2026, Nicolas Mohnblatt. <br>
+</p>
+</footer>
+
+    
+</body>
+
+</html>

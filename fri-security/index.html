@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://nmohnblatt.me/images/favicon.png" />
+<title>Why does FRI work? | Nicolas Mohnblatt</title>
+<meta name="title" content="Why does FRI work?" />
+<meta name="description" content="You might be familiar with what FRI is or how it works but do you know why it works? This blog post gives some intuitive answers to this crucial security question." />
+<meta name="keywords" content="Proximity Testing,Security,Succinct Proofs,zkSecurity," />
+
+
+<meta property="og:url" content="https://nmohnblatt.me/fri-security/">
+  <meta property="og:site_name" content="Nicolas Mohnblatt">
+  <meta property="og:title" content="Why does FRI work?">
+  <meta property="og:description" content="You might be familiar with what FRI is or how it works but do you know why it works? This blog post gives some intuitive answers to this crucial security question.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-10-30T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-10-30T00:00:00+00:00">
+    <meta property="article:tag" content="Proximity Testing">
+    <meta property="article:tag" content="Security">
+    <meta property="article:tag" content="Succinct Proofs">
+    <meta property="article:tag" content="ZkSecurity">
+    <meta property="og:image" content="https://nmohnblatt.me/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://nmohnblatt.me/images/share.png">
+  <meta name="twitter:title" content="Why does FRI work?">
+  <meta name="twitter:description" content="You might be familiar with what FRI is or how it works but do you know why it works? This blog post gives some intuitive answers to this crucial security question.">
+
+
+
+
+  <meta itemprop="name" content="Why does FRI work?">
+  <meta itemprop="description" content="You might be familiar with what FRI is or how it works but do you know why it works? This blog post gives some intuitive answers to this crucial security question.">
+  <meta itemprop="datePublished" content="2025-10-30T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-10-30T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1843">
+  <meta itemprop="image" content="https://nmohnblatt.me/images/share.png">
+  <meta itemprop="keywords" content="Proximity Testing,Security,Succinct Proofs,ZkSecurity">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  
+
+<style>
+  body {
+    font-family: Verdana, sans-serif;
+    font-size: 15px;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #FFFCF0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #100F0F;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #100F0F;
+  }
+
+  a {
+    color: #24837B;
+     
+    text-decoration: none;
+  }
+
+  a.underline {
+    text-decoration: underline; 
+  }
+
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a.nohover:hover {
+    text-decoration: none;
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  a.title:hover{
+    text-decoration: none;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+   
+
+  td {
+    border-top: 1px solid #E6E4D9;
+  } 
+
+  img {
+    max-width: 100%;
+  }
+
+  figure {
+    margin-inline-start: 20px;
+    margin-inline-end: 20px;
+  }
+
+  figcaption {
+    color: #B7B5AC;
+    font-size: small;
+    text-align: center;
+  }
+
+  figcaption p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #E6E4D9;
+    color: #878580;
+  }
+
+  pre code {
+    color: #6F6E69;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 2px solid #24837B;
+    color: #100F0F;
+    padding-left: 15px;
+    margin-inline-start: 20px;
+     
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #17504b;
+  }
+
+   
+
+</style>
+
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']],     
+      tags: 'ams'
+    }
+  };
+</script>
+  
+
+  
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>Nicolas Mohnblatt</h2>
+</a>
+<nav><a href="/" class="nohover">Home</a>
+
+<a href="/about/" class="nohover">About</a>
+
+<a href="/now/" class="nohover">Now</a>
+
+<a href="/research/" class="nohover">Research</a>
+
+
+<a href="/blog" class="nohover">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>Why does FRI work?</h1>
+<p>
+  <i>
+    
+  </i>
+</p>
+<p>
+  <i>
+    <time datetime='2025-10-30' pubdate>
+      30 Oct, 2025
+    </time>
+  </i>
+</p>
+
+<content>
+  <p><em>This article is cross-posted from the <a href="https://blog.zksecurity.xyz/posts/fri-security/">ZK Security blog</a>.</em></p>
+<hr>
+<p>The <a href="https://drops.dagstuhl.de/storage/00lipics/lipics-vol107-icalp2018/LIPIcs.ICALP.2018.14/LIPIcs.ICALP.2018.14.pdf">FRI protocol</a> is a key building block for many SNARKs deployed in production today.
+There are plenty of great lectures out there explaining <em>what</em> FRI is and <em>how</em> it works.
+Among them, I highly recommend the ZK Whiteboard Session modules with Dan Boneh (<a href="https://zkhack.dev/whiteboard/s2m7/">S2M7</a>, <a href="https://zkhack.dev/whiteboard/s2m8/">S2M8</a>).
+For those who prefer a more practical introduction, I recommend following a tutorial with accompanying code, for example <a href="https://starkware.co/stark-101/">Part III of STARK 101</a> by StarkWare.</p>
+<p>In this post, I won&rsquo;t rehash the contents of the amazing tutorials listed above.
+I want to answer the question: <em>why</em> is FRI secure?
+<em>Why</em> does the execution of this protocol gives us satisfactory guarantees that the prover&rsquo;s initial message is close to a Reed-Solomon codeword?</p>
+<p>These questions are usually answered by the security proof of a protocol.
+Needless to say, the security proof of FRI is not an entry-level read.
+However, with co-authors <a href="https://x.com/0xAlbertG">Albert</a> and <a href="https://benedikt-wagner.dev">Benedikt</a>, I recently attempted to give a simpler proof (<a href="https://eprint.iacr.org/2025/1993">available on ePrint</a>).
+This post is a summary of the ideas we used there.</p>
+<p>I&rsquo;ll assume that readers are familiar with FRI and its associated tools and jargon.
+I&rsquo;ll first go through a quick recap of the mechanics of the protocol, mostly to define the notation I will use throughout.
+Then I&rsquo;ll introduce the &ldquo;prover message graph&rdquo;, a useful tool for the security proof of FRI.
+After that, we will discuss a key security property of the &ldquo;folding&rdquo; operation used in FRI and finally argue that the protocol is secure.</p>
+<h2 id="fri-recap-and-notation">FRI recap and notation</h2>
+<p>The FRI protocol is used to prove that a prover function $f_0$ is close to a given Reed-Solomon (RS) code.
+It works by successively &ldquo;folding&rdquo; the prover&rsquo;s function using a verifier challenge.
+Eventually, when the function is small enough, the verifier can read it in full and check that it is a codeword from a smaller RS code.
+The verifier then performs spot checks between all the prover&rsquo;s messages to ensure that the fold operation was computed correctly.</p>
+<p>In this article, I will use the notation $\mathsf{RS}[\mathbb{F}, \mathcal{L}, d]$ to denote a Reed-Solomon code defined over the finite field $\mathbb{F}$ with evaluation domain $\mathcal{L} \subseteq \mathbb{F}^*$ and degree bound $d \in \mathbb{N}$.
+The rate of an RS code is written $\rho = d / |\mathcal{L}|$.</p>
+<p>Concretely, I will consider the example where the initial domain $\mathcal{L}_0$ is the $16$-th roots of unity and the initial degree bound is $d_0=8$.
+Consecutive codes are defined over the $8$-th, $4$-th and $2$-th roots of unity with degree bounds $4$, $2$ and $1$.
+I&rsquo;ll write $f_0, f_1, f_2, f_3$ to denote the prover messages and $\alpha_1, \alpha_2, \alpha_3$ to denote the verifier&rsquo;s folding challenges.</p>
+<h2 id="tracking-prover-messages">Tracking prover messages</h2>
+<p>The first thing we need to be aware of in our security analysis, is that the prover might have sent a function $f_{i+1}$ that is not $\mathsf{Fold}(f_i, \alpha_{i+1})$ (<em>i.e.</em>, the honest fold of $f_i$ using the challenge $\alpha_{i+1}$).
+To this end, we define the prover message graph.
+Each layer of the graph represents an evaluation domain and the prover message on that domain.
+We can draw edges between layers when the points are related: for example both the points $s$ and $-s$ in layer $0$ have an edge going to the point $s^2$ in layer $1$.
+The graph is illustrated below.</p>
+<p><img src="./graph-no-color.png" alt="A prover message graph before coloring."></p>
+<p>We can now color the graph to indicate what will happen when the verifier runs the query phase.
+We&rsquo;ll use green to indicate an accepting query and red to indicate a rejected query.
+To perform the coloring, we consider nodes in groups of 3: one node in layer $i$ and its two relatives in layer $i-1$.
+If the $\mathsf{Fold}$ operation is computed correctly on those nodes, we leave them as they are; otherwise if $\mathsf{Fold}$ is incorrect, we mark the node on layer $i$ with an $\mathbf{X}$.
+Concretely, using the labelling from the image above, we would consider the group $(s, -s, s^2)$, compute $\mathsf{Fold}(f_{0}, \alpha_1)(s^2)$ from $f_0(s)$ and $f_0(-s)$, and mark the node $s^2$ with an $\mathbf{X}$ if that value was not consistent with $f_1(s^2)$.
+This is exactly what the verifier does with its check!</p>
+<p>Once we&rsquo;ve considered all groups of three, we can assign colors.
+All paths that start from a leaf in layer $0$ and terminate with an $\mathbf{X}$ are marked red (excluding the $\mathbf{X}$).
+We do this to reflect the fact that starting from such leaves, the verifier will inevitably arrive to the $\mathbf{X}$ and notice the inconsistency.
+All other nodes are colored green.
+An example is given below.</p>
+<p><img src="./graph-with-color.png" alt="A prover message graph with coloring."></p>
+<p>At this point, I would like to highlight some important intuition about the colored graph:</p>
+<ol>
+<li>If the verifier queries layer 0 at a red node, it will reject. Therefore, the fraction of green nodes is exactly the probability that the verifier accepts.</li>
+<li>Red propagates upward from an $\mathbf{X}$. This means that prover does not gain an advantage by folding dishonestly. In addition, we see that the later it does so (e.g., at the final round), the more it reduces the probability of getting accepted.</li>
+<li>The set of green nodes represents the sets where all folds are performed honestly.</li>
+</ol>
+<p>Now the key question remains: why can we deduce that $f_0$ was close to $\mathsf{RS}[\mathbb{F}, \mathcal{L}_0, d_0]$ when there is a large fraction of green nodes in layer $0$? As we will see next, this is due to the fact that the verifier checks that the final function is in the final code and from an important security property of $\mathsf{Fold}$.</p>
+<h2 id="key-property-of-mathsffold">Key property of $\mathsf{Fold}$</h2>
+<p>At the end of the FRI interaction, the verifier reads the final function in full and checks that it is in the final code.
+In our example, the verifier reads $f_3: \mathcal{L}_3 \to \mathbb{F}$ and checks that it is a constant polynomial.
+Ideally, this observation could &ldquo;bubble up&rdquo; through the prover message graph.
+We can state an ideal property as follows:</p>
+<ul>
+<li><em>(ideal property)</em> if there exists a codeword $u_i \in \mathsf{RS}[ \mathbb{F}, {\mathcal{L}_i}, {d_i} ]$ that agrees with $f_i$ on green nodes, then there exists a codeword $u_{i-1} \in \mathsf{RS}[ \mathbb{F}, {\mathcal{L}_{i-1}}, {d_{i-1}} ]$ that agrees with $f_{i-1}$ on green nodes.</li>
+</ul>
+<p>With such a property our task would be solved!
+We would inductively apply the property working our way up the graph and find that the fraction of green nodes in layer $0$ is at least the agreement between $f_0$ and a codeword.
+Unfortunately, things are not so simple.
+The ideal property does not always hold.</p>
+<p>What we can do on the other hand is to relax this property and only require that it holds <em>with high probability</em> over the verifier&rsquo;s folding challenges.
+The yields the following real property:</p>
+<ul>
+<li><em>(real property)</em> if (a) there is a large fraction of green nodes and (b) there exists a codeword $u_i \in \mathsf{RS}[\mathbb{F}, {\mathcal{L}_i}, {d_i}]$ that agrees with $f_i$ on green nodes, then with high probability over the verifier message $\alpha_i$ there exists a codeword $u_{i-1} \in \mathsf{RS}[\mathbb{F}, {\mathcal{L}_{i-1}}, {d_{i-1}}]$ that agrees with $f_{i-1}$ on green nodes.</li>
+</ul>
+<p>The notion of what is a &ldquo;large fraction&rdquo; of green nodes is intentionally loose.
+Let&rsquo;s denote $\mathsf{B}^\star$ to be the measure of &ldquo;large enough&rdquo;.
+Ideally we want $\mathsf{B}^\star$ to be low as we will see in our argument later (see Final argument, case 1).
+Currently, we have satisfactory results for the case $\mathsf{B}^\star = \frac{1+\rho}{2}$.
+There are private drafts making the rounds that prove the property for $\mathsf{B}^\star = \sqrt{\rho}$ and we even conjecture that this fraction can be as small as $\mathsf{B}^\star = \rho$ (recall that $\rho &lt; 1$ and therefore $\rho &lt; \sqrt{\rho}$).
+Proving this property for small bounds is an <a href="https://proximityprize.org">open problem</a> for which the Ethereum Foundation is setting up to one million dollars (!!) in prizes.</p>
+<h2 id="final-argument">Final argument</h2>
+<p>We can now finish our security analysis using the &ldquo;real property&rdquo; that allows to bubble up agreement through large enough sets of green nodes in the prover message graph.
+The only subtlety is that we need to deal with the case where there is less than a $\mathsf{B}^\star$-fraction of green nodes at any layer of the graph.
+We argue by separating two cases:</p>
+<ol>
+<li>Case 1, there is a layer $i$ which has less than a $\mathsf{B}^\star$-fraction of green nodes.</li>
+<li>Case 2, all layers have at least a $\mathsf{B}^\star$-fraction of green nodes.</li>
+</ol>
+<h3 id="case-1-small-fraction-of-honest-folds">Case 1: small fraction of honest folds</h3>
+<p>We first consider the case where there is at least one layer where the real property cannot be applied.
+That is, the $i$-th layer has less than a $\mathsf{B}^\star$-fraction of green nodes.
+Equivalently, this layer must have at least a $(1- \mathsf{B}^\star)$-fraction of red nodes.
+The figure below shows an example of &ldquo;case 1&rdquo;.</p>
+<p><img src="./graph-very-red.png" alt=""></p>
+<p>Recall that by our graph coloring rules, all paths that lead to an $\mathbf{X}$ are marked red.
+From this rule, it is easy to establish that &ldquo;red always propagates upwards&rdquo;.
+Therefore, we can show that if there is a layer where there is at least a $(1- \mathsf{B}^\star)$-fraction of red nodes, all layers above it will also have at least a $(1- \mathsf{B}^\star)$-fraction of red nodes.
+In particular, layer $0$ has at least a $(1- \mathsf{B}^\star)$-fraction of red nodes.</p>
+<p>From this discussion, we conclude that layer $0$ has at most a $\mathsf{B}^\star$-fraction of green nodes and that the verifier will accept with probability $\mathsf{B}^\star$.
+In practice, we want to reject provers that behave as in case 1 and therefore want $\mathsf{B}^\star$ to be as small as possible.</p>
+<h3 id="case-2-large-fraction-of-honest-folds">Case 2: large fraction of honest folds</h3>
+<p>For case 2, we can refer to the illustration given in Figure 2.
+Since the sets of green nodes are large enough, we can apply our &ldquo;real property&rdquo; and conclude that agreement bubbles up <em>assuming that all folding challenges were &ldquo;good&rdquo;</em>.
+Therefore, conditioned on having only &ldquo;good&rdquo; challenges, the agreement between $f_0$ and the initial code $\mathsf{RS}[\mathbb{F}, \mathcal{L}_0, d_0]$ is at least the fraction of green nodes in the top layer.
+Alternatively, in terms of distance (rather than agreement) we have shown that the verifier&rsquo;s acceptance probability is at most $1-\delta$, where $\delta = \Delta(f_0, \mathsf{RS}[\mathbb{F}, \mathcal{L}_0, d_0])$ is the relative distance between $f_0$ and the initial code.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>This concludes our overview of how FRI works!
+The argument stems from an important property of the $\mathsf{Fold}$ function: &ldquo;agreement bubbles up the graph&rdquo; when there is a large enough fraction of honest folds.
+We deal with the case where the fraction of honest folds is not large enough by arguing that there must be a large fraction of dishonest folds.
+In such a case, the verifier is likely to query them and reject.</p>
+<p>There is ongoing research on proving that the property holds for a notion of &ldquo;large&rdquo; that is as small as possible.
+This allows us to stay in case 1 as much as possible and gives us a tighter security bound.
+In return, tighter bounds allow us to have shorter proofs and do less prover and verifier work for the same level of security.</p>
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>Thank you to <a href="https://x.com/varunthakore">Varun Thakore</a>, <a href="https://x.com/0xteddav">0xteddav</a> (David), <a href="https://x.com/0xAlbertG">Albert Garreta</a> and <a href="https://x.com/kobigurk">Kobi Gurkan</a> for carefully proof-reading this article and sharing many helpful questions, corrections and suggestions.</p>
+
+</content>
+<p>
+  
+  <a href="https://nmohnblatt.me/blog/proximity-testing/" class="nohover">#Proximity Testing</a>
+  
+  <a href="https://nmohnblatt.me/blog/security/" class="nohover">#Security</a>
+  
+  <a href="https://nmohnblatt.me/blog/succinct-proofs/" class="nohover">#Succinct Proofs</a>
+  
+  <a href="https://nmohnblatt.me/blog/zksecurity/" class="nohover">#ZkSecurity</a>
+  
+</p>
+
+  </main>
+  <footer><p style="font-size: small;">
+    Built using <a href="https://gohugo.io" class="nohover">Hugo</a>. The theme is adapted from <a href="https://github.com/janraasch/hugo-bearblog/" class="nohover">hugo-bearblog</a> and uses colours from <a href="https://github.com/kepano/flexoki?tab=readme-ov-file" class="nohover">Flexoki</a>.
+</p>
+
+<p style="font-size: small;">
+    <a href="https://github.com/nmohnblatt" class="nohover">Github</a> | <a href="https://bsky.app/profile/nicomnbl.bsky.social" class="nohover">Bluesky</a> | <a href="https://x.com/nico_mnbl" class="nohover">&#x1D54F;</a> | <a href="https://zkjargon.github.io" class="nohover">ZK Jargon Decoder</a> <br>
+    &copy; 2024-2026, Nicolas Mohnblatt. <br>
+</p>
+</footer>
+
+    
+</body>
+
+</html>

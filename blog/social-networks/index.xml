@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Social Networks on Nicolas Mohnblatt</title>
+    <link>https://nmohnblatt.me/blog/social-networks/</link>
+    <description>Recent content in Social Networks on Nicolas Mohnblatt</description>
+    <generator>Hugo</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2024-2026, Nicolas Mohnblatt.</copyright>
+    <lastBuildDate>Wed, 11 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://nmohnblatt.me/blog/social-networks/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Privacy-preserving Contact Discovery for Bluesky</title>
+      <link>https://nmohnblatt.me/arke-for-bluesky/</link>
+      <pubDate>Wed, 11 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/arke-for-bluesky/</guid>
+      <description>&lt;p&gt;Last year, we released Arke &lt;a href=&#34;https://eprint.iacr.org/2023/1218&#34;&gt;[MSGJ24]&lt;/a&gt;, a protocol for &lt;strong&gt;privacy-preserving contact discovery&lt;/strong&gt;. We also shared an &lt;a href=&#34;https://github.com/asonnino/arke&#34;&gt;experimental prototype&lt;/a&gt; of the system which we used to run geo-distributed benchmarks for our paper. Since then, the paper has been peer-reviewed and published in ACM-CCS&#39;24.&lt;/p&gt;&#xA;&lt;p&gt;The goal is to allow users of an existing social graph (&lt;em&gt;e.g.&lt;/em&gt;, 𝕏) to find each other and construct a new graph (&lt;em&gt;e.g.&lt;/em&gt;, Bluesky) without revealing either of the social graphs nor publicly linking the existing and new accounts. I encourage you to read &lt;a href=&#34;https://signal.org/blog/contact-discovery/&#34;&gt;this article by Moxie Marlinspike&lt;/a&gt; for more context on why contact discovery is desirable and hard to do privately.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

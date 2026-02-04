@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://nmohnblatt.me/images/favicon.png" />
+<title>Highlights of libZK, the Google Wallet ZKP | Nicolas Mohnblatt</title>
+<meta name="title" content="Highlights of libZK, the Google Wallet ZKP" />
+<meta name="description" content="Last month, Google announced an update to Google Wallet that enables &ldquo;fast and private age verification&rsquo;&rsquo;.
+As you might expect, the system uses zero-knowledge proofs (ZKPs) under the hood.
+This is great news!
+Firstly because these privacy-preserving primitives will get wider distribution and hopefully adoption.
+Secondly because it&rsquo;s great to see high-performance, production-grade ZKPs being developed outside of the blockchain/web3 industry.
+And finally because seeing governments and big tech players like Google take interest in ZKPs is a clear sign of momentum for our beloved privacy-enhancing technologies." />
+<meta name="keywords" content="Anonymous Credentials,Privacy,Zero-knowledge," />
+
+
+<meta property="og:url" content="https://nmohnblatt.me/libzk-highlights/">
+  <meta property="og:site_name" content="Nicolas Mohnblatt">
+  <meta property="og:title" content="Highlights of libZK, the Google Wallet ZKP">
+  <meta property="og:description" content="Last month, Google announced an update to Google Wallet that enables “fast and private age verification’’. As you might expect, the system uses zero-knowledge proofs (ZKPs) under the hood. This is great news! Firstly because these privacy-preserving primitives will get wider distribution and hopefully adoption. Secondly because it’s great to see high-performance, production-grade ZKPs being developed outside of the blockchain/web3 industry. And finally because seeing governments and big tech players like Google take interest in ZKPs is a clear sign of momentum for our beloved privacy-enhancing technologies.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-05-30T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-05-30T00:00:00+00:00">
+    <meta property="article:tag" content="Anonymous Credentials">
+    <meta property="article:tag" content="Privacy">
+    <meta property="article:tag" content="Zero-Knowledge">
+    <meta property="og:image" content="https://nmohnblatt.me/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://nmohnblatt.me/images/share.png">
+  <meta name="twitter:title" content="Highlights of libZK, the Google Wallet ZKP">
+  <meta name="twitter:description" content="Last month, Google announced an update to Google Wallet that enables “fast and private age verification’’. As you might expect, the system uses zero-knowledge proofs (ZKPs) under the hood. This is great news! Firstly because these privacy-preserving primitives will get wider distribution and hopefully adoption. Secondly because it’s great to see high-performance, production-grade ZKPs being developed outside of the blockchain/web3 industry. And finally because seeing governments and big tech players like Google take interest in ZKPs is a clear sign of momentum for our beloved privacy-enhancing technologies.">
+
+
+
+
+  <meta itemprop="name" content="Highlights of libZK, the Google Wallet ZKP">
+  <meta itemprop="description" content="Last month, Google announced an update to Google Wallet that enables “fast and private age verification’’. As you might expect, the system uses zero-knowledge proofs (ZKPs) under the hood. This is great news! Firstly because these privacy-preserving primitives will get wider distribution and hopefully adoption. Secondly because it’s great to see high-performance, production-grade ZKPs being developed outside of the blockchain/web3 industry. And finally because seeing governments and big tech players like Google take interest in ZKPs is a clear sign of momentum for our beloved privacy-enhancing technologies.">
+  <meta itemprop="datePublished" content="2025-05-30T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-05-30T00:00:00+00:00">
+  <meta itemprop="wordCount" content="2561">
+  <meta itemprop="image" content="https://nmohnblatt.me/images/share.png">
+  <meta itemprop="keywords" content="Anonymous Credentials,Privacy,Zero-Knowledge">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  
+
+<style>
+  body {
+    font-family: Verdana, sans-serif;
+    font-size: 15px;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #FFFCF0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #100F0F;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #100F0F;
+  }
+
+  a {
+    color: #24837B;
+     
+    text-decoration: none;
+  }
+
+  a.underline {
+    text-decoration: underline; 
+  }
+
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a.nohover:hover {
+    text-decoration: none;
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  a.title:hover{
+    text-decoration: none;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+   
+
+  td {
+    border-top: 1px solid #E6E4D9;
+  } 
+
+  img {
+    max-width: 100%;
+  }
+
+  figure {
+    margin-inline-start: 20px;
+    margin-inline-end: 20px;
+  }
+
+  figcaption {
+    color: #B7B5AC;
+    font-size: small;
+    text-align: center;
+  }
+
+  figcaption p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #E6E4D9;
+    color: #878580;
+  }
+
+  pre code {
+    color: #6F6E69;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 2px solid #24837B;
+    color: #100F0F;
+    padding-left: 15px;
+    margin-inline-start: 20px;
+     
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #17504b;
+  }
+
+   
+
+</style>
+
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']],     
+      tags: 'ams'
+    }
+  };
+</script>
+  
+
+  
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>Nicolas Mohnblatt</h2>
+</a>
+<nav><a href="/" class="nohover">Home</a>
+
+<a href="/about/" class="nohover">About</a>
+
+<a href="/now/" class="nohover">Now</a>
+
+<a href="/research/" class="nohover">Research</a>
+
+
+<a href="/blog" class="nohover">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>Highlights of libZK, the Google Wallet ZKP</h1>
+<p>
+  <i>
+    
+  </i>
+</p>
+<p>
+  <i>
+    <time datetime='2025-05-30' pubdate>
+      30 May, 2025
+    </time>
+  </i>
+</p>
+
+<content>
+  <p>Last month, <a href="https://blog.google/products/google-pay/google-wallet-age-identity-verifications/">Google announced</a> an update to Google Wallet that enables &ldquo;fast and private age verification&rsquo;&rsquo;.
+As you might expect, the system uses zero-knowledge proofs (ZKPs) under the hood.
+This is great news!
+Firstly because these privacy-preserving primitives will get wider distribution and hopefully adoption.
+Secondly because it&rsquo;s great to see high-performance, production-grade ZKPs being developed outside of the blockchain/web3 industry.
+And finally because seeing governments and big tech players like Google take interest in ZKPs is a clear sign of momentum for our beloved privacy-enhancing technologies.</p>
+<p>The anonymous credential protocol is an implementation of the <a href="https://eprint.iacr.org/2024/2010">Anonymous credentials from ECDSA</a> paper by Matteo Frigo and Abhi Shelat.
+The underlying ZK proof system and implementation techniques are also documented in an <a href="https://www.ietf.org/archive/id/draft-google-cfrg-libzk-00.html">IETF draft</a> under the name <code>libZK</code>.</p>
+<p>In this post, I wanted to highlight some innovations, observations and insights that went into the <code>libZK</code> proof system that I think we &mdash; the &ldquo;ZK community&rdquo; &mdash; should all pay attention to and learn from.
+The post is not a full explainer or tutorial on the proof system, rather I hope that it serves as a teaser and motivates you to read the paper, or listen to an upcoming ZKPodcast episode where we interview Matteo and Abhi.
+Below is a quick overview of the discussion points, organized into four categories. The rest of the article expands on this summary and discusses each point further.</p>
+<blockquote>
+<p><strong>Highlights of libZK.</strong></p>
+<ol>
+<li>Proof system:
+<ul>
+<li>similarly to our &ldquo;client-side proving&rdquo; trend, <code>libZK</code> prioritizes a fast prover and concretely small proofs over asymptotic proof size and verifier time.</li>
+<li>the proof system uses proof composition to reduce commitment costs (using a GKR-like inner proof) and preserve the zero-knowledge property (using a Ligero outer proof).</li>
+<li>the proof system composes interactive proofs (IPs) rather than SNARKs to avoid arithmetizing Fiat-Shamir challenges and allow for a cleaner security proof.</li>
+</ul>
+</li>
+<li>Arithmetization:
+<ul>
+<li>the system proves a &ldquo;dual-circuit aritmetization&rdquo;; some constraints are defined over the base field of the secp256r1 curve (useful for verifying ECDSA signatures) while others are defined over a 16-bit binary field (useful for verifying SHA-256 and parsing binary formats such as JSON or CBOR).</li>
+<li>the dual-circuit paradigm requires additional constraints to ensure that witness values remain consistent across the two circuits; this is done by computing a MAC inside each circuit and comparing it to a public input.</li>
+</ul>
+</li>
+<li>Implementation techniques:
+<ul>
+<li>the Ligero outer proof requires to encode the witness using a Reed-Solomon code. Instead of using the usual interpolate-and-evaluate method, <code>libZK</code> encodes by computing a convolution. This can be computed in $\mathcal{O}(n \log n \log\log n)$ field-operations in any field using <a href="https://ieeexplore.ieee.org/document/1163372">Nussbaumer&rsquo;s algorithm</a>; or in $\mathcal{O}(n \log n)$ field-operations if FFTs are available.</li>
+<li>when using field extensions, the convolution technique allows to choose RS codes where the interpolation and evaluation domains are in the small subfield. This reduces proof size by a constant factor.</li>
+<li>FFTs can be computed in the quadratic extension of the base field of secp256r1 for a minimal overhead (a technique that first appears in <a href="https://eprint.iacr.org/2019/1482">Virgo</a> and was later adopted by <a href="https://eprint.iacr.org/2024/278">Circle STARK</a>).</li>
+<li>FFTs can be computed in binary fields using the additive FFT, a technique also used in Binius.</li>
+</ul>
+</li>
+<li>Circuit design:
+<ul>
+<li>the inner proof system is GKR-like and therefore requires &ldquo;layered&rdquo; circuits. The circuit depth for <a href="https://en.wikipedia.org/wiki/CBOR">CBOR</a> parsing is kept low by using parallel-prefix techniques that are well-known (according to the authors) in the hardware world.</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<h2 id="proof-system">Proof system</h2>
+<h3 id="prioritize-prover-time-above-all-else">Prioritize prover time above all else</h3>
+<p>The <code>libZK</code> system in designed for the use case of smartphone-generated anonymous credentials &mdash; or as we like to call it, &ldquo;client-side proving&rdquo;.
+The main constraints are device power and bandwidth: the former requires the ZKP to be prover-efficient, while the latter requires that the proofs are concretely small-ish.</p>
+<p>Similarly to the trends we have seen in our space, these constraints push us towards systems that:</p>
+<ol>
+<li>commit to as little data as possible,</li>
+<li>have efficient provers and</li>
+<li>avoid expensive &ldquo;public key&rdquo; operations.</li>
+</ol>
+<p>Requirements 1 and 2 point us towards sumcheck-based proof systems and in particular GKR-like systems to minimize commitment costs.
+Requirement 3 usually directs us towards proof systems that only rely on hash functions.</p>
+<p>The question then become: how do we efficiently add zero-knowledge to a GKR-like, hash-based proof system?
+The answer in <code>libZK</code> is by composing the GKR-like proof with the Ligero ZKP.
+Note that this is the full Ligero ZKP, not just the polynomial commitment scheme.</p>
+<p>Another important point to notice is that the composition allows for an overall protocol that is cheaper than running Ligero alone.
+Indeed, in Ligero we would need to express the statement as an R1CS circuit and commit to the full R1CS witness, including any intermediate variables that exist in the circuit.
+On the other hand, by using GKR and composition, the prover only needs to commit to the GKR witness (much smaller!) and some additional random masking as we will see in the next section.
+Overall, Frigo and Shelat report a 20x improvement in prover speed over running Ligero alone.</p>
+<h3 id="composing-ips-not-snarks">Composing IPs not SNARKs</h3>
+<p>Typically when we do proof composition, we do so at the non-interactive argument level.
+Concretely, we generate an inner SNARK by taking an interactive protocol and making it non-interactive using the Fiat-Shamir transform<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.
+We then generate an outer proof for the statement &ldquo;the verifier of the inner SNARK accepts&rdquo;.
+Doing so requires to arithmetize the full verification process of the SNARK, including the derivation of Fiat-Shamir challenges.</p>
+<p>Instead, <code>libZK</code> composes the GKR protocol and Ligero as interactive proofs (IPs).
+It also adds a layer of masking of the GKR transcript in order to make the full protocol zero-knowledge.
+You can get an idea for how this composition is performed  by looking at the figure below.</p>
+
+
+
+<figure style="text-align: center;"><img src="/libzk-highlights/libzk.excalidraw_hu_6b97263e6c454b3e.webp"
+  alt="Overview of the composed interactive protocol."><figcaption>
+      <p>Overview of the composed interactive protocol.</p>
+    </figcaption>
+</figure>
+<p>There are two main benefits to composing IPs rather than SNARKs:</p>
+<ol>
+<li>the outer proof circuit does not need to enforce constraints for the correct derivation of Fiat-Shamir challenges.</li>
+<li>the protocol can be proven secure either as an interactive proof in the standard model, or non-interactive proof in the ROM. This is usually not possible when we compose SNARKs.</li>
+</ol>
+<p>As always, the interactive protocol described above can be made non-interactive by applying the Fiat-Shamir transform.</p>
+<p>The downside, however, is that we do not get the &ldquo;proof compression&rdquo; effect that SNARK composition provides.
+Indeed, by composing IPs in this way, the transcript of the full protocol is a concatenation of the GKR and Ligero transcripts.
+After applying Fiat-Shamir, we are left with a non-interactive proof that is the collection of the inner and outer protocol messages, rather than simply the outer protocol messages as would be the case in SNARK composition.</p>
+<h2 id="dual-circuit-arithmetization">Dual-circuit arithmetization</h2>
+<h3 id="choice-of-fields">Choice of fields</h3>
+<p>Due to its use in anonymous credential systems, <code>libZK</code> is geared towards verifying ECDSA signatures and parsing the signed message.
+Standard ECDSA signatures are computed over the curve secp256r1 for which the base field is a prime field of characteristic $p$: $$p := 2^{96} * 7 * 274177 * 67280421310721 * 11318308927973941931404914103 - 1.$$
+Choosing to enforce constraints using a circuit over $\mathbb{F}_p$ allows to express the ECDSA verification algorithm in very few constraints.</p>
+<p>However, ECDSA signatures also require a SHA-256 hash of the signed message.
+Furthermore, the messages used by the anonymous credential system are often serialized in the CBOR format; a JSON like format for binary data.
+Verifying the hash and parsing the CBOR message are therefore mostly bit- or byte-wise operations.
+Inspired by Binius, <code>libZK</code> makes use of a 16-bit binary field to efficiently enforce these constraints.
+Note that <code>libZK</code> does not use a tower of binary fields like Binius and the comparison is left as future work by the authors.</p>
+<h3 id="using-macs-for-cross-circuit-consistency">Using MACs for cross-circuit consistency</h3>
+<p>The downside of using two circuits is that the proof system needs to ensure that those circuits are linked and that even if witness values are represented differently in each circuit, they remain consistent.
+The solution in <code>libZK</code> is to augment both circuits to compute a message-authentication code (MAC) on the shared witness elements inside each circuit.
+These in-circuit MACs are then compared against a single public input.</p>
+<p>Note that this technique introduces a subtle problem: if the MAC key is known to the verifier, then the protocol is not zero-knowledge; however if the MAC key is known to the prover, then the MAC is not unforgeable (and the ZKP not sound).
+This tension is resolved by having the prover and verifier jointly sample the MAC key.
+I invite you to read more details in <a href="https://eprint.iacr.org/2024/2010">Section 3.4 of the paper</a>.</p>
+<h2 id="implementation-techniques">Implementation techniques</h2>
+<h3 id="fast-reed-solomon-encoding-in-every-field-using-convolutions">Fast Reed-Solomon encoding in every field using convolutions</h3>
+<p>The Ligero proof system requires that the witness be encoded using a Reed-Solomon (RS) code.
+We usually perform this operation as follows: first, we interpret the witness vector as the evaluations of a polynomial over a set of roots of unity; we then interpolate the corresponding polynomial; finally, we evaluate it at a larger set of roots of unity.
+The above method requires the existence of roots of unity and uses an inverse FFT (and regular FFT) to perform polynomial interpolation (and evaluation, respectively).
+I&rsquo;ll therefore refer to this method for RS encoding as the <em>&ldquo;pure-FFT method&rdquo;</em>.</p>
+<p>To be compatible with all deployed standard curves for digital signatures, the <code>libZK</code> system needs to remain performant in contexts where roots of unity and FFTs are not available.
+Naively interpolating and evaluating a polynomial is prohibitively slow for the prover.
+Here, Frigo and Shelat use an observation from previous work by <a href="https://arxiv.org/abs/1105.2003">Cormode, Mitzenmacher and Thaler (2012)</a>: instead of interpolating and evaluating a polynomial, RS encoding can be done by computing a <a href="https://en.wikipedia.org/wiki/Convolution">convolution</a>.
+Importantly, convolutions can be efficiently performed in any field  using <a href="https://ieeexplore.ieee.org/document/1163372">Nussbaumer&rsquo;s algorithm</a>, requiring $\mathcal{O}(n \log n \log\log n)$ field-operations.
+When FFTs are available the convolution can be computed in $\mathcal{O}(n \log n)$ field-operations.
+Whether or not FFTs are available and used, I refer to this method for RS encoding as the <em>&ldquo;convolution method&rdquo;</em>.</p>
+<p>The convolution method offers two main benefits:</p>
+<ol>
+<li>this method is available even when roots of unity and FFTs are not. This is particularly important for systems like <code>libZK</code> that aim for maximum compatibility and may become a standard.</li>
+<li>it allows us to pick arbitrary interpolation and evaluation domains for our polynomials. This is particularly helpful in contexts where we use a small field and a cryptographically-large extension. Indeed, we can define the interpolation and evaluation domains to be in the small field rather than in the extension as would be the case if we were using roots of unity (as per the pure-FFT encoding method). This results in RS codewords that are also defined in the small field (!), reducing proof size by a constant factor.</li>
+</ol>
+<p>When FFTs are available, the convolution method (with FFTs) incurs a theoretical 2x overhead compared to the pure-FFT method.
+When I say &ldquo;theoretical&rdquo;, I am quoting Matteo and Abhi who have shared that the overhead can be eliminated in certain settings using known optimizations.
+However, and once again quoting private communications with the authors, &ldquo;the whole point of the system is that the speed of the FFT does not matter much&rdquo;.
+Indeed, they are only used to shave off a $\log \log n$ factor in encoding time; which is just one of many tasks run by the prover.</p>
+<h3 id="ffts-for-secp256r1">FFTs for secp256r1</h3>
+<p>Although not mission-critical, the existence of FFTs allows for faster prover runtimes.
+However, neither of the fields chosen above are FFT-friendly.
+Recall that an FFT-friendly field is one that has a multiplicative subgroup for which the size is a larger power of $2$.
+Equivalently, a field is FFT-friendly if its order $q$ is such that $q-1$ is divisible by a large power of $2$.</p>
+<p>The base field of the secp256r1 elliptic curve is not FFT-friendly.
+Looking at the expression given for $p$ above, we can simplify it as $p := 2^{96} \cdot r - 1$.
+The size of the multiplicative subgroup of this field is $p-1 = 2^{96} \cdot r - 2 = 2 \cdot (2^{95} \cdot r-1)$.
+In other words, we have $2^1$ times some large odd number: definitely not FFT-friendly.</p>
+<p>On the other hand, $\mathbb{F}_{p^2}$ the quadratic extension of $\mathbb{F}_p$ is FFT-friendly.
+Indeed, the order of $\mathbb{F}_{p^2}$ is $p^2$ and the order of the multiplicative subgroup is $p^2 - 1 = (p+1)(p-1) = 2^{96} \cdot r \cdot (p-1)$.
+And there is our large power of $2$, meaning that we <em>can</em> perform FFTs in the quadratic extension of $\mathbb{F}_p$.
+Concretely, this represents a 4x overhead compared to a similar-sized FFT-friendly field; but that is better than not doing FFTs or using an FFT-friendly field and implementing an ECDSA circuit with foreign-field arithmetic.</p>
+<blockquote>
+<p><strong>A connection to Virgo and Circle STARKs.</strong> In fact, we can apply the same idea to any prime $p&rsquo;$: express it as $p&rsquo; := 2^\ell \cdot s - 1$ and then notice that $2^\ell$ divides $p&rsquo;+1$, which itself divides ${(p&rsquo;)}^2-1$, the order of the multiplicative subgroup of $\mathbb{F}_{(p&rsquo;)^2}$.
+Setting $s=1$ gives us primes of the form $2^\ell - 1$; <em>i.e.</em>, Mersenne primes as first used in <a href="https://eprint.iacr.org/2019/1482">Virgo</a> and later in <a href="https://eprint.iacr.org/2024/278">Circle STARK</a>.</p>
+</blockquote>
+<h3 id="ffts-for-binary-fields">FFTs for binary fields</h3>
+<p>Performing FFTs for binary fields is just as miraculous and comes from a 2014 paper by <a href="https://ieeexplore.ieee.org/document/6979016">Lin, Chung and Han</a>, as exploited in Binius.
+Since this is a technique already known in our research and engineering community, I will conveniently avoid discussing it in this post (especially because I have not looked into how it works).</p>
+<h2 id="circuit-design-we-stand-on-the-shoulders-of-digital-hardware-giants">Circuit design: we stand on the shoulders of (digital hardware) giants</h2>
+<p>The final technique I wanted to highlight is how the authors of <code>libZK</code> borrowed techniques from digital hardware design to reduce the depth of their CBOR parsing circuit.
+Writing an efficient circuit that parses a message and extracts features is hard:
+write too many constraints and your prover will run forever;
+write too few and you have a soundness bug.</p>
+<p>The technique they use to keep their circuit short is known as &ldquo;parallel-prefix&rdquo;.
+It was originally designed to perform running sums in logarithmic time rather than linear time.
+Apparently the same method can be applying to parsing inputs.
+For more details I encourage you to read <a href="https://eprint.iacr.org/2024/2010">Section 4.3 of the paper</a> and specifically the paragraph titled &ldquo;Reducing the depth of lexing&rdquo;.</p>
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>Thank you to <a href="https://x.com/zk_albi">Alberto Centelles</a> for improving this article through his many valuable suggestions.
+Thank you to Matteo Frigo and Abhi Shelat for reaching out, taking the time to clarify my confusion and explaining the relevant sections of the paper and existing works in great and invaluable detail.</p>
+<h2 id="edit-history">Edit history</h2>
+<p><em>2 June, 2025</em>:
+In the <a href="https://nmohnblatt.me/archived/libzk-highlights/">previous version of the post</a>, I focused on how to compute FFTs in the secp256r1 base field and binary fields.
+That focus was somewhat misguided.
+The interesting insight is in how to efficiently compute Reed-Solomon encodings in any field using a convolution rather than the usual &ldquo;interpolation and evaluation&rdquo; method.
+In some fields, this convolution can be computed faster using FFTs.
+I explain all of this in further detail in the revised &ldquo;implementation techniques&rdquo; section.
+<em>Changelog</em>: the &ldquo;implementation techniques&rdquo; section and summary have been re-written, as well as the &ldquo;connection to Circle STARK&rdquo;; the acknowledgements now reflect the wonderful help and explanations I received from Matteo and Abhi.
+All other sections of the article remain unchanged.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Alternatively, in the case of interactive oracle proofs we run the BCS transform: we first commit to the prover&rsquo;s oracle messages using Merkle trees and then apply the Fiat-Shamir transform.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+</content>
+<p>
+  
+  <a href="https://nmohnblatt.me/blog/anonymous-credentials/" class="nohover">#Anonymous Credentials</a>
+  
+  <a href="https://nmohnblatt.me/blog/privacy/" class="nohover">#Privacy</a>
+  
+  <a href="https://nmohnblatt.me/blog/zero-knowledge/" class="nohover">#Zero-Knowledge</a>
+  
+</p>
+
+  </main>
+  <footer><p style="font-size: small;">
+    Built using <a href="https://gohugo.io" class="nohover">Hugo</a>. The theme is adapted from <a href="https://github.com/janraasch/hugo-bearblog/" class="nohover">hugo-bearblog</a> and uses colours from <a href="https://github.com/kepano/flexoki?tab=readme-ov-file" class="nohover">Flexoki</a>.
+</p>
+
+<p style="font-size: small;">
+    <a href="https://github.com/nmohnblatt" class="nohover">Github</a> | <a href="https://bsky.app/profile/nicomnbl.bsky.social" class="nohover">Bluesky</a> | <a href="https://x.com/nico_mnbl" class="nohover">&#x1D54F;</a> | <a href="https://zkjargon.github.io" class="nohover">ZK Jargon Decoder</a> <br>
+    &copy; 2024-2026, Nicolas Mohnblatt. <br>
+</p>
+</footer>
+
+    
+</body>
+
+</html>

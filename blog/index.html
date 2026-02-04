@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://nmohnblatt.me/images/favicon.png" />
+<title>Blog | Nicolas Mohnblatt</title>
+<meta name="title" content="Blog" />
+<meta name="description" content="Nico&#39;s homepage and blog." />
+<meta name="keywords" content="anonymous credentials,bcc,data availability sampling,folding,geometry notebook,identity-based encryption,mental poker,mpc,privacy,proximity testing,resources,security,social networks,speedrun,succinct proofs,threshold cryptography,witness encryption,zero-knowledge,zk hack,zksecurity," />
+
+
+<meta property="og:url" content="https://nmohnblatt.me/blog/">
+  <meta property="og:site_name" content="Nicolas Mohnblatt">
+  <meta property="og:title" content="Blog">
+  <meta property="og:description" content="Nico&#39;s homepage and blog.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="website">
+    <meta property="og:image" content="https://nmohnblatt.me/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://nmohnblatt.me/images/share.png">
+  <meta name="twitter:title" content="Blog">
+  <meta name="twitter:description" content="Nico&#39;s homepage and blog.">
+
+
+
+
+  <meta itemprop="name" content="Blog">
+  <meta itemprop="description" content="Nico&#39;s homepage and blog.">
+  <meta itemprop="datePublished" content="2025-11-14T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-11-14T00:00:00+00:00">
+  <meta itemprop="image" content="https://nmohnblatt.me/images/share.png">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <link rel="alternate" type="application/rss+xml" href="https://nmohnblatt.me/blog/index.xml" title="Nicolas Mohnblatt" />
+  
+
+<style>
+  body {
+    font-family: Verdana, sans-serif;
+    font-size: 15px;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #FFFCF0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #100F0F;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #100F0F;
+  }
+
+  a {
+    color: #24837B;
+     
+    text-decoration: none;
+  }
+
+  a.underline {
+    text-decoration: underline; 
+  }
+
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a.nohover:hover {
+    text-decoration: none;
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  a.title:hover{
+    text-decoration: none;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+   
+
+  td {
+    border-top: 1px solid #E6E4D9;
+  } 
+
+  img {
+    max-width: 100%;
+  }
+
+  figure {
+    margin-inline-start: 20px;
+    margin-inline-end: 20px;
+  }
+
+  figcaption {
+    color: #B7B5AC;
+    font-size: small;
+    text-align: center;
+  }
+
+  figcaption p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #E6E4D9;
+    color: #878580;
+  }
+
+  pre code {
+    color: #6F6E69;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 2px solid #24837B;
+    color: #100F0F;
+    padding-left: 15px;
+    margin-inline-start: 20px;
+     
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #17504b;
+  }
+
+   
+
+</style>
+
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']],     
+      tags: 'ams'
+    }
+  };
+</script>
+  
+
+  
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>Nicolas Mohnblatt</h2>
+</a>
+<nav><a href="/" class="nohover">Home</a>
+
+<a href="/about/" class="nohover">About</a>
+
+<a href="/now/" class="nohover">Now</a>
+
+<a href="/research/" class="nohover">Research</a>
+
+
+<a href="/blog" class="nohover">Blog</a>
+
+</nav>
+</header>
+  <main>
+<content>
+  
+  <ul class="blog-posts">
+    
+    <li>
+      <span>
+        <i>
+          <time datetime='2025-11-14' pubdate>
+            14 Nov, 2025
+          </time>
+        </i>
+      </span>
+      <a href="https://nmohnblatt.me/proximity-conjecture/" class="nohover">Proximity Gaps: What Happened and How Does It Affect our SNARKs</a>
+    </li>
+    
+    <li>
+      <span>
+        <i>
+          <time datetime='2025-10-30' pubdate>
+            30 Oct, 2025
+          </time>
+        </i>
+      </span>
+      <a href="https://nmohnblatt.me/fri-security/" class="nohover">Why does FRI work?</a>
+    </li>
+    
+    <li>
+      <span>
+        <i>
+          <time datetime='2025-09-29' pubdate>
+            29 Sep, 2025
+          </time>
+        </i>
+      </span>
+      <a href="https://nmohnblatt.me/notes-on-witness-extended-emulation/" class="nohover">Notes on Witness-extended Emulation</a>
+    </li>
+    
+    <li>
+      <span>
+        <i>
+          <time datetime='2025-08-10' pubdate>
+            10 Aug, 2025
+          </time>
+        </i>
+      </span>
+      <a href="https://nmohnblatt.me/proofs-resources/" class="nohover">Resources for Writing Security Proofs</a>
+    </li>
+    
+    <li>
+      <span>
+        <i>
+          <time datetime='2025-05-30' pubdate>
+            30 May, 2025
+          </time>
+        </i>
+      </span>
+      <a href="https://nmohnblatt.me/libzk-highlights/" class="nohover">Highlights of libZK, the Google Wallet ZKP</a>
+    </li>
+    
+    <li>
+      <span>
+        <i>
+          <time datetime='2025-05-06' pubdate>
+            06 May, 2025
+          </time>
+        </i>
+      </span>
+      <a href="https://nmohnblatt.me/ligerito-and-whir/" class="nohover">Comparing Ligerito and WHIR</a>
+    </li>
+    
+    <li>
+      <span>
+        <i>
+          <time datetime='2024-12-11' pubdate>
+            11 Dec, 2024
+          </time>
+        </i>
+      </span>
+      <a href="https://nmohnblatt.me/arke-for-bluesky/" class="nohover">Privacy-preserving Contact Discovery for Bluesky</a>
+    </li>
+    
+    <li>
+      <span>
+        <i>
+          <time datetime='2024-12-04' pubdate>
+            04 Dec, 2024
+          </time>
+        </i>
+      </span>
+      <a href="https://nmohnblatt.me/chosen-instance-attack/" class="nohover">Chosen-instance Attack</a>
+    </li>
+    
+    <li>
+      <span>
+        <i>
+          <time datetime='2024-12-03' pubdate>
+            03 Dec, 2024
+          </time>
+        </i>
+      </span>
+      <a href="https://nmohnblatt.me/zoda-explainer/" class="nohover">ZODA: An Explainer</a>
+    </li>
+    
+    <li>
+      <span>
+        <i>
+          <time datetime='2024-11-08' pubdate>
+            08 Nov, 2024
+          </time>
+        </i>
+      </span>
+      <a href="https://nmohnblatt.me/sampling-for-proximity-and-availability/" class="nohover">Sampling for Proximity and Availability</a>
+    </li>
+    
+    <li>
+      <span>
+        <i>
+          <time datetime='2023-08-17' pubdate>
+            17 Aug, 2023
+          </time>
+        </i>
+      </span>
+      <a href="https://nmohnblatt.me/speedrun-protostar/" class="nohover">Paper Speedrun: Protostar</a>
+    </li>
+    
+    <li>
+      <span>
+        <i>
+          <time datetime='2023-05-12' pubdate>
+            12 May, 2023
+          </time>
+        </i>
+      </span>
+      <a href="https://nmohnblatt.me/witness-encryption-from-ibe/" class="nohover">Emulating Witness Encryption with Threshold Cryptography and ZKPs</a>
+    </li>
+    
+    <li>
+      <span>
+        <i>
+          <time datetime='2023-02-17' pubdate>
+            17 Feb, 2023
+          </time>
+        </i>
+      </span>
+      <a href="https://nmohnblatt.me/sangria/" class="nohover">Sangria: a Folding Scheme for PLONK</a>
+    </li>
+    
+    <li>
+      <span>
+        <i>
+          <time datetime='2023-01-18' pubdate>
+            18 Jan, 2023
+          </time>
+        </i>
+      </span>
+      <a href="https://nmohnblatt.me/speedrun-zkcreds/" class="nohover">Paper Speedrun: zk-creds</a>
+    </li>
+    
+    <li>
+      <span>
+        <i>
+          <time datetime='2023-01-05' pubdate>
+            05 Jan, 2023
+          </time>
+        </i>
+      </span>
+      <a href="https://nmohnblatt.me/functional-commitments/" class="nohover">Functional Commitments: ZK under a different lens</a>
+    </li>
+    
+    <li>
+      <span>
+        <i>
+          <time datetime='2022-07-05' pubdate>
+            05 Jul, 2022
+          </time>
+        </i>
+      </span>
+      <a href="https://nmohnblatt.me/mental-poker-2/" class="nohover">Mental Poker in the Age of SNARKs - Part 2</a>
+    </li>
+    
+    <li>
+      <span>
+        <i>
+          <time datetime='2022-06-28' pubdate>
+            28 Jun, 2022
+          </time>
+        </i>
+      </span>
+      <a href="https://nmohnblatt.me/mental-poker-1/" class="nohover">Mental Poker in the Age of SNARKs - Part 1</a>
+    </li>
+    
+  </ul>
+  
+    <small>
+      <div>
+        
+        <a href="https://nmohnblatt.me/blog/anonymous-credentials/" class="nohover">#Anonymous Credentials</a>&nbsp;
+        
+        <a href="https://nmohnblatt.me/blog/bcc/" class="nohover">#BCC</a>&nbsp;
+        
+        <a href="https://nmohnblatt.me/blog/data-availability-sampling/" class="nohover">#Data Availability Sampling</a>&nbsp;
+        
+        <a href="https://nmohnblatt.me/blog/folding/" class="nohover">#Folding</a>&nbsp;
+        
+        <a href="https://nmohnblatt.me/blog/geometry-notebook/" class="nohover">#Geometry Notebook</a>&nbsp;
+        
+        <a href="https://nmohnblatt.me/blog/identity-based-encryption/" class="nohover">#Identity-Based Encryption</a>&nbsp;
+        
+        <a href="https://nmohnblatt.me/blog/mental-poker/" class="nohover">#Mental Poker</a>&nbsp;
+        
+        <a href="https://nmohnblatt.me/blog/mpc/" class="nohover">#MPC</a>&nbsp;
+        
+        <a href="https://nmohnblatt.me/blog/privacy/" class="nohover">#Privacy</a>&nbsp;
+        
+        <a href="https://nmohnblatt.me/blog/proximity-testing/" class="nohover">#Proximity Testing</a>&nbsp;
+        
+        <a href="https://nmohnblatt.me/blog/resources/" class="nohover">#Resources</a>&nbsp;
+        
+        <a href="https://nmohnblatt.me/blog/security/" class="nohover">#Security</a>&nbsp;
+        
+        <a href="https://nmohnblatt.me/blog/social-networks/" class="nohover">#Social Networks</a>&nbsp;
+        
+        <a href="https://nmohnblatt.me/blog/speedrun/" class="nohover">#Speedrun</a>&nbsp;
+        
+        <a href="https://nmohnblatt.me/blog/succinct-proofs/" class="nohover">#Succinct Proofs</a>&nbsp;
+        
+        <a href="https://nmohnblatt.me/blog/threshold-cryptography/" class="nohover">#Threshold Cryptography</a>&nbsp;
+        
+        <a href="https://nmohnblatt.me/blog/witness-encryption/" class="nohover">#Witness Encryption</a>&nbsp;
+        
+        <a href="https://nmohnblatt.me/blog/zero-knowledge/" class="nohover">#Zero-Knowledge</a>&nbsp;
+        
+        <a href="https://nmohnblatt.me/blog/zk-hack/" class="nohover">#ZK Hack</a>&nbsp;
+        
+        <a href="https://nmohnblatt.me/blog/zksecurity/" class="nohover">#ZkSecurity</a>&nbsp;
+        
+      </div>
+    </small>
+    
+</content>
+
+  </main>
+  <footer><p style="font-size: small;">
+    Built using <a href="https://gohugo.io" class="nohover">Hugo</a>. The theme is adapted from <a href="https://github.com/janraasch/hugo-bearblog/" class="nohover">hugo-bearblog</a> and uses colours from <a href="https://github.com/kepano/flexoki?tab=readme-ov-file" class="nohover">Flexoki</a>.
+</p>
+
+<p style="font-size: small;">
+    <a href="https://github.com/nmohnblatt" class="nohover">Github</a> | <a href="https://bsky.app/profile/nicomnbl.bsky.social" class="nohover">Bluesky</a> | <a href="https://x.com/nico_mnbl" class="nohover">&#x1D54F;</a> | <a href="https://zkjargon.github.io" class="nohover">ZK Jargon Decoder</a> <br>
+    &copy; 2024-2026, Nicolas Mohnblatt. <br>
+</p>
+</footer>
+
+    
+</body>
+
+</html>

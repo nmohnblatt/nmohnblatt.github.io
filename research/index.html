@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://nmohnblatt.me/images/favicon.png" />
+<title>Research | Nicolas Mohnblatt</title>
+<meta name="title" content="Research" />
+<meta name="description" content="Research &amp; Projects
+A non-exhaustive, somewhat-ordered list of papers, projects and talks that I have given.
+Papers
+
+[GMW25] A Simplified Round-by-round Soundness Proof of FRI.
+[CSPMLK25] Unaligned Incentives: Pricing Attacks Against Blockchain Rollups.
+[MMZ25] IVC in the Open-and-sign Random Oracle Model, Asiacrypt &#39;25.
+[EMA24] ZODA: Zero-Overhead Data Availability, now deployed and enabling 1 Tb/s blockspace as part of Celestia&rsquo;s Fibre upgrade.
+[CMKL24] Pricing Factors and TFMs for Scalability-Focused ZK-Rollups, MARBLE &#39;25.
+[MSGJ24] Arke: Scalable and Byzantine Fault Tolerant Privacy-Preserving Contact Discovery, ACM CCS &#39;24.
+[Moh23] Sangria: a Folding Scheme for PLONK.
+
+Projects" />
+<meta name="keywords" content="" />
+
+
+<meta property="og:url" content="https://nmohnblatt.me/research/">
+  <meta property="og:site_name" content="Nicolas Mohnblatt">
+  <meta property="og:title" content="Research">
+  <meta property="og:description" content="Research &amp; Projects A non-exhaustive, somewhat-ordered list of papers, projects and talks that I have given.
+Papers
+[GMW25] A Simplified Round-by-round Soundness Proof of FRI. [CSPMLK25] Unaligned Incentives: Pricing Attacks Against Blockchain Rollups. [MMZ25] IVC in the Open-and-sign Random Oracle Model, Asiacrypt &#39;25. [EMA24] ZODA: Zero-Overhead Data Availability, now deployed and enabling 1 Tb/s blockspace as part of Celestia’s Fibre upgrade. [CMKL24] Pricing Factors and TFMs for Scalability-Focused ZK-Rollups, MARBLE &#39;25. [MSGJ24] Arke: Scalable and Byzantine Fault Tolerant Privacy-Preserving Contact Discovery, ACM CCS &#39;24. [Moh23] Sangria: a Folding Scheme for PLONK. Projects">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="og:image" content="https://nmohnblatt.me/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://nmohnblatt.me/images/share.png">
+  <meta name="twitter:title" content="Research">
+  <meta name="twitter:description" content="Research &amp; Projects A non-exhaustive, somewhat-ordered list of papers, projects and talks that I have given.
+Papers
+[GMW25] A Simplified Round-by-round Soundness Proof of FRI. [CSPMLK25] Unaligned Incentives: Pricing Attacks Against Blockchain Rollups. [MMZ25] IVC in the Open-and-sign Random Oracle Model, Asiacrypt &#39;25. [EMA24] ZODA: Zero-Overhead Data Availability, now deployed and enabling 1 Tb/s blockspace as part of Celestia’s Fibre upgrade. [CMKL24] Pricing Factors and TFMs for Scalability-Focused ZK-Rollups, MARBLE &#39;25. [MSGJ24] Arke: Scalable and Byzantine Fault Tolerant Privacy-Preserving Contact Discovery, ACM CCS &#39;24. [Moh23] Sangria: a Folding Scheme for PLONK. Projects">
+
+
+
+
+  <meta itemprop="name" content="Research">
+  <meta itemprop="description" content="Research &amp; Projects A non-exhaustive, somewhat-ordered list of papers, projects and talks that I have given.
+Papers
+[GMW25] A Simplified Round-by-round Soundness Proof of FRI. [CSPMLK25] Unaligned Incentives: Pricing Attacks Against Blockchain Rollups. [MMZ25] IVC in the Open-and-sign Random Oracle Model, Asiacrypt &#39;25. [EMA24] ZODA: Zero-Overhead Data Availability, now deployed and enabling 1 Tb/s blockspace as part of Celestia’s Fibre upgrade. [CMKL24] Pricing Factors and TFMs for Scalability-Focused ZK-Rollups, MARBLE &#39;25. [MSGJ24] Arke: Scalable and Byzantine Fault Tolerant Privacy-Preserving Contact Discovery, ACM CCS &#39;24. [Moh23] Sangria: a Folding Scheme for PLONK. Projects">
+  <meta itemprop="wordCount" content="317">
+  <meta itemprop="image" content="https://nmohnblatt.me/images/share.png">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  
+
+<style>
+  body {
+    font-family: Verdana, sans-serif;
+    font-size: 15px;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #FFFCF0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #100F0F;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #100F0F;
+  }
+
+  a {
+    color: #24837B;
+     
+    text-decoration: none;
+  }
+
+  a.underline {
+    text-decoration: underline; 
+  }
+
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a.nohover:hover {
+    text-decoration: none;
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  a.title:hover{
+    text-decoration: none;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+   
+
+  td {
+    border-top: 1px solid #E6E4D9;
+  } 
+
+  img {
+    max-width: 100%;
+  }
+
+  figure {
+    margin-inline-start: 20px;
+    margin-inline-end: 20px;
+  }
+
+  figcaption {
+    color: #B7B5AC;
+    font-size: small;
+    text-align: center;
+  }
+
+  figcaption p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #E6E4D9;
+    color: #878580;
+  }
+
+  pre code {
+    color: #6F6E69;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 2px solid #24837B;
+    color: #100F0F;
+    padding-left: 15px;
+    margin-inline-start: 20px;
+     
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #17504b;
+  }
+
+   
+
+</style>
+
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']],     
+      tags: 'ams'
+    }
+  };
+</script>
+  
+
+  
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>Nicolas Mohnblatt</h2>
+</a>
+<nav><a href="/" class="nohover">Home</a>
+
+<a href="/about/" class="nohover">About</a>
+
+<a href="/now/" class="nohover">Now</a>
+
+<a href="/research/" class="nohover">Research</a>
+
+
+<a href="/blog" class="nohover">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<content>
+  <h1 id="research--projects">Research &amp; Projects</h1>
+<p>A non-exhaustive, somewhat-ordered list of papers, projects and talks that I have given.</p>
+<p><strong>Papers</strong></p>
+<ul>
+<li>[GMW25] <a href="https://eprint.iacr.org/2025/1993">A Simplified Round-by-round Soundness Proof of FRI</a>.</li>
+<li>[CSPMLK25] <a href="https://arxiv.org/abs/2509.17126">Unaligned Incentives: Pricing Attacks Against Blockchain Rollups</a>.</li>
+<li>[MMZ25] <a href="https://eprint.iacr.org/2025/1663">IVC in the Open-and-sign Random Oracle Model</a>, Asiacrypt '25.</li>
+<li>[EMA24] <a href="https://eprint.iacr.org/2025/34">ZODA: Zero-Overhead Data Availability</a>, now deployed and enabling 1 Tb/s blockspace as part of Celestia&rsquo;s <a href="https://blog.celestia.org/introducing-fibre-1tb-s-of-blockspace/">Fibre</a> upgrade.</li>
+<li>[CMKL24] <a href="https://arxiv.org/abs/2410.13277">Pricing Factors and TFMs for Scalability-Focused ZK-Rollups</a>, MARBLE '25.</li>
+<li>[MSGJ24] <a href="https://eprint.iacr.org/2023/1218">Arke: Scalable and Byzantine Fault Tolerant Privacy-Preserving Contact Discovery</a>, ACM CCS '24.</li>
+<li>[Moh23] <a href="https://github.com/geometryxyz/technical_notes/blob/main/sangria_folding_plonk.pdf">Sangria: a Folding Scheme for PLONK</a>.</li>
+</ul>
+<p><strong>Projects</strong></p>
+<ul>
+<li>ZeroKnowledge Podcast, leanEthereum mini-series.</li>
+<li><a href="https://zkhack.dev/whiteboard/">ZK Whiteboard Sessions: Season 3</a>, content curation and hosting modules.</li>
+<li>ZK Hack 5 puzzle design: <a href="https://zkhack.dev/zkhackV/puzzleV1.html">Zeitgeist</a> and <a href="https://zkhack.dev/zkhackV/puzzleV2.html">Don&rsquo;t Look Up</a>.</li>
+<li><a href="https://zkhack.dev/whiteboard/">ZK Whiteboard Sessions: Season 2</a>, content curation and hosting modules.</li>
+<li><a href="https://zkjargon.github.io">ZK Jargon Decoder</a>, creator and maintainer.</li>
+<li><a href="https://zeroknowledge.fm">ZeroKnowledge Podcast</a> co-host.</li>
+<li><a href="https://aptos.dev/en/build/guides/aptos-keyless">Aptos Keyless</a> early circuit audit.</li>
+<li><a href="https://geometry.xyz/notebook">Paper Speedrun</a> series. A series of short and accessible paper summaries for the Geometry blog.</li>
+<li><a href="https://github.com/geometryxyz/functional-commitment">Experimental implementation of functional commitments</a> <a href="https://eprint.iacr.org/2021/1342">[BNO21]</a> using arkworks.</li>
+<li>An arkworks-based <a href="https://github.com/geometryresearch/mental-poker">library for Mental Poker</a> using threshold encryption and NARKs, with companion blog posts (<a href="https://nmohnblatt.me/mental-poker-1/">Pt1</a> and <a href="https://nmohnblatt.me/mental-poker-2/">Pt2</a>).</li>
+<li><a href="https://github.com/geometryresearch/proof-toolbox">Proof-toolbox</a>: a collection of common tools used in ZK applications.</li>
+</ul>
+<p><strong>Selected Talks</strong></p>
+<ul>
+<li>IVC in the Open-and-Sign Random Oracle Model, <em>joint work with Mary Maller and Arantxa Zapico</em>. Asiacrypt 2025, Melbourne. Dec 2025. <a href="https://github.com/nmohnblatt/talks/blob/main/2025_12_IVC_in_the_osROM_asiacrypt.pdf">📃</a></li>
+<li>State of the art of &ldquo;ZK&rdquo; in 2025, ZuBerlin, Berlin. June 2025. <a href="https://github.com/nmohnblatt/talks/blob/main/2025_06_state_of_zk.pdf">📃</a></li>
+<li><a href="https://www.youtube.com/watch?v=2AkMEYkU7yY">Panel on Advances and Narrative of ZK in 2024</a>, <em>with Jim Posen and Anna Rose</em>. Web3 Summit, Berlin. Aug 2024.</li>
+<li><a href="https://www.youtube.com/watch?v=JIZcDaPJjUg">Under the Hood of ZK x ID</a>. Web3 Summit, Berlin. Aug 2024. <a href="https://github.com/nmohnblatt/talks/blob/main/2024_08_web3summit_attested_data.pdf">📃</a></li>
+<li><a href="https://youtu.be/_TVAYEzDQMM">Arke: Privacy-Preserving and Decentralized Contact Discovery</a>, <em>joint work with Alberto Sonnino, Kobi Gurkan and Philipp Jovanovic</em>. ZK Summit 11, Athens. Apr 2024. <a href="https://github.com/nmohnblatt/talks/blob/main/2024_04_Arke_ZKSummit.pdf">📃</a></li>
+<li><a href="https://youtu.be/D7rQbHpxl7Q"><em>Sangria</em> is Relaxed PLONK: a Nova-like Folding Scheme for PLONK</a>. ZK Summit 9, Lisbon. Apr 2023. <a href="https://github.com/nmohnblatt/talks/blob/main/2023_04_ZKSummit9_Sangria.pdf">📃</a></li>
+<li>Enabling Decentralized Card Games with Zero-knowledge Proofs. ZKProof 5 (Ingonyama side event), Tel Aviv. Nov 2022. <a href="https://github.com/nmohnblatt/talks/blob/main/2022_11_IngoGaming_Mental_Poker.pdf">📃</a></li>
+</ul>
+
+</content>
+<p>
+  
+</p>
+
+  </main>
+  <footer><p style="font-size: small;">
+    Built using <a href="https://gohugo.io" class="nohover">Hugo</a>. The theme is adapted from <a href="https://github.com/janraasch/hugo-bearblog/" class="nohover">hugo-bearblog</a> and uses colours from <a href="https://github.com/kepano/flexoki?tab=readme-ov-file" class="nohover">Flexoki</a>.
+</p>
+
+<p style="font-size: small;">
+    <a href="https://github.com/nmohnblatt" class="nohover">Github</a> | <a href="https://bsky.app/profile/nicomnbl.bsky.social" class="nohover">Bluesky</a> | <a href="https://x.com/nico_mnbl" class="nohover">&#x1D54F;</a> | <a href="https://zkjargon.github.io" class="nohover">ZK Jargon Decoder</a> <br>
+    &copy; 2024-2026, Nicolas Mohnblatt. <br>
+</p>
+</footer>
+
+    
+</body>
+
+</html>

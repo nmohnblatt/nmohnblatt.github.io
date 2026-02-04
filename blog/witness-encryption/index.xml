@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Witness Encryption on Nicolas Mohnblatt</title>
+    <link>https://nmohnblatt.me/blog/witness-encryption/</link>
+    <description>Recent content in Witness Encryption on Nicolas Mohnblatt</description>
+    <generator>Hugo</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2024-2026, Nicolas Mohnblatt.</copyright>
+    <lastBuildDate>Fri, 12 May 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://nmohnblatt.me/blog/witness-encryption/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Emulating Witness Encryption with Threshold Cryptography and ZKPs</title>
+      <link>https://nmohnblatt.me/witness-encryption-from-ibe/</link>
+      <pubDate>Fri, 12 May 2023 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/witness-encryption-from-ibe/</guid>
+      <description>&lt;p&gt;This short document outlines how to emulate witness encryption using threshold cryptography - and more specifically, threshold identity-based encryption (IBE). The ideas presented here are heavily inspired by the &lt;code&gt;tlock&lt;/code&gt; construction from &lt;a href=&#34;https://eprint.iacr.org/2023/189&#34;&gt;[GMR23]&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;Disclaimer: I have not done a thorough review of the existing literature, if you are aware of existing constructions that work in the same way please let me know!&lt;/em&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;background&#34;&gt;Background&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Witness Encryption.&lt;/strong&gt; The &lt;em&gt;extractable witness encryption&lt;/em&gt; paradigm is the following: given an instance of some hard problem, one can encrypt a message using the instance such that it may only be decrypted by someone who &lt;em&gt;knows&lt;/em&gt; the problem&amp;rsquo;s solution (the witness).&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

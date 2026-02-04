@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://nmohnblatt.me/images/favicon.png" />
+<title>Mental Poker in the Age of SNARKs - Part 2 | Nicolas Mohnblatt</title>
+<meta name="title" content="Mental Poker in the Age of SNARKs - Part 2" />
+<meta name="description" content="This article is cross-posted from the Geometry Notebook.
+The work was produced in collaboration with Andrija Novakovic and Kobi Gurkan for Geometry and MatchboxDAO.
+
+In Part 1 of our Mental Poker series we highlighted the challenges of decentralised card games and presented the improved Barnett-Smart protocol as a practical solution. In this second part we take a deep dive into the cryptography that enables this protocol.
+We will first inspect an instantiation of the verifiable $l$-out-of-$l$ threshold masking functions (VTMFs) using El Gamal encryption1. We will also show how repeated applications of these functions achieve the necessary properties for a fair card game. In the second section we cover the zero-knowledge argument for a correct shuffle as presented in “Efficient Zero-knowledge Argument for Correctness of a Shuffle”2." />
+<meta name="keywords" content="MPC,Zero-knowledge,Mental Poker,Geometry Notebook," />
+
+
+<meta property="og:url" content="https://nmohnblatt.me/mental-poker-2/">
+  <meta property="og:site_name" content="Nicolas Mohnblatt">
+  <meta property="og:title" content="Mental Poker in the Age of SNARKs - Part 2">
+  <meta property="og:description" content="This article is cross-posted from the Geometry Notebook. The work was produced in collaboration with Andrija Novakovic and Kobi Gurkan for Geometry and MatchboxDAO.
+In Part 1 of our Mental Poker series we highlighted the challenges of decentralised card games and presented the improved Barnett-Smart protocol as a practical solution. In this second part we take a deep dive into the cryptography that enables this protocol.
+We will first inspect an instantiation of the verifiable $l$-out-of-$l$ threshold masking functions (VTMFs) using El Gamal encryption1. We will also show how repeated applications of these functions achieve the necessary properties for a fair card game. In the second section we cover the zero-knowledge argument for a correct shuffle as presented in “Efficient Zero-knowledge Argument for Correctness of a Shuffle”2.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2022-07-05T00:00:00+00:00">
+    <meta property="article:modified_time" content="2022-07-05T00:00:00+00:00">
+    <meta property="article:tag" content="MPC">
+    <meta property="article:tag" content="Zero-Knowledge">
+    <meta property="article:tag" content="Mental Poker">
+    <meta property="article:tag" content="Geometry Notebook">
+    <meta property="og:image" content="https://nmohnblatt.me/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://nmohnblatt.me/images/share.png">
+  <meta name="twitter:title" content="Mental Poker in the Age of SNARKs - Part 2">
+  <meta name="twitter:description" content="This article is cross-posted from the Geometry Notebook. The work was produced in collaboration with Andrija Novakovic and Kobi Gurkan for Geometry and MatchboxDAO.
+In Part 1 of our Mental Poker series we highlighted the challenges of decentralised card games and presented the improved Barnett-Smart protocol as a practical solution. In this second part we take a deep dive into the cryptography that enables this protocol.
+We will first inspect an instantiation of the verifiable $l$-out-of-$l$ threshold masking functions (VTMFs) using El Gamal encryption1. We will also show how repeated applications of these functions achieve the necessary properties for a fair card game. In the second section we cover the zero-knowledge argument for a correct shuffle as presented in “Efficient Zero-knowledge Argument for Correctness of a Shuffle”2.">
+
+
+
+
+  <meta itemprop="name" content="Mental Poker in the Age of SNARKs - Part 2">
+  <meta itemprop="description" content="This article is cross-posted from the Geometry Notebook. The work was produced in collaboration with Andrija Novakovic and Kobi Gurkan for Geometry and MatchboxDAO.
+In Part 1 of our Mental Poker series we highlighted the challenges of decentralised card games and presented the improved Barnett-Smart protocol as a practical solution. In this second part we take a deep dive into the cryptography that enables this protocol.
+We will first inspect an instantiation of the verifiable $l$-out-of-$l$ threshold masking functions (VTMFs) using El Gamal encryption1. We will also show how repeated applications of these functions achieve the necessary properties for a fair card game. In the second section we cover the zero-knowledge argument for a correct shuffle as presented in “Efficient Zero-knowledge Argument for Correctness of a Shuffle”2.">
+  <meta itemprop="datePublished" content="2022-07-05T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2022-07-05T00:00:00+00:00">
+  <meta itemprop="wordCount" content="2485">
+  <meta itemprop="image" content="https://nmohnblatt.me/images/share.png">
+  <meta itemprop="keywords" content="MPC,Zero-Knowledge,Mental Poker,Geometry Notebook">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  
+
+<style>
+  body {
+    font-family: Verdana, sans-serif;
+    font-size: 15px;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #FFFCF0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #100F0F;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #100F0F;
+  }
+
+  a {
+    color: #24837B;
+     
+    text-decoration: none;
+  }
+
+  a.underline {
+    text-decoration: underline; 
+  }
+
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a.nohover:hover {
+    text-decoration: none;
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  a.title:hover{
+    text-decoration: none;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+   
+
+  td {
+    border-top: 1px solid #E6E4D9;
+  } 
+
+  img {
+    max-width: 100%;
+  }
+
+  figure {
+    margin-inline-start: 20px;
+    margin-inline-end: 20px;
+  }
+
+  figcaption {
+    color: #B7B5AC;
+    font-size: small;
+    text-align: center;
+  }
+
+  figcaption p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #E6E4D9;
+    color: #878580;
+  }
+
+  pre code {
+    color: #6F6E69;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 2px solid #24837B;
+    color: #100F0F;
+    padding-left: 15px;
+    margin-inline-start: 20px;
+     
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #17504b;
+  }
+
+   
+
+</style>
+
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']],     
+      tags: 'ams'
+    }
+  };
+</script>
+  
+
+  
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>Nicolas Mohnblatt</h2>
+</a>
+<nav><a href="/" class="nohover">Home</a>
+
+<a href="/about/" class="nohover">About</a>
+
+<a href="/now/" class="nohover">Now</a>
+
+<a href="/research/" class="nohover">Research</a>
+
+
+<a href="/blog" class="nohover">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>Mental Poker in the Age of SNARKs - Part 2</h1>
+<p>
+  <i>
+    
+  </i>
+</p>
+<p>
+  <i>
+    <time datetime='2022-07-05' pubdate>
+      05 Jul, 2022
+    </time>
+  </i>
+</p>
+
+<content>
+  <p><em>This article is cross-posted from the <a href="https://geometry.xyz/notebook/mental-poker-in-the-age-of-snarks-part-1">Geometry Notebook</a>.</em>
+<em>The work was produced in collaboration with Andrija Novakovic and Kobi Gurkan for Geometry and MatchboxDAO.</em></p>
+<hr>
+<p>In <a href="../mental-poker-in-the-age-of-snarks-part-1">Part 1</a> of our Mental Poker series we highlighted the challenges of decentralised card games and presented the improved Barnett-Smart protocol as a practical solution. In this second part we take a deep dive into the cryptography that enables this protocol.</p>
+<p>We will first inspect an <!-- raw HTML omitted -->instantiation of the verifiable $l$-out-of-$l$ threshold masking functions (VTMFs) using El Gamal encryption<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup><!-- raw HTML omitted -->. We will also show how repeated applications of these functions achieve the necessary properties for a fair card game. In the second section we cover the zero-knowledge argument for a correct shuffle as presented in <!-- raw HTML omitted -->“Efficient Zero-knowledge Argument for Correctness of a Shuffle”<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup><!-- raw HTML omitted -->.</p>
+<h2 id="discrete-log-vtmf-mental-poker-revisited">Discrete-log VTMF (<!-- raw HTML omitted -->Mental Poker Revisited<sup id="fnref1:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup><!-- raw HTML omitted -->)</h2>
+<p>A set of VTMFs is composed of 4 functions: <strong>key generation</strong>, <strong>mask</strong>, <strong>remask</strong> and <strong>unmask</strong>. These can be instantiated using a threshold variant of the El Gamal encryption scheme. Verifiability is achieved by computing zero-knowledge proofs that encryption and decryption are performed correctly.</p>
+<blockquote>
+<p>✍️ Notation:
+We assume that players have agreed to use a finite abelian group $\mathbb{G}$ of prime order $q$. We denote $G$ the generator of $\mathbb{G}$ and use additive notation (”$+$”) for the group operation.
+We assume the existence of a public mapping $\mathcal{M}$ from card values to elements of $\mathbb{G}$; this could be a hash function for example. Given a card value, all players can compute $M = \mathcal{M}(\text{card})$ with $M \in \mathbb{G}$.
+The $\gets$ operator denotes an element chosen uniformly at random from a set, e.g. $X \gets \mathbb{G}$
+In this section we will consider a group of $\ell$ players which we denote with the subscript $i \in \{1, 2, \dots, \ell\}$.</p>
+</blockquote>
+<h3 id="key-generation">Key Generation</h3>
+<p>Player $i$ generates a private key $x_i \gets \mathbb{Z} _q$. The corresponding public key $H_i$ is computed as $H_i = x_i G$ and published.</p>
+<p>To prevent rogue key attacks, we require that players prove in zero knowledge that they know the private key corresponding to the key they publish. In this discrete logarithm setting, such a proof is easily obtained using the <a href="https://www.zkdocs.com/docs/zkdocs/zero-knowledge-protocols/schnorr/">Schnorr identification scheme</a>.</p>
+<p>Once all players have published their keys and proofs, an aggregate public key $H$ can be computed as:</p>
+<p>$$
+\begin{equation}
+H = \sum_ {i=1} ^\ell H_i = \sum_ {i=1} ^\ell x_i G
+\end{equation}
+$$</p>
+<h3 id="mask">Mask</h3>
+<p>The mask function, denoted $\mathcal{E}_H$ when using the public key $H$, is in fact the El Gamal encryption of a card $M \in \mathbb{G}$. The resulting ciphertext $\mathbf{C} \in \mathbb{G} \times \mathbb{G}$ is a masked card.</p>
+<p>$$
+\begin{equation}
+\mathbf{C} = \mathcal{E}_H(M, r) = \left( \begin{array}{c}
+C_a \\
+C_b
+\end{array} \right)
+= \left( \begin{array}{c}
+rG \\
+M + rH
+\end{array} \right)
+\end{equation}
+$$</p>
+<p>Here $r$, known as the <em>masking factor</em>, is an element of $\mathbb{Z}_q$ chosen uniformly at random by the player performing the mask operation. Notice that given a masked card and its corresponding masking factor, the plaintext card can be recovered without a secret key by computing $C_b - rH$. This would spell disaster for our scheme. As a consequence, masking factors must remain secret to protect a masked card’s hidden value.</p>
+<h3 id="remask">Remask</h3>
+<p>The remask function, denoted ${\mathcal{E}_H}&rsquo;$, allows to re-randomise a masked card $\mathbf{C} = \left( \begin{array}{c}
+C_a \\
+C_b
+\end{array} \right)$. The player performing the remask operation chooses a random element $r&rsquo; \gets \mathbb{Z}_q$ and computes:</p>
+<p>$$
+\begin{equation}
+\mathbf{C&rsquo;} = {\mathcal{E}_H}&rsquo;(\mathbf{C}, r&rsquo;) = \mathbf{C} + \left( \begin{array}{c}
+r&rsquo;G \\
+r&rsquo;H
+\end{array} \right)
+= \left( \begin{array}{c}
+C_a + r&rsquo;G \\
+C_b + r&rsquo;H
+\end{array} \right)
+\end{equation}
+$$</p>
+<h4 id="example-using-mask-and-remask-to-hide-a-card-from-all-players">Example: using Mask and Remask to hide a card from all players</h4>
+<p>Let’s take a three player game as an example with Alice, Bob and Charlie respectively players 1, 2 and 3. Alice computes $\mathbf{C}_1$, the masking of card  using the masking factor $\alpha$. Bob then computes $\mathbf{C}_2$ by remasking $\mathbf{C}_1$ using the masking factor $\beta$. Finally Charlie computes $\mathbf{C}_3$ by remasking $\mathbf{C}_2$ with the masking factor $\gamma$. Let us quickly run through the math to see what is actually happening:</p>
+<p>$$
+\begin{align}
+\mathbf{C}_1 &amp;= \mathcal{E}_H(M, \alpha)
+= \left( \begin{array}{c}
+\alpha G \\
+M + \alpha H
+\end{array} \right) \\
+\mathbf{C}_2 &amp;= {\mathcal{E}_H}&rsquo;(\mathbf{C}_1, \beta)
+= \mathbf{C}_1 + \left( \begin{array}{c}
+\beta G \\
+\beta H
+\end{array} \right)
+= \left( \begin{array}{c}
+(\alpha + \beta) G \\
+M + (\alpha + \beta) H
+\end{array} \right) \\
+\mathbf{C}_3 &amp;= {\mathcal{E}_H}&rsquo;(\mathbf{C}_2, \gamma)
+= \mathbf{C}_2 + \left( \begin{array}{c}
+\gamma G \\
+\gamma H
+\end{array} \right)
+= \left( \begin{array}{c}
+(\alpha + \beta + \gamma) G \\
+M + (\alpha + \beta + \gamma) H
+\end{array} \right)
+\end{align}
+$$</p>
+<p>After every player has processed the card we are left with a masked card under the aggregate masking factor $\alpha + \beta + \gamma$: indeed notice that $\mathbf{C}_3 = \mathcal{E}_H(M, (\alpha + \beta + \gamma))$. Recovering the original card $M$ would require all players to share the masking factor they used or to participate in decryption.</p>
+<h3 id="unmask">Unmask</h3>
+<p>How can we untie the knot that was created above? We make use of the fact that a masked card (ciphertext) is composed of two group elements and each of these have had the same masking factors applied to them. Given a masked card $\mathbf{C} = \left( \begin{array}{c}
+C_a \\
+C_b
+\end{array} \right)$ the $i$-th player can compute the value $D_i = x_i C_a$ using their private key. After each player publishes their value, the unmask operation can be performed as:</p>
+<p>$$
+\begin{equation}
+M = C_b - \sum_{i=1} ^\ell D_i
+\end{equation}
+$$</p>
+<p>For those who want to see why this works:
+$$
+\begin{align}
+C_b - \sum_{i=1} ^\ell D_i &amp;= C_b - \sum_{i=1} ^\ell x_i C_a \\
+&amp;= (M + rH) - \sum_{i=1} ^\ell x_i (rG) \\
+&amp;= M + rH - r \sum_{i=1} ^\ell H_i \\
+&amp;= M
+\end{align}
+$$</p>
+<h3 id="verifiability">Verifiability</h3>
+<p>Verifiability for the operations above (bar the key generation) is obtained by generating <strong>Chaum-Pedersen proofs of discrete log equality</strong>. In this classic $\Sigma$-protocol, a prover produces two values $\alpha G$ and $\beta H$ and proves in zero knowledge that they know $\alpha$ and that $\alpha = \beta$. A mask operation is verified using a Chaum-Pedersen proof for the values $C_a$ and $C_b -M$ with $\alpha = r$, remask using a Chaum-Pedersen proof for $C&rsquo;a - C_a$ and $C&rsquo;b - C_b$ with $\alpha = r&rsquo;$ and finally decrypt using a Chaum-Pedersen proof for $G$ and $C_a$ using $\alpha = x_i$.</p>
+<h2 id="zero-knowledge-argument-for-correctness-of-a-shuffle-bayer-groth">Zero-Knowledge Argument for Correctness of a Shuffle (<!-- raw HTML omitted -->Bayer-Groth<sup id="fnref1:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup><!-- raw HTML omitted -->)</h2>
+<blockquote>
+<p>✍️ Notation:
+As we now consider actions on a deck of cards by a single player, we use subscripts to denote an item’s position in an array (rather than indicating a player as seen in the previous section).</p>
+</blockquote>
+<h3 id="preliminaries">Preliminaries</h3>
+<p>To understand the argument of a correct shuffle of ciphertexts, we will first look at shuffling a set of $N$ group elements $P_1, P_2, \dots, P_N$, each a member of $\mathbb{G}$. Each element $P_i$ is given a new index and some blinding $\Delta_i \gets \mathbb{G}$ is added. This blinding operation is the same as applying remask to one of the two elements in a masked card. We can express each point at the output of the shuffle $P&rsquo;_i$ as:</p>
+<p>$$
+\begin{equation}
+P&rsquo;_i = P _ {\pi(i)} + \Delta_i
+\end{equation}
+$$</p>
+<p>where $\pi$ is a secret permutation. Below is a visual representation of the process for 6 elements. Can you write out the permutation that satisfies Equation (12)? (Answer in the image’s caption)</p>
+
+
+
+<figure style="text-align: center;"><img src="/mental-poker-2/permutation_hu_3f70cfb041091a7a.webp"
+  alt="Example of a six-point permutation"><figcaption>
+      <p>An example of a 6 point shuffle using the permutation π defined as π(1) = 2, π(2) = 5, π(3) = 1, π(4) = 3, π(5) = 6, π(6) = 4 . The permutation is read “backwards” on the diagram since equation 12 is indexed with respect to the output.</p>
+    </figcaption>
+</figure>
+<h3 id="argument-overview">Argument Overview</h3>
+<p>In order to produce an efficient argument, we first express a correct shuffle in the form of a polynomial equality. Such equalities can be checked with an overwhelming degree of certainty by evaluating each polynomial at a randomly chosen point in the domain (see <a href="https://zkjargon.github.io/definitions/schwartz_zippel.html">Schwartz-Zippel lemma</a>). One of the polynomials will be computed by the verifier using public data, the other by the prover using secret data. Since the prover cannot be trusted, we must devise additional arguments to attest that the prover polynomial is computed correctly. We consider each of these steps separately in the sections below.</p>
+<h3 id="shuffle-as-a-polynomial-equality">Shuffle as a Polynomial Equality</h3>
+<p>The core of the argument is the final verifier equation which we show below. For a fixed random challenge $z_c \gets \mathbb{Z}_q$, the verifier checks that:</p>
+<p>$$
+\begin{equation}
+\sum_{i=1} ^N {z_c}^i P_i = \sum_{i=1} ^N {z_c}^{\pi(i)} (P&rsquo;_i - \Delta_i)
+\end{equation}
+$$</p>
+<p>The <strong>left-hand side</strong> of this equation uses only public data (the shuffle’s inputs) and our random scalar; it can therefore be computed by the <strong>verifier</strong>. The <strong>right-hand side</strong> however can only be evaluated by the <strong>prover</strong> as it requires knowledge of the secret permutation $\pi$ and blinding elements $\Delta_i$.</p>
+<p>The first thing we should notice is that these expressions are very similar to the evaluation of two polynomials at the input $z_c$. The underlying polynomials can be made apparent by rewriting our elements $P_i$, $P&rsquo;_i$ and $\Delta_i$ as the product of some scalar and a generator. For all $i$ in $\{ 1, 2, \dots, N\}$, let</p>
+<ul>
+<li>$s_i \in \mathbb{Z}_q$ such that $P_i = s_i G$</li>
+<li>$s&rsquo;_i \in \mathbb{Z}_q$ such that $P&rsquo;_i = s&rsquo;_i G$</li>
+<li>$\delta_i \in \mathbb{Z}_q$ such that $\Delta_i = \delta_i G$</li>
+</ul>
+<p>Substituting the above into Equation (13) and factoring  out of the sum we can rewrite the verification equation as:</p>
+<p>$$
+\begin{equation}
+\left( \sum_{i=1} ^N {z_c}^i s_i \right) G = \left( \sum_{i=1} ^N {z_c}^{\pi(i)} (s&rsquo;_i - \delta_i) \right) G
+\end{equation}
+$$</p>
+<p>Consider the polynomials $f$ and $g$ described below and notice that the above expressions correspond to these polynomials evaluated at $z_c$ and multiplied by our group generator:</p>
+<p>$$
+\begin{equation}
+f(z) = \sum_{i=1} ^N z^i s_i \quad \text{ and } \quad g(z) = \sum_{i=1} ^N z^{\pi(i)} (s&rsquo;_i - \delta_i)
+\end{equation}
+$$</p>
+<p>Given that sums are commutative, we can rewrite $f$ as $f(z) = \sum_{i=1} ^N z^{\pi(i)} s _ {\pi(i)}$: we simply change the order of the terms in the sum. This now makes it apparent that:</p>
+<p>$$
+\begin{align}
+f(z) = g(z) &amp;\iff \sum_{i=1} ^N z^{\pi(i)} s _ {\pi(i)} =  \sum_{i=1} ^N z^{\pi(i)} (s&rsquo;_i - \delta_i) \\
+&amp;\iff \forall i \in \{1, 2, \dots, N \}, s _ {\pi(i)} = s&rsquo;_i - \delta_i \\
+&amp;\iff \forall i \in \{1, 2, \dots, N \}, P _ {\pi(i)} = P&rsquo;_i - \Delta_i
+\end{align}
+$$</p>
+<p>Or put into words, <strong>the polynomials $f$ and $g$ are identical if and only if the shuffle is valid</strong>.</p>
+<h3 id="checking-the-polynomial-equality">Checking the Polynomial Equality</h3>
+<p>To check the polynomial equality, we evaluate both polynomials at a point $z_c \gets \mathbb{Z}_q$ and check that $f(z_c) = g(z_c)$. While this does not guarantee that the polynomials are identical, it allows us to assert it with probability $1 - \frac{N}{|\mathbb{Z}_q|}$ (see <a href="https://zkjargon.github.io/definitions/schwartz_zippel.html">Schwartz-Zippel lemma</a>), where $|\mathbb{Z}_q| &gt; &gt; N$.</p>
+<p>Notice also that we do not have access to the values $s _ {\pi(i)}$, $s&rsquo;_i$ and $\delta_i$ but instead can only use $P _ {\pi(i)}$, $P&rsquo;_i$ and $\Delta_i$. Therefore we must evaluate the polynomials “in the exponent” as made explicit by Equation (14).</p>
+<h3 id="ensuring-the-prover-behaves-honestly">Ensuring the Prover Behaves Honestly</h3>
+<p>As mentioned previously, the right-hand side of the verification equation, $\sum_{i=1} ^N {z_c}^{\pi(i)} (P&rsquo;_i - \Delta_i)$, must be computed by the untrusted prover without revealing any private information. We reconcile both these requirements with commitments and zero-knowledge arguments.</p>
+<p>First the prover will commit to a permutation and will show in zero knowledge that they permuted powers of the challenge $z_c$ according to the committed permutation (permutation argument). After running such an argument, the verifier will hold a commitment $C _ {z, \pi}$ which binds the prover to the vector $\left[z_c ^ {\pi(1)}, z_c ^ {\pi(2)}, \dots, z_c ^ {\pi(N)}  \right]$ . This vector can now be used in an inner-product argument to produce a provable evaluation of the expected sum: $\sum_{i=1} ^N {z_c}^{\pi(i)} (P&rsquo;_i - \Delta_i)$.</p>
+<p>These arguments are not trivial and probably require their own articles to present a solid intuitive and mathematical understanding. A potential extension of the series? Who knows&hellip; In the meantime, a bit of ZK trivia: both the inner-product argument and permutation argument presented in <!-- raw HTML omitted -->“Efficient Zero-knowledge Argument for Correctness of a Shuffle”<sup id="fnref2:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup><!-- raw HTML omitted --> were later adapted and improved to respectively form part of Bulletproofs and PlonK.</p>
+<h3 id="from-shuffling-group-elements-to-shuffling-cards">From Shuffling Group Elements to Shuffling Cards</h3>
+<p>Recall that all the above only concerns shuffling a single group element rather than a masked card (a ciphertext composed of two group elements). We can however extend the above reasoning to masked cards in either of two ways:</p>
+<ol>
+<li>Run the argument for elements twice and request that the prover use the same committed permutation for both sets of group elements. This is naturally feasible with the existing argument structure as the prover is already required to commit to a permutation and argue that it was used correctly.</li>
+<li>Consider each masked card as an element of the group $\mathbb{H} = \mathbb{G} \times \mathbb{G}$ and define the group operation for $\mathbb{H}$ to remain consistent with how we add ciphertexts in our remask formula.</li>
+</ol>
+<h2 id="implementation">Implementation</h2>
+<p>All the protocols described in this article were implemented in an <a href="https://github.com/geometryxyz/mental-poker">open-source Rust library</a> by Andrija Novakovic, Kobi Gurkan and yours truly as part of the collaboration between Geometry and <a href="https://twitter.com/matchbox_dao">MatchboxDAO</a>. The implementation relies on the <a href="http://arkworks.rs/">arkworks</a> ecosystem and is built to be highly modular. Indeed the arguments can be replaced in a “plug-and-play” manner while the protocols are implemented for any generic curve. As you might have noticed, these protocols do not require special operations such as pairings or FFTs and can therefore be run on any elliptic curve.</p>
+<p>We benchmarked the library on a <a href="https://docs.starkware.co/starkex-docs-v2-deprecated/crypto/stark-curve">STARK-friendly curve</a> (used by StarkWare), running on consumer hardware. A shuffle argument for 52 cards, complete with the remasking of the cards, takes about 50ms. Verification of a shuffle can be done in less than 1ms. Note however that a game is only guaranteed to be fair after all players have taken turns performing this shuffle operation.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this article we have reviewed the principal results of <!-- raw HTML omitted --><em>Mental Poker Revisited</em><sup id="fnref2:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup><!-- raw HTML omitted --> and <!-- raw HTML omitted --><em>Efficient Zero-knowledge Argument for Correctness of a Shuffle</em><sup id="fnref3:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup><!-- raw HTML omitted -->. While we have not covered all the mechanics of the shuffle argument, we have presented the reader with a global overview of the protocol’s steps and justification as to why the protocol correctly verifies a shuffle.</p>
+<p>Combining both results yields the efficient protocol for card games that we described in <a href="../mental-poker-in-the-age-of-snarks-part-1">Part 1</a> of our Mental Poker series. Our Rust implementation of the protocol in collaboration with <a href="https://twitter.com/matchbox_dao">MatchboxDAO</a> is available <a href="https://github.com/geometryxyz/mental-poker">here</a>; decentralised games will hopefully be coming soon!</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Barnett, Adam, and Nigel P. Smart. &ldquo;Mental poker revisited.&rdquo; In <em>IMA International Conference on Cryptography and Coding</em>, pp. 370-383. Springer, Berlin, Heidelberg, 2003.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Bayer, Stephanie, and Jens Groth. &ldquo;Efficient Zero-knowledge Argument for Correctness of a Shuffle.&rdquo; In <em>Annual International Conference on the Theory and Applications of Cryptographic Techniques</em>, pp. 263-280. Springer, Berlin, Heidelberg, 2012&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref3:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+</content>
+<p>
+  
+  <a href="https://nmohnblatt.me/blog/mpc/" class="nohover">#MPC</a>
+  
+  <a href="https://nmohnblatt.me/blog/zero-knowledge/" class="nohover">#Zero-Knowledge</a>
+  
+  <a href="https://nmohnblatt.me/blog/mental-poker/" class="nohover">#Mental Poker</a>
+  
+  <a href="https://nmohnblatt.me/blog/geometry-notebook/" class="nohover">#Geometry Notebook</a>
+  
+</p>
+
+  </main>
+  <footer><p style="font-size: small;">
+    Built using <a href="https://gohugo.io" class="nohover">Hugo</a>. The theme is adapted from <a href="https://github.com/janraasch/hugo-bearblog/" class="nohover">hugo-bearblog</a> and uses colours from <a href="https://github.com/kepano/flexoki?tab=readme-ov-file" class="nohover">Flexoki</a>.
+</p>
+
+<p style="font-size: small;">
+    <a href="https://github.com/nmohnblatt" class="nohover">Github</a> | <a href="https://bsky.app/profile/nicomnbl.bsky.social" class="nohover">Bluesky</a> | <a href="https://x.com/nico_mnbl" class="nohover">&#x1D54F;</a> | <a href="https://zkjargon.github.io" class="nohover">ZK Jargon Decoder</a> <br>
+    &copy; 2024-2026, Nicolas Mohnblatt. <br>
+</p>
+</footer>
+
+    
+</body>
+
+</html>

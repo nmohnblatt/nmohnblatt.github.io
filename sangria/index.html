@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://nmohnblatt.me/images/favicon.png" />
+<title>Sangria: a Folding Scheme for PLONK | Nicolas Mohnblatt</title>
+<meta name="title" content="Sangria: a Folding Scheme for PLONK" />
+<meta name="description" content="This article is cross-posted from the Geometry Notebook.
+
+As shown in Nova [KST22], incrementally verifiable computation (IVC) can be realised using a folding scheme and a zkSNARK. In this article, we present a folding scheme for a variant of the PLONK arithmetization [GWC19]. We then extend our relaxed PLONK arithmetization to accept custom gates of degree 2 and circuits with higher gate arity. Finally we outline avenues for future work including folding higher degree gates, supporting lookup gates and designing an IOP for the relaxed PLONK arithmetization." />
+<meta name="keywords" content="Geometry Notebook,Folding," />
+
+
+<meta property="og:url" content="https://nmohnblatt.me/sangria/">
+  <meta property="og:site_name" content="Nicolas Mohnblatt">
+  <meta property="og:title" content="Sangria: a Folding Scheme for PLONK">
+  <meta property="og:description" content="This article is cross-posted from the Geometry Notebook.
+As shown in Nova [KST22], incrementally verifiable computation (IVC) can be realised using a folding scheme and a zkSNARK. In this article, we present a folding scheme for a variant of the PLONK arithmetization [GWC19]. We then extend our relaxed PLONK arithmetization to accept custom gates of degree 2 and circuits with higher gate arity. Finally we outline avenues for future work including folding higher degree gates, supporting lookup gates and designing an IOP for the relaxed PLONK arithmetization.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2023-02-17T00:00:00+00:00">
+    <meta property="article:modified_time" content="2023-02-17T00:00:00+00:00">
+    <meta property="article:tag" content="Geometry Notebook">
+    <meta property="article:tag" content="Folding">
+    <meta property="og:image" content="https://nmohnblatt.me/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://nmohnblatt.me/images/share.png">
+  <meta name="twitter:title" content="Sangria: a Folding Scheme for PLONK">
+  <meta name="twitter:description" content="This article is cross-posted from the Geometry Notebook.
+As shown in Nova [KST22], incrementally verifiable computation (IVC) can be realised using a folding scheme and a zkSNARK. In this article, we present a folding scheme for a variant of the PLONK arithmetization [GWC19]. We then extend our relaxed PLONK arithmetization to accept custom gates of degree 2 and circuits with higher gate arity. Finally we outline avenues for future work including folding higher degree gates, supporting lookup gates and designing an IOP for the relaxed PLONK arithmetization.">
+
+
+
+
+  <meta itemprop="name" content="Sangria: a Folding Scheme for PLONK">
+  <meta itemprop="description" content="This article is cross-posted from the Geometry Notebook.
+As shown in Nova [KST22], incrementally verifiable computation (IVC) can be realised using a folding scheme and a zkSNARK. In this article, we present a folding scheme for a variant of the PLONK arithmetization [GWC19]. We then extend our relaxed PLONK arithmetization to accept custom gates of degree 2 and circuits with higher gate arity. Finally we outline avenues for future work including folding higher degree gates, supporting lookup gates and designing an IOP for the relaxed PLONK arithmetization.">
+  <meta itemprop="datePublished" content="2023-02-17T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2023-02-17T00:00:00+00:00">
+  <meta itemprop="wordCount" content="2221">
+  <meta itemprop="image" content="https://nmohnblatt.me/images/share.png">
+  <meta itemprop="keywords" content="Geometry Notebook,Folding">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  
+
+<style>
+  body {
+    font-family: Verdana, sans-serif;
+    font-size: 15px;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #FFFCF0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #100F0F;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #100F0F;
+  }
+
+  a {
+    color: #24837B;
+     
+    text-decoration: none;
+  }
+
+  a.underline {
+    text-decoration: underline; 
+  }
+
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a.nohover:hover {
+    text-decoration: none;
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  a.title:hover{
+    text-decoration: none;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+   
+
+  td {
+    border-top: 1px solid #E6E4D9;
+  } 
+
+  img {
+    max-width: 100%;
+  }
+
+  figure {
+    margin-inline-start: 20px;
+    margin-inline-end: 20px;
+  }
+
+  figcaption {
+    color: #B7B5AC;
+    font-size: small;
+    text-align: center;
+  }
+
+  figcaption p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #E6E4D9;
+    color: #878580;
+  }
+
+  pre code {
+    color: #6F6E69;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 2px solid #24837B;
+    color: #100F0F;
+    padding-left: 15px;
+    margin-inline-start: 20px;
+     
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #17504b;
+  }
+
+   
+
+</style>
+
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']],     
+      tags: 'ams'
+    }
+  };
+</script>
+  
+
+  
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>Nicolas Mohnblatt</h2>
+</a>
+<nav><a href="/" class="nohover">Home</a>
+
+<a href="/about/" class="nohover">About</a>
+
+<a href="/now/" class="nohover">Now</a>
+
+<a href="/research/" class="nohover">Research</a>
+
+
+<a href="/blog" class="nohover">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>Sangria: a Folding Scheme for PLONK</h1>
+<p>
+  <i>
+    
+  </i>
+</p>
+<p>
+  <i>
+    <time datetime='2023-02-17' pubdate>
+      17 Feb, 2023
+    </time>
+  </i>
+</p>
+
+<content>
+  <p><em>This article is cross-posted from the <a href="https://geometry.xyz/notebook/sangria-a-folding-scheme-for-plonk">Geometry Notebook</a></em>.</p>
+<hr>
+<p>As shown in Nova <a href="https://eprint.iacr.org/2021/370">[KST22]</a>, incrementally verifiable computation (IVC) can be realised using a folding scheme and a zkSNARK. In this article, we present a folding scheme for a variant of the PLONK arithmetization <a href="https://eprint.iacr.org/2019/953">[GWC19]</a>. We then extend our relaxed PLONK arithmetization to accept custom gates of degree 2 and circuits with higher gate arity. Finally we outline avenues for future work including folding higher degree gates, supporting lookup gates and designing an IOP for the relaxed PLONK arithmetization.</p>
+<blockquote>
+<p>⚠️ <em>This article is a condensed version of the <a href="https://github.com/geometryresearch/technical_notes/blob/main/sangria_folding_plonk.pdf">Sangria technical note</a>. See the full version for proofs and extended discussions.
+We assume the reader is familiar with IVC and Nova. Suggested preliminary viewing and reading: <a href="https://youtu.be/SwonTtOQzAk">Justin Drake&rsquo;s ZK Whiteboard Session</a> and this <a href="https://blog.lambdaclass.com/incrementally-verifiable-computation-nova/">Lambdaclass blog entry</a>.</em></p>
+</blockquote>
+<h2 id="preliminaries">Preliminaries</h2>
+<h3 id="plonk-arithmetization">PLONK Arithmetization</h3>
+<p>In PLONK, computations are represented as a matrix $\mathbf{M}$ with three columns $\mathbf{a}, \mathbf{b}, \mathbf{c}$ and $n+s+1$ rows. $n$ is the number of public inputs, $s$ is the number of gates and the extra row checks that the final result is 1 (i.e. that the circuit is satisfied).</p>
+
+
+
+<figure style="text-align: center;"><img src="/sangria/plonk-trace_hu_c8d7ba50deca5bac.webp"
+  alt="A PLONK computation trace."><figcaption>
+      <p>A PLONK computation trace.</p>
+    </figcaption>
+</figure>
+<p>The values at the $i$-th row &ndash; $\mathbf{a} _ i, \mathbf{b} _ i, \mathbf{c} _ i$ &ndash; correspond respectively to the left input, right input and output of the $i$-th gate. The $i$-th gate is defined as:
+$$
+C_{\mathcal{Q}, i}(\mathbf{a}, \mathbf{b}, \mathbf{c}) := (\mathbf{q_L})_i\mathbf{a} _ i + (\mathbf{q_R})_i\mathbf{b} _ i + (\mathbf{q_O})_i\mathbf{c} _ i + (\mathbf{q_M})_i\mathbf{a} _ i\mathbf{b} _ i + (\mathbf{q_C})_i
+$$</p>
+<p>where $(\mathbf{q_L})_i, (\mathbf{q_R})_i, (\mathbf{q_O})_i, (\mathbf{q_M})_i, (\mathbf{q_C})_i$ are the $i$-th value of each selector vector. We denote $\mathcal{Q} = \left\{\mathbf{q_L}, \mathbf{q_R}, \mathbf{q_O}, \mathbf{q_M}, \mathbf{q_C} \right\}$ the set of selector vectors.</p>
+<p>Gates are &ldquo;wired&rdquo; together using copy constraints enforcing for example that $\mathbf{a} _ 3 = \mathbf{c} _ 1$ &ndash; the left input to Gate 3 is the output of Gate 1. We denote $\mathcal{S}$ the set of copy constraints.</p>
+<p>A circuit is fully defined by the tuple $(\mathcal{Q}, \mathcal{S})$.</p>
+<h3 id="folding-schemes">Folding Schemes</h3>
+<p>The Nova paper introduces folding schemes and provide the following intuitive definition:</p>
+<blockquote>
+<p>[&hellip;] a folding scheme for a relation $\mathcal{R}$ is a protocol that reduces the task of checking two instances in $\mathcal{R}$ to the task of checking a single instance in $\mathcal{R}$.</p>
+</blockquote>
+<p>The full definition is given in the paper under Definition 6.</p>
+<h3 id="commitment-schemes">Commitment Schemes</h3>
+<p>Our scheme makes use of a hiding and binding additively homomorphic commitment scheme for vectors of elements in a finite field $\mathbb{F}$. We denote such a scheme as $\mathsf{Com}$ and write $\overline{A} = \mathsf{Com}(\mathsf{pp} _ C, \mathbf{a};{r})$ a commitment to the vector $\mathbf{a}$ using randomness value $r \in \mathbb{F}$ and commitment parameters $\mathsf{pp} _ C$.</p>
+<h2 id="sangria">Sangria</h2>
+<p>Nova builds a folding scheme for the R1CS arithmetization. Here we present a folding scheme for the PLONK arithmetization. We use the same insights as Nova:</p>
+<ul>
+<li>folding is performed by taking a <strong>random linear combination</strong> of the input instance-witness pairs.</li>
+<li>cross terms are absorbed into an <strong>error</strong> (or slack) vector and a <strong>scaling factor</strong>.</li>
+<li>the scheme is made non-trivial by working over <strong>additively homomorphic commitments</strong> to the witness and slack vector.</li>
+</ul>
+<h3 id="relaxed-plonk-gate-equation">Relaxed PLONK Gate Equation</h3>
+<p>For a scalar $u \in \mathbb{F}$ and error (or slack) vector $\mathbf{e} \in \mathbb{F}^{n+s+1}$ we define the relaxed PLONK gate equation as:
+$$
+\begin{equation}
+C&rsquo;_{\mathcal{Q}, i}(\mathbf{a}, \mathbf{b}, \mathbf{c}, u, {\mathbf{e}}) := {u}\left[(\mathbf{q_L})_i\mathbf{a} _ i + (\mathbf{q_R})_i\mathbf{b} _ i + (\mathbf{q_O})_i\mathbf{c} _ i \right] + (\mathbf{q_M})_i\mathbf{a} _ i\mathbf{b} _ i + u^2 (\mathbf{q_C})_i + {\mathbf{e} _ i}
+\end{equation}
+$$
+Copy constraints in relaxed PLONK are identical to the PLONK copy constraints. A relaxed PLONK trace is represented by the tuple $(\mathbf{a}, \mathbf{b}, \mathbf{c}, u, \mathbf{e})$.</p>
+<p>For a PLONK instance-witness pair $(\mathbf{X}, \mathbf{W})$, we define a relaxed PLONK instance-witness pair $(U, W)$ as:
+$$
+\begin{align}
+U &amp;:= (\mathbf{X}, u, \overline{W_a}, \overline{W_b}, \overline{W_c}, \overline{E}) \\
+W &amp;:= (\mathbf{W}, \mathbf{e}, r_a, r_b, r_c, r_{e})
+\end{align}
+$$
+where $\overline{W_a} = \mathsf{Com}({\mathsf{pp} _ W},{\mathbf{w_a}};{r_a})$, $\overline{W_b} = \mathsf{Com}({\mathsf{pp} _ W},{\mathbf{w_b}};{r_b})$, $\overline{W_c} = \mathsf{Com}({\mathsf{pp} _ W},{\mathbf{w_c}};{r_c})$ and $\overline{E} = \mathsf{Com}({\mathsf{pp} _ E},{\mathbf{e}};{r_e})$.</p>
+<p>Importantly, any PLONK relation can be transformed into a relaxed PLONK relation by setting $u=1$, $\mathbf{e} = \overrightarrow{0}$ and providing the necessary commitments. Thus the relaxed PLONK arithmetization is $\mathsf{NP}$-complete.</p>
+<h3 id="folding-scheme-for-relaxed-plonk">Folding Scheme for Relaxed PLONK</h3>
+<p>Following the notation from Nova, a folding scheme is defined by 4 algorithms $\mathcal{G}, \mathcal{K}, \mathcal{P}, \mathcal{V}$:</p>
+<ul>
+<li>$\mathcal{G}(1^\lambda) \rightarrow \mathsf{pp}$: output size bounds $n, s \in \mathbb{N}$ and commitment parameters $\mathsf{pp} _ W$ and $\mathsf{pp} _ E$ for vectors of size $s$ and $n+s+1$ respectively.</li>
+<li>$\mathcal{K}(\mathsf{pp}, (\mathcal{Q}, \mathcal{S})) \rightarrow (\mathsf{pk}, \mathsf{vk})$: output $\mathsf{vk} \leftarrow \perp$ and $\mathsf{pk} \leftarrow (\mathsf{pp}, \mathsf{vk}, (\mathcal{Q, \mathcal{S}}))$.</li>
+</ul>
+<p>The verifier $\mathcal{V}$ is given the verifier key $\mathsf{vk}$ and two committed relaxed PLONK instances, $\left(\mathbf{X&rsquo;}, u&rsquo;, \overline{W&rsquo;_a}, \overline{W&rsquo;_b}, \overline{W&rsquo;_c}, \overline{E&rsquo;} \right)$ and $\left(\mathbf{X&rsquo;&rsquo;}, u&rsquo;&rsquo;, \overline{W&rsquo;&rsquo;_a}, \overline{W&rsquo;&rsquo;_b}, \overline{W&rsquo;&rsquo;_c}, \overline{E&rsquo;&rsquo;} \right)$. The prover $\mathcal{P}$ is given the prover key $\mathsf{pk}$ and both instances with their corresponding witnesses $\left( \mathbf{W&rsquo;}, \mathbf{e&rsquo;}, r&rsquo;_a, r&rsquo;_b, r&rsquo;_c, r&rsquo; _ {e} \right)$ and $\left( \mathbf{W&rsquo;&rsquo;}, \mathbf{e&rsquo;&rsquo;}, r&rsquo;&rsquo;_a, r&rsquo;&rsquo;_b, r&rsquo;&rsquo;_c, r&rsquo;&rsquo; _ {e} \right)$.</p>
+<p>The Sangria folding scheme proceeds as follows:</p>
+<ol>
+<li>$\mathcal{P}$ samples $r_t$ at random and sends $\overline T = \mathsf{Com}({\mathsf{pp} _ E},{\mathbf{t}};{r_t})$ where $\mathbf{t}$ is computed as:
+$$\begin{align}
+\mathbf{t} &amp;:= u&rsquo;&rsquo;(\mathbf{q_L}\circ\mathbf{a&rsquo;} + \mathbf{q_R}\circ\mathbf{b&rsquo;} + \mathbf{q_O}\circ\mathbf{c&rsquo;}) + u&rsquo;(\mathbf{q_L}\circ\mathbf{a&rsquo;&rsquo;} + \mathbf{q_R}\circ\mathbf{b&rsquo;&rsquo;} + \mathbf{q_O}\circ\mathbf{c&rsquo;&rsquo;}) \\
+&amp;\qquad + \mathbf{q_M} \circ (\mathbf{a&rsquo;}\circ\mathbf{b&rsquo;&rsquo;} + \mathbf{a&rsquo;&rsquo;}\circ\mathbf{b&rsquo;}) \\ &amp;\qquad + 2ru&rsquo;u&rsquo;&rsquo; \mathbf{q_C}
+\end{align}$$
+where $\circ$ denotes element-wise multiplication.</li>
+<li>$\mathcal{V}$ samples the challenge $r$ at random.</li>
+<li>$\mathcal{P}$ and $\mathcal{V}$ output the folded instance $(\mathbf{X}, u, \overline{W_a}, \overline{W_b}, \overline{W_c}, \overline{E})$ where:
+$$ \begin{align}
+\mathbf{X} &amp;\leftarrow \mathbf{X&rsquo;} + r\mathbf{X&rsquo;&rsquo;} \\
+u &amp;\leftarrow u&rsquo; + ru&rsquo;&rsquo; \\
+\overline{W_a} &amp;\leftarrow \overline{W&rsquo;_a} + r\overline{W&rsquo;&rsquo;_a} \\
+\overline{W_b} &amp;\leftarrow \overline{W&rsquo;_b} + r\overline{W&rsquo;&rsquo;_b} \\
+\overline{W_c} &amp;\leftarrow \overline{W&rsquo;_c} + r\overline{W&rsquo;&rsquo;_c} \\
+\overline{E} &amp;\leftarrow \overline{E&rsquo;} - r\overline{T} + r^2 \overline{E&rsquo;&rsquo;}
+\end{align} $$</li>
+<li>$\mathcal{P}$ outputs the folded witness $\left( \mathbf{W}, \mathbf{e}, r_a, r_b, r_c, r_e \right)$ where:
+$$
+\begin{align}
+\mathbf{W} &amp;\leftarrow \mathbf{W&rsquo;} + r\mathbf{W&rsquo;&rsquo;} \\
+r_a &amp;\leftarrow r&rsquo;_ {a} + r \cdot r&rsquo;&rsquo;_ {a} \\
+r_b &amp;\leftarrow r&rsquo;_ {b} + r \cdot r&rsquo;&rsquo;_ {b} \\
+r_c &amp;\leftarrow r&rsquo;_ {c} + r \cdot r&rsquo;&rsquo;_ {c} \\
+\mathbf{e} &amp;\leftarrow \mathbf{e&rsquo;} - r\mathbf{t} + r^2 \mathbf{e&rsquo;&rsquo;} \\
+r_e &amp;\leftarrow r&rsquo;_ {e} - r \cdot r_t + r^2 \cdot r&rsquo;&rsquo;_ {e}<br>
+\end{align}
+$$</li>
+</ol>
+<p><strong>Theorem</strong>: The above construction is a public-coin folding scheme for the committed relaxed PLONK arithmetization with perfect completeness, knowledge soundness, and zero-knowledge.</p>
+<p><em>Proof intuition.</em>  Perfect completeness can be shown by following the algebra until establishing that
+$$
+C&rsquo;_ {\mathcal{Q}, i}(\mathbf{a}, \mathbf{b}, \mathbf{c}, u, \mathbf{e}) = C&rsquo;_ {\mathcal{Q}, i}(\mathbf{a&rsquo;}, \mathbf{b&rsquo;}, \mathbf{c&rsquo;}, u&rsquo;, \mathbf{e&rsquo;}) + r^2 C&rsquo;_ {\mathcal{Q}, i}(\mathbf{a&rsquo;&rsquo;}, \mathbf{b&rsquo;&rsquo;}, \mathbf{c&rsquo;&rsquo;}, u&rsquo;&rsquo;, \mathbf{e&rsquo;&rsquo;})
+$$
+We also show that copy constraints are preserved.</p>
+<p>We prove knowledge soundness using the same strategy as <a href="https://eprint.iacr.org/2021/370">[KST22]</a>. Specifically, we apply the forking lemma for folding schemes (Lemma 1 in <a href="https://eprint.iacr.org/2021/370">[KST22]</a>) to obtain three transcripts. We then show that the extractor uses all three transcripts to interpolate the original $\mathbf{e&rsquo;}, r&rsquo;_e$ and $\mathbf{e&rsquo;&rsquo;}, r&rsquo;&rsquo;_e$ values, and any two transcripts to interpolate the values $(\mathbf{W&rsquo;}, r&rsquo;_a, r&rsquo;_b, r&rsquo;_c)$ and $(\mathbf{W&rsquo;&rsquo;}, r&rsquo;&rsquo;_a, r&rsquo;&rsquo;_b, r&rsquo;&rsquo;_c)$. We then show that the interpolated values belong to traces that each satisfy the circuit&rsquo;s gate equalities and copy constraints.</p>
+<p>Finally zero-knowledge holds as the prover&rsquo;s messages are hiding commitments and the verifier only sends a public random value. A proof is presented in the <a href="https://github.com/geometryresearch/technical_notes/blob/main/sangria_folding_plonk.pdf">full technical note</a>. $\square$</p>
+<h3 id="degree-2-custom-gates">Degree 2 Custom Gates</h3>
+<p>We write a degree 2 custom gate and its selector as:
+$$
+\begin{equation}
+G_i(\mathbf{a}, \mathbf{b}, \mathbf{c}) := (\mathbf{q_G})_i \cdot g(\mathbf{a} _ i, \mathbf{b} _ i, \mathbf{c} _ i)
+\end{equation}
+$$</p>
+<p>To fold such a gate, write $g$ as a sum of monomials and separate the monomials by their degrees. Let $g_C$, $g_1$ and $g_2$ be the sums of the constant, degree 1 and degree 2 monomials respectively. We can write the relaxed constraint equation as:</p>
+<p>$$
+\begin{align}
+C&rsquo;_{\mathcal{Q}, i}(\mathbf{a}, \mathbf{b}, \mathbf{c}, u, \mathbf{e}) &amp;:= u\left[(\mathbf{q_L})_i\mathbf{a} _ i + (\mathbf{q_R})_i\mathbf{b} _ i + (\mathbf{q_O})_i\mathbf{c} _ i + {(\mathbf{q_G})_i \cdot g_1(\mathbf{a} _ i, \mathbf{b} _ i, \mathbf{c} _ i)} \right]
+\\ &amp;\qquad + (\mathbf{q_M})_i\mathbf{a} _ i\mathbf{b} _ i + {(\mathbf{q_G})_i \cdot g_2(\mathbf{a} _ i, \mathbf{b} _ i, \mathbf{c} _ i)} + u^2 (\mathbf{q_C})_i + u^2 {(\mathbf{q_G})_i \cdot g_C} + \mathbf{e} _ i
+\end{align}
+$$</p>
+<p>Folding $(\mathbf{a&rsquo;}, \mathbf{b&rsquo;}, \mathbf{c&rsquo;}, u&rsquo;, \mathbf{e&rsquo;})$ with $(\mathbf{a&rsquo;&rsquo;}, \mathbf{b&rsquo;&rsquo;}, \mathbf{c&rsquo;&rsquo;}, u&rsquo;&rsquo;, \mathbf{e&rsquo;&rsquo;})$ is still performed by taking random linear combinations, however the $\mathbf{t}$ vector must be adjusted to absorb the cross terms that arise from each of the following degree 2 expressions:</p>
+<ul>
+<li>$(u&rsquo; + ru&rsquo;&rsquo;)\bigl[(\mathbf{q_L})_i(\mathbf{a&rsquo;} _ i + r\mathbf{a&rsquo;&rsquo;} _ i) + (\mathbf{q_R})_i(\mathbf{b&rsquo;} _ i + r\mathbf{b&rsquo;&rsquo;} _ i) + (\mathbf{q_O})_i(\mathbf{c&rsquo;} _ i + r\mathbf{c&rsquo;&rsquo;} _ i)  + {(\mathbf{q_G})_i \cdot g_1((\mathbf{a&rsquo;} _ i + r\mathbf{a&rsquo;&rsquo;} _ i), (\mathbf{b&rsquo;} _ i + r\mathbf{b&rsquo;&rsquo;} _ i), (\mathbf{c&rsquo;} _ i + r\mathbf{c&rsquo;&rsquo;} _ i))} \bigr]$</li>
+<li>$(\mathbf{q_M})_i(\mathbf{a&rsquo;} _ i + r\mathbf{a&rsquo;&rsquo;} _ i)(\mathbf{b&rsquo;} _ i + r\mathbf{b&rsquo;&rsquo;} _ i)$</li>
+<li>$(\mathbf{q_G})_i \cdot g_2\left((\mathbf{a&rsquo;} _ i + r\mathbf{a&rsquo;&rsquo;} _ i), (\mathbf{b&rsquo;} _ i + r\mathbf{b&rsquo;&rsquo;} _ i), (\mathbf{c&rsquo;} _ i + r\mathbf{c&rsquo;&rsquo;} _ i)\right)$</li>
+<li>$(u&rsquo; + ru&rsquo;&rsquo;)^2 (\mathbf{q_C})_i$</li>
+<li>$(u&rsquo; + ru&rsquo;&rsquo;)^2 (\mathbf{q_G})_i \cdot g_C$</li>
+</ul>
+<h3 id="higher-fan-in-and-fan-out">Higher Fan-In and Fan-Out</h3>
+<p>The current scheme can support higher arity circuits as long as the degree of the gate equation is smaller or equal to 2. Each additional gate input or output requires an additional witness column commitment.</p>
+<h2 id="future-work">Future Work</h2>
+<p>This note establishes a folding scheme for the standard PLONK arithmetization and introduces some customisation features. We conclude by briefly highlighting directions for future (and upcoming) work.</p>
+<h3 id="succinct-ivc-using-a-zksnark-for-sangria">Succinct IVC using a zkSNARK for Sangria</h3>
+<p>Nova shows that a folding scheme directly implies IVC. However those IVC proofs are neither succinct nor zero-knowledge. To achieve both of these properties, one must devise a zkSNARK for the newly relaxed arithmetization. One possible direction is to convert the Sangria trace into a PLONKish trace with an extra witness column for the slack vector. Another direction would be to modify the IOP directly to manage the newly introduced $u$ and $\mathbf{e}$ values.</p>
+<h3 id="lower-recursion-overhead">Lower Recursion Overhead</h3>
+<p>In the current construction, the folding verifier works with 1 commitment per witness column. The scheme can also work by flattening the witness matrix $\mathbf{W}$ into a single column vector, thus allowing the verifier to work with a single witness commitment (as in Nova). Doing so requires the reference string $\mathsf{pp} _ W$ to be three times longer for a circuit with &ldquo;fan-in 2, fan-out 1&rdquo; gates. It might also introduce extra checks and commitment openings later in the full IVC scheme given that the standard PLONK IOP uses commitments to each witness column.</p>
+<h3 id="higher-degree-custom-gates">Higher Degree Custom Gates</h3>
+<p>Higher degree custom gates can be achieved in the &ldquo;random linear combination&rdquo; folding strategy. Let $d$ be the <em>highest</em> degree of our constraint equation, the overall strategy is the following:</p>
+<ol>
+<li>Express the non-relaxed constraint equation $C_{\mathcal{Q}, i}$ as a sum of monomials.</li>
+<li>Use powers of the relaxation factor $u$ to make $C_{\mathcal{Q}, i}$ into a <strong>homogeneous</strong> degree $d$ polynomial.</li>
+<li>Add an error term $\mathbf{e}$ to absorb cross-terms. Cross terms will now have powers of $r$ from $1$ to $d-1$. We collect them respectively into the vectors $\mathbf{t_1}, \mathbf{t_2, \dots, \mathbf{t_{d-1}}}$ such that
+$$
+\begin{equation}
+\mathbf{e} = \mathbf{e&rsquo;} - \sum_{k=1}^{d-1} r^{k}\mathbf{t_k} + r^d\mathbf{e&rsquo;&rsquo;}
+\end{equation}
+$$</li>
+<li>Fold as described in the standard construction with the following modifications:
+<ul>
+<li>Prover computes and sends commitments to <em>each</em> of the $\mathbf{t_k}$ vectors.</li>
+<li>Compute $\mathbf{e}$ as defined in the equation above and apply the corresponding operation in the commitment space.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Costs.</strong> This strategy introduces extra work for both the verifier and the prover. To compute the $d-1$ cross-term vectors and their commitments, the prover will perform $\mathcal{O}(d*(n+s))$ field operations and $\mathcal{O}(d*(n+s))$ point additions. Similarly, working in the commitment space, the verifier computes $\mathcal{O}(d)$ point additions. Note that the verifier work remains constant with respect to the security parameter and the circuit size. It does however call for a closer comparison between the folding and split accumulation <a href="https://eprint.iacr.org/2020/1618">[BCLMS20]</a> approaches to achieve IVC.</p>
+<p><strong>Degree 3.</strong> A suggestion using the random linear combination strategy for degree 3 gates using the above strategy:
+$$
+\begin{equation}
+u^2 \left[(\mathbf{q_L})_i\mathbf{a} _ i + (\mathbf{q_R})_i\mathbf{b} _ i + (\mathbf{q_O})_i\mathbf{c} _ i \right] + u (\mathbf{q_M})_i\mathbf{a} _ i\mathbf{b} _ i  + (\mathbf{q _ {3}})_i \mathbf{a} _ i \mathbf{b} _ i \mathbf{c} _i + u^3 (\mathbf{q_C})_i + \mathbf{e}_i
+\end{equation}
+$$</p>
+<p>where the error term is appropriately adjusted to absorb cross terms (see <a href="https://github.com/geometryresearch/technical_notes/blob/main/sangria_folding_plonk.pdf">full note</a> for an explicit representation of the cross terms).</p>
+<h3 id="lookup-gates">Lookup Gates</h3>
+<p>PLONKish arithmetizations differentiate themselves from R1CS in part by their ability to integrate lookup arguments. We are keen to preserve this flexibility by developing folding strategies for lookup-enabled arithmetizations.</p>
+<h2 id="acknowledgments">Acknowledgments</h2>
+<p>Thank you to Nat Bunner and Lev Soukhanov for their improvements to the high degree gate folding strategy. We also thank Andrija Novakovic, Lai Ying Tong, Kobi Gurkan and Koh Wei Jie for their helpful inputs and contribution.</p>
+<h2 id="references">References</h2>
+<p><a href="https://eprint.iacr.org/2020/1618">[BCLMS20]</a> Benedikt Bunz, Alessandro Chiesa, William Lin, Pratyush Mishra, and Nicholas Spooner. Proof-carrying data without succinct arguments. Cryptology ePrint Archive, Paper 2020/1618, 2020. <a href="https://eprint.iacr.org/2020/1618">https://eprint.iacr.org/2020/1618</a></p>
+<p><a href="https://eprint.iacr.org/2019/953">[GWC19]</a> Gabizon, Ariel, Zachary J. Williamson, and Oana Ciobotaru. Plonk: Permutations over Lagrange-bases for Oecumenical Noninteractive arguments of Knowledge. Cryptology ePrint Archive, Paper 2019/953, 2019. <a href="https://eprint.iacr.org/2019/953">https://eprint.iacr.org/2019/953</a></p>
+<p><a href="https://eprint.iacr.org/2021/370">[KST22]</a> Kothapalli, Abhiram, Srinath Setty, and Ioanna Tzialla. &ldquo;Nova: Recursive zero-knowledge arguments from folding schemes.&rdquo; Annual International Cryptology Conference. Springer, Cham, 2022. <a href="https://eprint.iacr.org/2021/370">https://eprint.iacr.org/2021/370</a></p>
+<hr>
+<p><strong>Edit <em>21 Feb, 2023</em></strong>. Remove the need for a commitment to $\mathbf{q_C}$ in the verifier key; improved strategy for higher degree custom gates thanks to feedback from Nat Bunner and Lev Soukhanov.</p>
+
+</content>
+<p>
+  
+  <a href="https://nmohnblatt.me/blog/geometry-notebook/" class="nohover">#Geometry Notebook</a>
+  
+  <a href="https://nmohnblatt.me/blog/folding/" class="nohover">#Folding</a>
+  
+</p>
+
+  </main>
+  <footer><p style="font-size: small;">
+    Built using <a href="https://gohugo.io" class="nohover">Hugo</a>. The theme is adapted from <a href="https://github.com/janraasch/hugo-bearblog/" class="nohover">hugo-bearblog</a> and uses colours from <a href="https://github.com/kepano/flexoki?tab=readme-ov-file" class="nohover">Flexoki</a>.
+</p>
+
+<p style="font-size: small;">
+    <a href="https://github.com/nmohnblatt" class="nohover">Github</a> | <a href="https://bsky.app/profile/nicomnbl.bsky.social" class="nohover">Bluesky</a> | <a href="https://x.com/nico_mnbl" class="nohover">&#x1D54F;</a> | <a href="https://zkjargon.github.io" class="nohover">ZK Jargon Decoder</a> <br>
+    &copy; 2024-2026, Nicolas Mohnblatt. <br>
+</p>
+</footer>
+
+    
+</body>
+
+</html>

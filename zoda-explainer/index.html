@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://nmohnblatt.me/images/favicon.png" />
+<title>ZODA: An Explainer | Nicolas Mohnblatt</title>
+<meta name="title" content="ZODA: An Explainer" />
+<meta name="description" content="This article is cross-posted from the Bain Capital Crypto Insights.
+
+Data availability sampling (DAS) is critical to scaling blockchains while maintaining decentralization [ASB18,HASW23]. In our previous post, we informally introduced DAS and showed how to leverage interaction to reduce overhead for a promising construction based on the FRI protocol. Our newest work, ZODA, short for ‘Zero-Overhead Data Availability,’ takes these ideas a step further. In particular, we show that, with a small change, an extended data square construction, such as that used in Celestia, can be turned into a (validity) proof of its own correctness. Importantly, the change incurs negligible additional work for encoders and no incremental communication costs for the network. This post is an informal introduction to the ZODA protocol." />
+<meta name="keywords" content="BCC,Data Availability Sampling,Proximity testing," />
+
+
+<meta property="og:url" content="https://nmohnblatt.me/zoda-explainer/">
+  <meta property="og:site_name" content="Nicolas Mohnblatt">
+  <meta property="og:title" content="ZODA: An Explainer">
+  <meta property="og:description" content="This article is cross-posted from the Bain Capital Crypto Insights.
+Data availability sampling (DAS) is critical to scaling blockchains while maintaining decentralization [ASB18,HASW23]. In our previous post, we informally introduced DAS and showed how to leverage interaction to reduce overhead for a promising construction based on the FRI protocol. Our newest work, ZODA, short for ‘Zero-Overhead Data Availability,’ takes these ideas a step further. In particular, we show that, with a small change, an extended data square construction, such as that used in Celestia, can be turned into a (validity) proof of its own correctness. Importantly, the change incurs negligible additional work for encoders and no incremental communication costs for the network. This post is an informal introduction to the ZODA protocol.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2024-12-03T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-12-03T00:00:00+00:00">
+    <meta property="article:tag" content="BCC">
+    <meta property="article:tag" content="Data Availability Sampling">
+    <meta property="article:tag" content="Proximity Testing">
+    <meta property="og:image" content="https://nmohnblatt.me/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://nmohnblatt.me/images/share.png">
+  <meta name="twitter:title" content="ZODA: An Explainer">
+  <meta name="twitter:description" content="This article is cross-posted from the Bain Capital Crypto Insights.
+Data availability sampling (DAS) is critical to scaling blockchains while maintaining decentralization [ASB18,HASW23]. In our previous post, we informally introduced DAS and showed how to leverage interaction to reduce overhead for a promising construction based on the FRI protocol. Our newest work, ZODA, short for ‘Zero-Overhead Data Availability,’ takes these ideas a step further. In particular, we show that, with a small change, an extended data square construction, such as that used in Celestia, can be turned into a (validity) proof of its own correctness. Importantly, the change incurs negligible additional work for encoders and no incremental communication costs for the network. This post is an informal introduction to the ZODA protocol.">
+
+
+
+
+  <meta itemprop="name" content="ZODA: An Explainer">
+  <meta itemprop="description" content="This article is cross-posted from the Bain Capital Crypto Insights.
+Data availability sampling (DAS) is critical to scaling blockchains while maintaining decentralization [ASB18,HASW23]. In our previous post, we informally introduced DAS and showed how to leverage interaction to reduce overhead for a promising construction based on the FRI protocol. Our newest work, ZODA, short for ‘Zero-Overhead Data Availability,’ takes these ideas a step further. In particular, we show that, with a small change, an extended data square construction, such as that used in Celestia, can be turned into a (validity) proof of its own correctness. Importantly, the change incurs negligible additional work for encoders and no incremental communication costs for the network. This post is an informal introduction to the ZODA protocol.">
+  <meta itemprop="datePublished" content="2024-12-03T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-12-03T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1853">
+  <meta itemprop="image" content="https://nmohnblatt.me/images/share.png">
+  <meta itemprop="keywords" content="BCC,Data Availability Sampling,Proximity Testing">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  
+
+<style>
+  body {
+    font-family: Verdana, sans-serif;
+    font-size: 15px;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #FFFCF0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #100F0F;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #100F0F;
+  }
+
+  a {
+    color: #24837B;
+     
+    text-decoration: none;
+  }
+
+  a.underline {
+    text-decoration: underline; 
+  }
+
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a.nohover:hover {
+    text-decoration: none;
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  a.title:hover{
+    text-decoration: none;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+   
+
+  td {
+    border-top: 1px solid #E6E4D9;
+  } 
+
+  img {
+    max-width: 100%;
+  }
+
+  figure {
+    margin-inline-start: 20px;
+    margin-inline-end: 20px;
+  }
+
+  figcaption {
+    color: #B7B5AC;
+    font-size: small;
+    text-align: center;
+  }
+
+  figcaption p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #E6E4D9;
+    color: #878580;
+  }
+
+  pre code {
+    color: #6F6E69;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 2px solid #24837B;
+    color: #100F0F;
+    padding-left: 15px;
+    margin-inline-start: 20px;
+     
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #17504b;
+  }
+
+   
+
+</style>
+
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']],     
+      tags: 'ams'
+    }
+  };
+</script>
+  
+
+  
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>Nicolas Mohnblatt</h2>
+</a>
+<nav><a href="/" class="nohover">Home</a>
+
+<a href="/about/" class="nohover">About</a>
+
+<a href="/now/" class="nohover">Now</a>
+
+<a href="/research/" class="nohover">Research</a>
+
+
+<a href="/blog" class="nohover">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>ZODA: An Explainer</h1>
+<p>
+  <i>
+    
+      Alex Evans, Nicolas Mohnblatt, Guillermo Angeris, Sanaz Taheri, Nashqueue<br>
+    
+  </i>
+</p>
+<p>
+  <i>
+    <time datetime='2024-12-03' pubdate>
+      03 Dec, 2024
+    </time>
+  </i>
+</p>
+
+<content>
+  <p><em>This article is cross-posted from the <a href="https://baincapitalcrypto.com/zoda-explainer/">Bain Capital Crypto Insights</a>.</em></p>
+<hr>
+<p>Data availability sampling (DAS) is critical to scaling blockchains while maintaining decentralization [ASB18,HASW23]. In <a href="https://nmohnblatt.me/sampling-for-proximity-and-availability/">our previous post</a>, we informally introduced DAS and showed how to leverage interaction to reduce overhead for a promising construction based on the FRI protocol. Our newest work, ZODA, short for ‘Zero-Overhead Data Availability,’ takes these ideas a step further. In particular, we show that, with a small change, an extended data square construction, such as that used in Celestia, can be turned into a (validity) proof of its own correctness. Importantly, the change incurs negligible additional work for encoders and no incremental communication costs for the network. This post is an informal introduction to the ZODA protocol.</p>
+<p><strong>Basics of encoding.</strong> To explain ZODA, we briefly sketch how DAS protocols work today. In production, DAS protocols, including those contemplated by Ethereum and implemented by Celestia, block data is organized into a matrix $\tilde X$. This matrix is then encoded into a larger matrix $Z$, called the extended data square. For example, we may first encode by encoding its columns using a Reed–Solomon code matrix $G$. We can then encode the rows of the resulting matrix using another Reed–Solomon matrix $G&rsquo;$ to obtain a matrix $Z = GXG&rsquo;^T$ . (This encoding is called the tensor code resulting from encoding columns using $G$ and rows using $G&rsquo;$.) The procedure is depicted below. In this example, we use a rate of 1/2 for each encoding, meaning the data square $Z$ is $4$ times larger than $\tilde X$.</p>
+
+
+
+<figure style="text-align: center;"><img src="/zoda-explainer/celestia-square_hu_bdafb331533e712c.webp">
+</figure>
+<p><strong>Sampling.</strong> Light nodes then sample entries from this extended data square, $Z$. The example below illustrates this procedure for two light nodes sampling independently. The first node’s samples are represented in blue while the second’s are in red. Purple entries represent entries which both nodes sampled. In this example, each node samples 30 entries and land on the same entry 5 times. If light nodes collectively sample enough distinct entries from the rows or from the columns (for example, at least half of each row or column will suffice), they can get together and erasure decode $\tilde X$. In the below example, the majority of each row and each column was sampled. If the two nodes pool their samples, they can reconstruct the original data $\tilde X$ either from the rows or from the columns, using a standard erasure decoding algorithm for $G$ or $G&rsquo;$.</p>
+
+
+
+<figure style="text-align: center;"><img src="/zoda-explainer/zoda-sampling_hu_92b139e09c98c735.webp" width="60%">
+</figure>
+<p><strong>Encoding correctness.</strong> However, if $Z$ not correctly encoded, nodes might not be able to decode $\tilde X$ (or anything at all). For DAS to work, we need some way of ensuring that $Z$ was constructed correctly. Existing protocols deal with this problem in one of two ways.</p>
+<p><strong>Fraud-proof construction.</strong> The first idea, initially proposed in [ASB18] and now used in the Celestia protocol, is for full nodes to download all of $\tilde X$ and compute $Z$ themselves as per the first figure. If the result doesn’t match $Z$ at any point, they can alert light nodes with a (compact) fraud proof. Either the row or the column containing the error could be sent to a light node that can check the error directly.</p>
+
+
+
+<figure style="text-align: center;"><img src="/zoda-explainer/notice-error_hu_4cbbf9feb412691e.webp" width="60%">
+</figure>
+<p>This approach assumes that each light node is connected to at least one honest full node that can furnish a fraud proof in the event of a bad encoding. While there is zero prover overhead, each full node needs to download the entire data and re-compute the extended data square $Z$ itself. Since we assume that at least one of the $N$ full nodes connected to each light node is honest, we ideally want $N$ to be reasonably large. This, in turn means that a lot of redundant data is downloaded (and compute is spent) in aggregate across the network. Making blocks too big also reduces the pool of full nodes that can participate in securing the network, as larger machines with more bandwidth are required as blocks get larger.</p>
+<p><strong>2D KZG construction.</strong> Another approach, initially proposed in [But20], is to commit to each row and column of $Z$ using the polynomial commitment scheme of KZG [KZG10]. We then compute KZG opening proofs for each entry of $Z$. Each entry of the matrix comes with an opening proof that verifies against the commitment for its associated row or column. The drawback of this approach is that it requires computing KZG commitments for each row and column of the matrix, as well as opening proofs for each individual entry. These proofs are concretely slow and expensive to compute, imposing cost and latency on the network. While it is possible to parallelize the process over many provers, significant network-wide proving overhead (and indeed, proof overhead, as every sampled element carries an associated proof) remains.</p>
+<p><strong>Drawbacks.</strong> While both approaches to proving the correctness of $Z$ are considered sufficiently practical, they have drawbacks in terms of both efficiency and trust. The fraud-proof-based construction requires redundant bandwidth and computation while assuming that each light node is connected to an honest full node. The KZG-based construction imposes significant proving overhead, assumes a trusted setup, and is not plausibly post-quantum secure.</p>
+<p><strong>Other systems.</strong> Recently, hashing-based proof systems have emerged as a potential alternative for DAS thanks to the works of [HASW23,HASW24]. These constructions feature low prover overhead, don’t require a trusted setup, and are plausibly post-quantum secure. However, they impose extremely high overheads on the network by requiring each light node to redundantly download a (large) non-interactive proof of proximity. In our previous post, we showed how to leverage interaction to reduce this overhead substantially. ZODA takes this idea to its logical extreme: what if we leveraged interaction to the maximum extent possible to reduce the proof overhead to zero?</p>
+<p><strong>ZODA.</strong> The main idea for ZODA is simple. In fact, ZODA looks almost identical to the fraud-proof-based construction we presented in the first figure, with one small tweak. As before, we start by encoding the columns of $\tilde X$. In ZODA, we commit to this intermediate encoding (for example, using a Merkle tree). We then use entropy from this commitment to generate a random vector, sampled from some (large enough) field. We then construct a diagonal matrix $D_{\bar r}$ with this vector along the diagonal and multiply $\tilde X$ with $D_{\bar r}$. (This is a linear-time operation which is concretely very fast relative to the encoding itself.) Finally, we then encode the rows again, as before. This amended construction is depicted below.</p>
+
+
+
+<figure style="text-align: center;"><img src="/zoda-explainer/zoda-square_hu_d597f2b0991f55bd.webp">
+</figure>
+<p>Surprisingly, this tweak makes the encoding provably correct! Specifically, nodes sample random rows and columns and check that these are valid codewords which are also consistent at their intersection. Repeating this procedure for enough rows and columns establishes two properties with high probability. First, the matrix $Z$ is close to an encoding of a (unique) $\tilde X$ and, second, that the sampled rows and columns whose verification passes are symbols of this unique codeword. In the ZODA paper, we prove these properties by adapting the proximity test of the Ligero [AHIV17] protocol. Intuitively, injecting randomness from the intermediate commitment prevents a malicious encoder from behaving adaptively. Importantly, these rows and columns are also valid samples as part of DAS and can be used to reconstruct the original square. In other words, if enough nodes verify the encoding was correctly constructed, they will, with high probability, also have gathered enough data to reconstruct $\tilde X$. There is zero overhead to the proof: nearly every bit of data that the node downloads as part of the correct-encoding proof is also useful for reconstruction. In the example below, nodes can decode if they collectively sample and validate either half the rows or half the columns.</p>
+
+
+
+<figure style="text-align: center;"><img src="/zoda-explainer/zoda-verification_hu_7935f71582d2329c.webp"
+  alt="Figure 1: ZODA verification. A light node verifies that a row and column are valid codewords and are consistent at their intersection (marked with a green checkmark)." width="60%"><figcaption>
+      <p>Figure 1: ZODA verification. A light node verifies that a row and column are valid codewords and are consistent at their intersection (marked with a green checkmark).</p>
+    </figcaption>
+</figure>
+<p><strong>Computational overhead.</strong> The construction also has essentially zero prover overhead. This may seem counter-intuitive: usually, when considering general computation, going from a fraud-proof to a validity-proof system (for example, switching from an optimistic to a ZK rollup) imposes a few orders of magnitude of prover overhead. Indeed, if we were to prove the construction of $Z$ in a general-purpose succinct proof, we would also incur similar overhead. However, in the case of ZODA, the validity-provable data square and the fraud-provable data square take about the same time to compute. Why is this? In DAS, encoding $\tilde X$ and committing to the result is already part of the protocol. Moreover, nodes already need to collectively download a large portion of the data square $Z$ in order to ensure that data is available. These features shift the trade-off space to heavily favor proof systems that natively rely on error correcting codes and hashing. In particular, notice that the fraud-provable data square construction of [ASB18] and Celestia already very closely resembles a Ligero prover. Injecting some randomness into the encoding procedure lets us leverage the results of Ligero directly to then ensure that the square is correctly encoded.</p>
+<p><strong>Conclusion.</strong> What are the implications in practice? The most obvious points relate to increasing scalability and lowering trust assumptions. It is possible to run ZODA with cryptographic security (soundness $2^{−80}$ or $2^{−100}$). Doing so requires downloading only a fraction of the block, while getting similar guarantees to Celestia full nodes today. It may be possible to entirely replace full nodes in a protocol like Celestia with ZODA nodes, saving on network-wide bandwidth and compute, especially for large blocks exceeding 1GB. In the setting of consensus, ZODA nodes can download even less data, enabling significantly higher data throughput as suggested in [Val24]. In the paper, we also discuss a few techniques for enabling resource-constrained light nodes to use ZODA directly to gain higher assurances about their samples. We hope to expand on these ideas in future posts, so stay tuned.</p>
+<h2 id="acknowledgments">Acknowledgments</h2>
+<p>We’d like to deeply thank John Adler, Dev Ojha, and Mustafa Al-Bassam for their time and all of the helpful conversations regarding Celestia, data availability sampling, and applications of ZODA to consensus and scaling, which were invaluable in writing this paper. We would also like to thank Kobi Gurkan for helpful edits and suggestions to this post.</p>
+<h2 id="citations">Citations</h2>
+<p>[AHIV17] Scott Ames, Carmit Hazay, Yuval Ishai, and Muthuramakrishnan Venkitasubramaniam. Ligero: Lightweight sublinear arguments without a trusted setup. In Proceedings of the 2017 ACM SIGSAC Conference on Computer and Communications Security, pages 2087–2104, Dallas Texas USA, October 2017. ACM.</p>
+<p>[ASB18] Mustafa Al-Bassam, Alberto Sonnino, and Vitalik Buterin. Fraud proofs: Maximising light client security and scaling blockchains with dishonest majorities. CoRR, abs/1809.09044, 2018.</p>
+<p>[But20] Vitalik Buterin. 2d data availability with kate commitments, 2020. Accessed: 14 September 2024.</p>
+<p>[HASW23] Mathias Hall-Andersen, Mark Simkin, and Benedikt Wagner. Foundations of data availability sampling. Cryptology ePrint Archive, Paper 2023/1079, 2023.</p>
+<p>[HASW24] Mathias Hall-Andersen, Mark Simkin, and Benedikt Wagner. FRIDA: Data availability sampling from FRI. Cryptology ePrint Archive, Paper 2024/248, 2024.</p>
+<p>[KZG10] Aniket Kate, Gregory M. Zaverucha, and Ian Goldberg. Constant-size commitments to polynomials and their applications. In Masayuki Abe, editor, Advances in Cryptology - ASIACRYPT 2010, pages 177–194, Berlin, Heidelberg, 2010. Springer Berlin Heidelberg.</p>
+<p>[Val24] ValarDragon. Use DAS to speedup consensus throughput, 2024. Accessed: 2024-11-09.</p>
+
+</content>
+<p>
+  
+  <a href="https://nmohnblatt.me/blog/bcc/" class="nohover">#BCC</a>
+  
+  <a href="https://nmohnblatt.me/blog/data-availability-sampling/" class="nohover">#Data Availability Sampling</a>
+  
+  <a href="https://nmohnblatt.me/blog/proximity-testing/" class="nohover">#Proximity Testing</a>
+  
+</p>
+
+  </main>
+  <footer><p style="font-size: small;">
+    Built using <a href="https://gohugo.io" class="nohover">Hugo</a>. The theme is adapted from <a href="https://github.com/janraasch/hugo-bearblog/" class="nohover">hugo-bearblog</a> and uses colours from <a href="https://github.com/kepano/flexoki?tab=readme-ov-file" class="nohover">Flexoki</a>.
+</p>
+
+<p style="font-size: small;">
+    <a href="https://github.com/nmohnblatt" class="nohover">Github</a> | <a href="https://bsky.app/profile/nicomnbl.bsky.social" class="nohover">Bluesky</a> | <a href="https://x.com/nico_mnbl" class="nohover">&#x1D54F;</a> | <a href="https://zkjargon.github.io" class="nohover">ZK Jargon Decoder</a> <br>
+    &copy; 2024-2026, Nicolas Mohnblatt. <br>
+</p>
+</footer>
+
+    
+</body>
+
+</html>

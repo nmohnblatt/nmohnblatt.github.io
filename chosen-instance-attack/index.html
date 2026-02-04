@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://nmohnblatt.me/images/favicon.png" />
+<title>Chosen-instance Attack | Nicolas Mohnblatt</title>
+<meta name="title" content="Chosen-instance Attack" />
+<meta name="description" content="This article is cross-posted from the Bain Capital Crypto Insights.
+
+How succinct proofs leak information.
+What happens when a succinct proof does not have the zero-knowledge property?
+There is a common misconception that &ldquo;succinct proofs are too short to leak information about the witness&rdquo;.
+This is incorrect and in the interest of privacy it is very important that we challenge this belief.
+The Zeitgeist puzzle at ZK Hack V was based on the themes discussed here." />
+<meta name="keywords" content="BCC,zero-knowledge,privacy,security,ZK Hack," />
+
+
+<meta property="og:url" content="https://nmohnblatt.me/chosen-instance-attack/">
+  <meta property="og:site_name" content="Nicolas Mohnblatt">
+  <meta property="og:title" content="Chosen-instance Attack">
+  <meta property="og:description" content="This article is cross-posted from the Bain Capital Crypto Insights.
+How succinct proofs leak information. What happens when a succinct proof does not have the zero-knowledge property? There is a common misconception that “succinct proofs are too short to leak information about the witness”. This is incorrect and in the interest of privacy it is very important that we challenge this belief. The Zeitgeist puzzle at ZK Hack V was based on the themes discussed here.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2024-12-04T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-12-04T00:00:00+00:00">
+    <meta property="article:tag" content="BCC">
+    <meta property="article:tag" content="Zero-Knowledge">
+    <meta property="article:tag" content="Privacy">
+    <meta property="article:tag" content="Security">
+    <meta property="article:tag" content="ZK Hack">
+    <meta property="og:image" content="https://nmohnblatt.me/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://nmohnblatt.me/images/share.png">
+  <meta name="twitter:title" content="Chosen-instance Attack">
+  <meta name="twitter:description" content="This article is cross-posted from the Bain Capital Crypto Insights.
+How succinct proofs leak information. What happens when a succinct proof does not have the zero-knowledge property? There is a common misconception that “succinct proofs are too short to leak information about the witness”. This is incorrect and in the interest of privacy it is very important that we challenge this belief. The Zeitgeist puzzle at ZK Hack V was based on the themes discussed here.">
+
+
+
+
+  <meta itemprop="name" content="Chosen-instance Attack">
+  <meta itemprop="description" content="This article is cross-posted from the Bain Capital Crypto Insights.
+How succinct proofs leak information. What happens when a succinct proof does not have the zero-knowledge property? There is a common misconception that “succinct proofs are too short to leak information about the witness”. This is incorrect and in the interest of privacy it is very important that we challenge this belief. The Zeitgeist puzzle at ZK Hack V was based on the themes discussed here.">
+  <meta itemprop="datePublished" content="2024-12-04T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-12-04T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1955">
+  <meta itemprop="image" content="https://nmohnblatt.me/images/share.png">
+  <meta itemprop="keywords" content="BCC,Zero-Knowledge,Privacy,Security,ZK Hack">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  
+
+<style>
+  body {
+    font-family: Verdana, sans-serif;
+    font-size: 15px;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #FFFCF0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #100F0F;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #100F0F;
+  }
+
+  a {
+    color: #24837B;
+     
+    text-decoration: none;
+  }
+
+  a.underline {
+    text-decoration: underline; 
+  }
+
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a.nohover:hover {
+    text-decoration: none;
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  a.title:hover{
+    text-decoration: none;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+   
+
+  td {
+    border-top: 1px solid #E6E4D9;
+  } 
+
+  img {
+    max-width: 100%;
+  }
+
+  figure {
+    margin-inline-start: 20px;
+    margin-inline-end: 20px;
+  }
+
+  figcaption {
+    color: #B7B5AC;
+    font-size: small;
+    text-align: center;
+  }
+
+  figcaption p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #E6E4D9;
+    color: #878580;
+  }
+
+  pre code {
+    color: #6F6E69;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 2px solid #24837B;
+    color: #100F0F;
+    padding-left: 15px;
+    margin-inline-start: 20px;
+     
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #17504b;
+  }
+
+   
+
+</style>
+
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']],     
+      tags: 'ams'
+    }
+  };
+</script>
+  
+
+  
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>Nicolas Mohnblatt</h2>
+</a>
+<nav><a href="/" class="nohover">Home</a>
+
+<a href="/about/" class="nohover">About</a>
+
+<a href="/now/" class="nohover">Now</a>
+
+<a href="/research/" class="nohover">Research</a>
+
+
+<a href="/blog" class="nohover">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>Chosen-instance Attack</h1>
+<p>
+  <i>
+    
+  </i>
+</p>
+<p>
+  <i>
+    <time datetime='2024-12-04' pubdate>
+      04 Dec, 2024
+    </time>
+  </i>
+</p>
+
+<content>
+  <p><em>This article is cross-posted from the <a href="https://baincapitalcrypto.com/chosen-instance-attack/">Bain Capital Crypto Insights</a>.</em></p>
+<hr>
+<h2 id="how-succinct-proofs-leak-information">How succinct proofs leak information.</h2>
+<p>What happens when a succinct proof does not have the zero-knowledge property?
+There is a common misconception that &ldquo;succinct proofs are too short to leak information about the witness&rdquo;.
+This is <strong>incorrect</strong> and in the interest of privacy it is very important that we challenge this belief.
+The <a href="https://zkhack.dev/zkhackV/puzzleV1.html">Zeitgeist puzzle at ZK Hack V</a> was based on the themes discussed here.</p>
+<p>In this post I&rsquo;ll present what I am calling a <strong>&ldquo;chosen-instance attack&rdquo;</strong>. Reminiscent of <a href="https://en.wikipedia.org/wiki/Chosen-plaintext_attack">chosen-plaintext attacks</a> for encryption schemes, a chosen-instance attack is a concrete procedure that allows an adversary to steal private inputs from an honest SNARK prover.
+As we will see in this article, the adversary will request multiple proofs from the prover for instances that are distinct but share the same witness.
+Given the prover&rsquo;s responses, the adversary can interpolate a polynomial that encodes the witness.
+Beyond the technical description of the attack, we&rsquo;ll also discuss how this scenario can arise very naturally in deployed systems.</p>
+<p>Throughout, I&rsquo;ll assume that readers have some familiarity with succinct proofs, including notions such as &ldquo;$\mathsf{NP}$ relations&rdquo;, &ldquo;instance&rdquo;, &ldquo;witness&rdquo;, &ldquo;SNARK&rdquo; and &ldquo;IOP&rdquo;/&ldquo;polyIOP&rdquo;.
+As a quick primer, you can read &ldquo;$\mathsf{NP}$ relation&rdquo; to mean circuit, &ldquo;instance&rdquo; to mean public inputs, &ldquo;witness&rdquo; to mean private inputs and intermediate computation steps/wires; &ldquo;SNARKs&rdquo; are our beloved succinct proofs and &ldquo;IOP&rdquo;/&ldquo;polyIOP&rdquo; are their primary building blocks.
+For a more complete introduction, I suggest you either check out the <a href="https://zkjargon.github.io/intro_to_zk/what_is_proving.html">Introduction to ZK Jargon</a>, <a href="https://zkhack.dev/whiteboard/">Module 1 of the ZK Whiteboard Sessions</a> or the <a href="https://snargsbook.org">Chiesa and Yogev textbook</a> [CY24].</p>
+<h3 id="threat-model">Threat model</h3>
+<p>We focus on non-interactive proof (or argument) systems and consider the following threat model.
+An adversary $\mathcal{A}$ knows the public inputs to a circuit and interacts with an honest prover $\mathcal{P}$ who knows all the other wire values (private inputs and any intermediate computation steps).
+The adversary can adaptively request proofs from the prover for <em>any public inputs of its choosing</em>.
+Eventually, the adversary must output the prover&rsquo;s secret wire values.</p>
+<p>Restating the above formally: for any $\mathsf{NP}$ relation $\mathcal{R}$, the prover is given an instance-witness pair $(x, w) \in \mathcal{R}$ and the adversary is given $x$.
+The adversary is adaptive and has black-box oracle access<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> to the honest prover&rsquo;s output function.
+The chosen-instance attack is successful if $\mathcal{A}$ outputs $w$ with better than negligible probability.
+The threat model is illustrated in Figure 1 below.</p>
+
+
+
+<figure style="text-align: center;"><img src="/chosen-instance-attack/cia-threat-model_hu_7cb3b86c2913c20f.webp"
+  alt="Figure 1: the chosen-instance attack threat model."><figcaption>
+      <p>Figure 1: the chosen-instance attack threat model.</p>
+    </figcaption>
+</figure>
+<p>This setting is very common in the wild.
+For example, in applications that require client-side proofs, the user&rsquo;s device is the honest prover and the application server can act as the adversary.
+This is the setting we chose for the ZK Hack puzzle.
+Alternatively, we could imagine an untrusted server that produces proofs to convince clients of its honesty.
+A malicious client could try to extract secrets from the server by choosing the statements the server will prove.</p>
+<h3 id="leaky-primitives">Leaky primitives</h3>
+<p><strong>IOPs.</strong> Most modern SNARKs are built from interactive oracle proofs (IOP) or their polynomial variants (polyIOP).
+The general pattern is the following:</p>
+<ul>
+<li><strong>Round 1</strong>: the prover sends an oracle that, in the honest case, is a polynomial encoding the witness<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.</li>
+<li><strong>Round $i$</strong>: the prover sends a &ldquo;helper&rdquo; oracle that will allow the verifier to reduce the task of checking properties of the witness to a simpler task.</li>
+<li><strong>Final round</strong>: the verifier queries the witness and helper oracles in one or more random points.</li>
+</ul>
+<p>This construction leaks at least one evaluation of the witness polynomial by default.
+If the witness is encoded into a degree $d$ polynomial, then <em>an adversary can collect $d+1$ proofs and use the evaluations to interpolate and recover the full witness polynomial</em>!
+It is also common for IOPs to check constraints across $k$ adjacent values of the witness polynomial(s).
+To do so, these protocols require the prover to open $k$ witness values, cutting the number of proofs from $d+1$ to $\frac{d+1}{k}$.</p>
+<p><strong>Compilation using polynomial commitments.</strong> The generic IOP above is usually compiled into a SNARK in one of the two following ways.
+The first is to commit to messages using a <em>polynomial commitment scheme</em> and make the protocol non-interactive using the Fiat-Shamir transform.
+This yields most of our elliptic curve SNARKs and is a process that does not usually leak further witness evaluations<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.</p>
+<p><strong>Compilation using IOPPs and Merkle trees.</strong> The second method is to engage in an additional protocol attesting that the prover&rsquo;s messages are &ldquo;close&rdquo; to polynomials. This is known as an <em>IOP of Proximity</em> (IOPP); popular examples include FRI [BBHR18] and STIR [ACFY24] amongst many others.
+The combined protocol (IOP + IOPP) is compiled into a SNARK by running the BCS compiler [BCS16]: we commit to each message with a <em>Merkle tree</em> and make the protocol non-interactive using the Fiat-Shamir transform.
+This yields most of our hash-based SNARKs.
+<em>The IOPP compilation method leaks additional evaluations of the witness polynomial</em>.
+Indeed, known IOPPs require the verifier to repeatedly open values of the oracles being tested.
+Depending on the security regime and chosen parameters, we usually perform between 20 and 50 openings per proof.</p>
+<h3 id="non-interactive-proofs">Non-interactive proofs</h3>
+<p>As we have seen, the interactive building blocks for our SNARKs leak evaluations of the witness polynomial.
+Extracting the prover&rsquo;s witness in the interactive setting is relatively easy: run the protocol honestly acting as the verifier and make sure that the evaluation points are distinct in every run. After enough runs, interpolate the witness polynomial.</p>
+<p>In the non-interactive setting, things are not so simple.
+Since we have applied the Fiat-Shamir transform, the verifier&rsquo;s messages &mdash; and therefore evaluation points &mdash; are computed <em>deterministically</em> from a hash of the instance and previous prover messages.
+For a fixed instance-witness pair $(x, w)$, an honest prover will always return the same fixed proof, preventing the adversary from obtained multiple evaluations of the witness polynomial.</p>
+<p>The solution is to request proofs for many instances $x_1, x_2, \dots, x_n$ such that these instances are all satisfied by the same witness $w$.
+Depending on the $\mathsf{NP}$ relation, this might not be possible.
+In the next section, I&rsquo;ll argue that this condition is naturally met by very common circuits.
+For now, let&rsquo;s assume that there exists such a set of instances.</p>
+<p>A direct consequence of using different instances is that the verifier messages derived from the hash function will be different in each execution.
+This will yield distinct evaluation points across proofs as required!
+However, in doing so we have complicated the adversary&rsquo;s task.
+Indeed, in some arithmetizations the prover&rsquo;s first message is a polynomial that depends on both the witness <em>and</em> the instance.
+If we use different instances, the prover&rsquo;s first message will be different every time; seemingly thwarting our interpolation attack.</p>
+<p>Fortunately for our attack, there exists a mathematical trick that allows the adversary to separate the witness-part of the polynomial from the instance-part of the polynomial.
+The idea is to interpret the combined instance-witness polynomial $\tilde z$ as the sum of two polynomials: the first is an adversary-known polynomial $\tilde x$ that depends only on the instance, the second is a polynomial $\tilde w$ that depends only on the witness.
+Given an evaluation $\tilde z(p)$ of the combined polynomial at a point $p$, the adversary can evaluate $\tilde x(p)$ and compute $\tilde w(p) = \tilde z(p) - \tilde x(p)$.
+The trick is illustrated below for an R1CS instance-witness polynomial but can equally be applied to a column of a PLONKish or AIR table.</p>
+
+
+
+<figure style="text-align: center;"><img src="/chosen-instance-attack/instance-removal-trick_hu_4de7d66db0f126c6.webp"
+  alt="Figure 2: an illustration of the instance removal trick for an R1CS-formatted instance-witness polynomial $\tilde z$."><figcaption>
+      <p>Figure 2: an illustration of the instance removal trick for an R1CS-formatted instance-witness polynomial $\tilde z$.</p>
+    </figcaption>
+</figure>
+<p>Having recovered at least one evaluation of the witness polynomial per proof, the attack can proceed as before: collect enough proofs and interpolate the witness.</p>
+<h3 id="chosen-instance-attacks-in-the-wild">Chosen-instance attacks in the wild</h3>
+<p>At first, it might seem like the attack we described requires a very contrived circuit: there needs to be many instances that are satisfied by the same witness.
+Furthermore, the adversary starts with only one of those instance; how does it produce more instances that are satisfied by the fixed witness?</p>
+<p>It turns out that many circuits exhibit these properties, in particular when &ldquo;nonces&rdquo; or &ldquo;nullifiers&rdquo; are involved.
+When dealing with non-interactive proofs, applications must be careful not to allow proofs to be re-used.
+For example, if Alice produces a proof that her account balance is above 32 ETH, application designers will want to make sure that she cannot spend some ETH and still present the old proof.
+This is often done by associating a unique public number (nonce) to the proof.
+When the proof is verified, the public nonce gets added to a log and the proof is marked as &ldquo;consumed&rdquo;.
+If the same proof is presented once again, the verifier will recognize that the nonce was already added to the log, and therefore that the proof should not be accepted again.</p>
+<p>This &ldquo;nullifying&rdquo; mechanism is great to reject attempts at replaying a proof, but makes it very natural for a prover to prove many different instances with a single witness.
+Indeed, instead of checking that the public inputs $x$ and witness $w$ satisfy the circuit, we now have public inputs $(x, \mathsf{nonce})$ and witness $w$. The adversary can keep a fixed $x$ and cycle through many values of $\mathsf{nonce}$; meanwhile the prover is stuck using its fixed witness.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>While it is true that <em>a single</em> succinct proof is too short to leak the <em>full</em> witness, it is not true that succinct proofs are enough to guarantee privacy.
+Most of our succinct proofs leak information correlated to private inputs.
+As a consequence, even a single proof can act as a unique fingerprint for the witness.
+This is especially true when the proof contains a commitment to the witness.</p>
+<p>In some settings &mdash; in particular when using nonces to prevent replay attacks &mdash; the leakage can be exploited to mount the chosen-instance attack we described above and fully recover the witness.
+The attack works against any circuit for which many instances are satisfied by a single witness.
+It is particularly effective against SNARKs that rely on IOPs of Proximity (e.g., FRI, STIR) since these SNARKs leak a bigger number of evaluations per proof.</p>
+<p>The chosen-instance attack is only one idea of how to exploit such leaks; there are surely more that are known, and many more that are yet unknown!
+Therefore, I&rsquo;ll conclude this article with a final word of warning at the risk of sounding like a broken record: <strong>if a system&rsquo;s proofs are not zero-knowledge, then the system does not guarantee privacy</strong>.</p>
+<h2 id="references">References</h2>
+<p>[ACFY24] Gal Arnon, Alessandro Chiesa, Giacomo Fenzi, and Eylon Yogev (2024). STIR: Reed-Solomon Proximity Testing with Fewer Queries. In: Reyzin, L., Stebila, D. (eds) Advances in Cryptology – CRYPTO 2024. CRYPTO 2024. Lecture Notes in Computer Science, vol 14929. Springer, Cham. <a href="https://doi.org/10.1007/978-3-031-68403-6_12">https://doi.org/10.1007/978-3-031-68403-6_12</a></p>
+<p>[BBHR18] Eli Ben-Sasson, Iddo Bentov, Yinon Horesh, and Michael Riabzev. Fast Reed-Solomon Interactive Oracle Proofs of Proximity. In 45th International Colloquium on Automata, Languages, and Programming (ICALP 2018). Leibniz International Proceedings in Informatics (LIPIcs), Volume 107, pp. 14:1-14:17, Schloss Dagstuhl – Leibniz-Zentrum für Informatik (2018). <a href="https://doi.org/10.4230/LIPIcs.ICALP.2018.14">https://doi.org/10.4230/LIPIcs.ICALP.2018.14</a></p>
+<p>[BCS16] Eli Ben-Sasson, Alessandro Chiesa, and Nicholas Spooner (2016). Interactive Oracle Proofs. In: Hirt, M., Smith, A. (eds) Theory of Cryptography. TCC 2016. Lecture Notes in Computer Science(), vol 9986. Springer, Berlin, Heidelberg. <a href="https://doi.org/10.1007/978-3-662-53644-5_2">https://doi.org/10.1007/978-3-662-53644-5_2</a></p>
+<p>[CY24] Alessandro Chiesa, and Eylon Yogev (2024). Building Cryptographic Proofs from Hash Functions. Published online <a href="https://snargsbook.org">https://snargsbook.org</a></p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>&ldquo;black-box&rdquo; means that the adversary cannot observe the prover&rsquo;s program description nor see its internal variables.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>In some IOPs the witness is encoded in more than one polynomial (e.g. Plonk/AIR). The attack procedure will work in the same way for this case, making sure to apply it to each of the witness polynomials.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>for computationally bounded adversaries, assuming that the elliptic curve discrete logarithm problem is hard.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+</content>
+<p>
+  
+  <a href="https://nmohnblatt.me/blog/bcc/" class="nohover">#BCC</a>
+  
+  <a href="https://nmohnblatt.me/blog/zero-knowledge/" class="nohover">#Zero-Knowledge</a>
+  
+  <a href="https://nmohnblatt.me/blog/privacy/" class="nohover">#Privacy</a>
+  
+  <a href="https://nmohnblatt.me/blog/security/" class="nohover">#Security</a>
+  
+  <a href="https://nmohnblatt.me/blog/zk-hack/" class="nohover">#ZK Hack</a>
+  
+</p>
+
+  </main>
+  <footer><p style="font-size: small;">
+    Built using <a href="https://gohugo.io" class="nohover">Hugo</a>. The theme is adapted from <a href="https://github.com/janraasch/hugo-bearblog/" class="nohover">hugo-bearblog</a> and uses colours from <a href="https://github.com/kepano/flexoki?tab=readme-ov-file" class="nohover">Flexoki</a>.
+</p>
+
+<p style="font-size: small;">
+    <a href="https://github.com/nmohnblatt" class="nohover">Github</a> | <a href="https://bsky.app/profile/nicomnbl.bsky.social" class="nohover">Bluesky</a> | <a href="https://x.com/nico_mnbl" class="nohover">&#x1D54F;</a> | <a href="https://zkjargon.github.io" class="nohover">ZK Jargon Decoder</a> <br>
+    &copy; 2024-2026, Nicolas Mohnblatt. <br>
+</p>
+</footer>
+
+    
+</body>
+
+</html>

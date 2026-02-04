@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Security on Nicolas Mohnblatt</title>
+    <link>https://nmohnblatt.me/blog/security/</link>
+    <description>Recent content in Security on Nicolas Mohnblatt</description>
+    <generator>Hugo</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2024-2026, Nicolas Mohnblatt.</copyright>
+    <lastBuildDate>Fri, 14 Nov 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://nmohnblatt.me/blog/security/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Proximity Gaps: What Happened and How Does It Affect our SNARKs</title>
+      <link>https://nmohnblatt.me/proximity-conjecture/</link>
+      <pubDate>Fri, 14 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/proximity-conjecture/</guid>
+      <description>A series of recent papers just disproved the proximity gaps conjecture, which has everyone wondering if hash-based SNARKs are in trouble. We break down what actually happened using some helpful visuals—think of it as understanding which parameter choices are safe versus which ones are now confirmed to be risky. The post walks you through the different security zones (proven safe, conjectured safe, and definitely not safe), explains how these new results connect to other open math problems, and shows what it means for real-world SNARKs in terms of proof sizes and performance trade-offs.</description>
+    </item>
+    <item>
+      <title>Why does FRI work?</title>
+      <link>https://nmohnblatt.me/fri-security/</link>
+      <pubDate>Thu, 30 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/fri-security/</guid>
+      <description>You might be familiar with what FRI is or how it works but do you know &lt;em&gt;why&lt;/em&gt; it works? This blog post gives some intuitive answers to this crucial security question.</description>
+    </item>
+    <item>
+      <title>Chosen-instance Attack</title>
+      <link>https://nmohnblatt.me/chosen-instance-attack/</link>
+      <pubDate>Wed, 04 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/chosen-instance-attack/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://baincapitalcrypto.com/chosen-instance-attack/&#34;&gt;Bain Capital Crypto Insights&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;how-succinct-proofs-leak-information&#34;&gt;How succinct proofs leak information.&lt;/h2&gt;&#xA;&lt;p&gt;What happens when a succinct proof does not have the zero-knowledge property?&#xA;There is a common misconception that &amp;ldquo;succinct proofs are too short to leak information about the witness&amp;rdquo;.&#xA;This is &lt;strong&gt;incorrect&lt;/strong&gt; and in the interest of privacy it is very important that we challenge this belief.&#xA;The &lt;a href=&#34;https://zkhack.dev/zkhackV/puzzleV1.html&#34;&gt;Zeitgeist puzzle at ZK Hack V&lt;/a&gt; was based on the themes discussed here.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

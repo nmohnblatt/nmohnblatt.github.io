@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://nmohnblatt.me/images/favicon.png" />
+<title>Emulating Witness Encryption with Threshold Cryptography and ZKPs | Nicolas Mohnblatt</title>
+<meta name="title" content="Emulating Witness Encryption with Threshold Cryptography and ZKPs" />
+<meta name="description" content="This short document outlines how to emulate witness encryption using threshold cryptography - and more specifically, threshold identity-based encryption (IBE). The ideas presented here are heavily inspired by the tlock construction from [GMR23].
+Disclaimer: I have not done a thorough review of the existing literature, if you are aware of existing constructions that work in the same way please let me know!
+Background
+Witness Encryption. The extractable witness encryption paradigm is the following: given an instance of some hard problem, one can encrypt a message using the instance such that it may only be decrypted by someone who knows the problem&rsquo;s solution (the witness)." />
+<meta name="keywords" content="Witness Encryption,Identity-based Encryption,Threshold Cryptography," />
+
+
+<meta property="og:url" content="https://nmohnblatt.me/witness-encryption-from-ibe/">
+  <meta property="og:site_name" content="Nicolas Mohnblatt">
+  <meta property="og:title" content="Emulating Witness Encryption with Threshold Cryptography and ZKPs">
+  <meta property="og:description" content="This short document outlines how to emulate witness encryption using threshold cryptography - and more specifically, threshold identity-based encryption (IBE). The ideas presented here are heavily inspired by the tlock construction from [GMR23].
+Disclaimer: I have not done a thorough review of the existing literature, if you are aware of existing constructions that work in the same way please let me know!
+Background Witness Encryption. The extractable witness encryption paradigm is the following: given an instance of some hard problem, one can encrypt a message using the instance such that it may only be decrypted by someone who knows the problem’s solution (the witness).">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2023-05-12T00:00:00+00:00">
+    <meta property="article:modified_time" content="2023-05-12T00:00:00+00:00">
+    <meta property="article:tag" content="Witness Encryption">
+    <meta property="article:tag" content="Identity-Based Encryption">
+    <meta property="article:tag" content="Threshold Cryptography">
+    <meta property="og:image" content="https://nmohnblatt.me/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://nmohnblatt.me/images/share.png">
+  <meta name="twitter:title" content="Emulating Witness Encryption with Threshold Cryptography and ZKPs">
+  <meta name="twitter:description" content="This short document outlines how to emulate witness encryption using threshold cryptography - and more specifically, threshold identity-based encryption (IBE). The ideas presented here are heavily inspired by the tlock construction from [GMR23].
+Disclaimer: I have not done a thorough review of the existing literature, if you are aware of existing constructions that work in the same way please let me know!
+Background Witness Encryption. The extractable witness encryption paradigm is the following: given an instance of some hard problem, one can encrypt a message using the instance such that it may only be decrypted by someone who knows the problem’s solution (the witness).">
+
+
+
+
+  <meta itemprop="name" content="Emulating Witness Encryption with Threshold Cryptography and ZKPs">
+  <meta itemprop="description" content="This short document outlines how to emulate witness encryption using threshold cryptography - and more specifically, threshold identity-based encryption (IBE). The ideas presented here are heavily inspired by the tlock construction from [GMR23].
+Disclaimer: I have not done a thorough review of the existing literature, if you are aware of existing constructions that work in the same way please let me know!
+Background Witness Encryption. The extractable witness encryption paradigm is the following: given an instance of some hard problem, one can encrypt a message using the instance such that it may only be decrypted by someone who knows the problem’s solution (the witness).">
+  <meta itemprop="datePublished" content="2023-05-12T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2023-05-12T00:00:00+00:00">
+  <meta itemprop="wordCount" content="561">
+  <meta itemprop="image" content="https://nmohnblatt.me/images/share.png">
+  <meta itemprop="keywords" content="Witness Encryption,Identity-Based Encryption,Threshold Cryptography">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  
+
+<style>
+  body {
+    font-family: Verdana, sans-serif;
+    font-size: 15px;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #FFFCF0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #100F0F;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #100F0F;
+  }
+
+  a {
+    color: #24837B;
+     
+    text-decoration: none;
+  }
+
+  a.underline {
+    text-decoration: underline; 
+  }
+
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a.nohover:hover {
+    text-decoration: none;
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  a.title:hover{
+    text-decoration: none;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+   
+
+  td {
+    border-top: 1px solid #E6E4D9;
+  } 
+
+  img {
+    max-width: 100%;
+  }
+
+  figure {
+    margin-inline-start: 20px;
+    margin-inline-end: 20px;
+  }
+
+  figcaption {
+    color: #B7B5AC;
+    font-size: small;
+    text-align: center;
+  }
+
+  figcaption p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #E6E4D9;
+    color: #878580;
+  }
+
+  pre code {
+    color: #6F6E69;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 2px solid #24837B;
+    color: #100F0F;
+    padding-left: 15px;
+    margin-inline-start: 20px;
+     
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #17504b;
+  }
+
+   
+
+</style>
+
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']],     
+      tags: 'ams'
+    }
+  };
+</script>
+  
+
+  
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>Nicolas Mohnblatt</h2>
+</a>
+<nav><a href="/" class="nohover">Home</a>
+
+<a href="/about/" class="nohover">About</a>
+
+<a href="/now/" class="nohover">Now</a>
+
+<a href="/research/" class="nohover">Research</a>
+
+
+<a href="/blog" class="nohover">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>Emulating Witness Encryption with Threshold Cryptography and ZKPs</h1>
+<p>
+  <i>
+    
+  </i>
+</p>
+<p>
+  <i>
+    <time datetime='2023-05-12' pubdate>
+      12 May, 2023
+    </time>
+  </i>
+</p>
+
+<content>
+  <p>This short document outlines how to emulate witness encryption using threshold cryptography - and more specifically, threshold identity-based encryption (IBE). The ideas presented here are heavily inspired by the <code>tlock</code> construction from <a href="https://eprint.iacr.org/2023/189">[GMR23]</a>.</p>
+<p><em>Disclaimer: I have not done a thorough review of the existing literature, if you are aware of existing constructions that work in the same way please let me know!</em></p>
+<h2 id="background">Background</h2>
+<p><strong>Witness Encryption.</strong> The <em>extractable witness encryption</em> paradigm is the following: given an instance of some hard problem, one can encrypt a message using the instance such that it may only be decrypted by someone who <em>knows</em> the problem&rsquo;s solution (the witness).</p>
+<p><strong>Threshold IBE.</strong> <a href="https://en.wikipedia.org/wiki/Identity-based_cryptography">Identity-based encryption</a> (IBE) is a class of cryptographic primitives where public keys are some publicly known string (the identity) and the private key is <em>derived</em> to match that public key. Originally, IBE schemes relied on a trusted third party to derive the private key.</p>
+<p>The Boneh-Franklin IBE scheme <a href="https://link.springer.com/chapter/10.1007/3-540-44647-8_13">[BF01]</a> is of particular interest because private keys are computed by the trusted third party as a BLS signature of the identity.</p>
+<p>Because the private keys are BLS signatures, the trusted third party can be replaced by a quorum of signers that each hold a secret share of some (unknown) master secret key. <strong>To obtain the private key that corresponds to some identity, a user must request partial signatures from a threshold of the quorum signers</strong>.</p>
+<h2 id="pseudo-witness-encryption-from-threshold-ibe">Pseudo Witness Encryption from Threshold IBE</h2>
+<p>The emulation idea is the following: <strong>messages are encrypted with respect to some randomly generated identity; once a user knows a valid witness, they obtain the identity&rsquo;s private key from the quorum of signers</strong> (using ZKPs).</p>
+<p>In practice, the system will look like this:</p>
+<ol>
+<li><strong>Register the puzzle.</strong> A puzzle will typically be an arithmetic circuit (e.g. Circom, Noir, etc) or a non-deterministic program (e.g. Cairo). Both of these can be succinctly described either by a verifier key or by a program hash. Once the succinct description is made public, it is also given a random string of characters/bits. This is the puzzle&rsquo;s identity, i.e. the public key!</li>
+<li><strong>Encrypt.</strong> To encrypt &ldquo;under a certain puzzle&rdquo;, use the puzzle&rsquo;s &ldquo;identity&rdquo; and encrypt using the Boneh-Franklin IBE.</li>
+<li><strong>Obtain partial keys.</strong> If Alice has solved the puzzle (i.e. knows the witness for the circuit/program), she can present a zk proof of knowledge to one of the signers. If the proof is valid, the signer provides a partial BLS signature on the puzzle&rsquo;s identity to Alice. Repeat the process with enough signers to match the threshold.</li>
+<li><strong>Recover the private key and decrypt.</strong> Having obtained enough partial signatures to match the threshold, Alice can compute the full BLS signature on the puzzle&rsquo;s identity. This is the private key for the Boneh-Franklin IBE! She can now decrypt.</li>
+</ol>
+<h3 id="some-challenges">Some Challenges</h3>
+<ul>
+<li>Who chooses the identity for a puzzle? How do we know that the identity-to-puzzle mapping is correctly preserved?</li>
+<li>For on-chain applications, some of the ZKP&rsquo;s public inputs might be chain data (e.g. a block header). Signers from the quorum will need a trustworthy way to access that data.</li>
+</ul>
+<h2 id="references">References</h2>
+<p><a href="https://link.springer.com/chapter/10.1007/3-540-44647-8_13">[BF01]</a> Boneh, Dan, and Matt Franklin. &ldquo;Identity-based encryption from the Weil pairing.&rdquo; Advances in Cryptology—CRYPTO 2001: 21st Annual International Cryptology Conference, Santa Barbara, California, USA, August 19–23, 2001 Proceedings. Berlin, Heidelberg: Springer Berlin Heidelberg, 2001.</p>
+<p><a href="https://eprint.iacr.org/2023/189">[GMR23]</a> Gailly, Nicolas, Kelsey Melissaris, and Yolan Romailler. &ldquo;tlock: practical timelock encryption from threshold BLS.&rdquo; Cryptology ePrint Archive (2023).</p>
+
+</content>
+<p>
+  
+  <a href="https://nmohnblatt.me/blog/witness-encryption/" class="nohover">#Witness Encryption</a>
+  
+  <a href="https://nmohnblatt.me/blog/identity-based-encryption/" class="nohover">#Identity-Based Encryption</a>
+  
+  <a href="https://nmohnblatt.me/blog/threshold-cryptography/" class="nohover">#Threshold Cryptography</a>
+  
+</p>
+
+  </main>
+  <footer><p style="font-size: small;">
+    Built using <a href="https://gohugo.io" class="nohover">Hugo</a>. The theme is adapted from <a href="https://github.com/janraasch/hugo-bearblog/" class="nohover">hugo-bearblog</a> and uses colours from <a href="https://github.com/kepano/flexoki?tab=readme-ov-file" class="nohover">Flexoki</a>.
+</p>
+
+<p style="font-size: small;">
+    <a href="https://github.com/nmohnblatt" class="nohover">Github</a> | <a href="https://bsky.app/profile/nicomnbl.bsky.social" class="nohover">Bluesky</a> | <a href="https://x.com/nico_mnbl" class="nohover">&#x1D54F;</a> | <a href="https://zkjargon.github.io" class="nohover">ZK Jargon Decoder</a> <br>
+    &copy; 2024-2026, Nicolas Mohnblatt. <br>
+</p>
+</footer>
+
+    
+</body>
+
+</html>

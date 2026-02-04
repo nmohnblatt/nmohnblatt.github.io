@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://nmohnblatt.me/images/favicon.png" />
+<title>Sampling for Proximity and Availability | Nicolas Mohnblatt</title>
+<meta name="title" content="Sampling for Proximity and Availability" />
+<meta name="description" content="This article is cross-posted from the Bain Capital Crypto Insights.
+
+In blockchains, nodes can ensure that the chain is valid without trusting anyone, not even the validators or miners.
+Early blockchain design can achieve this by having each of these nodes download and re-execute all transactions itself.
+The inefficiency of this approach motivated the adoption of fraud and validity proofs.
+While these proofs provide assurances that the underlying state transitions of the blockchain were computed correctly, malicious block producers may still withhold the data required to compute the latest state.
+(In other words, while a node without this data may ensure that every change performed to the state was valid—since the proofs verify—the node may not be able to know what the underlying state actually is.)
+Such an attack could prevent users from composing valid transactions (e.g., to withdraw assets from some pool) or could prevent other nodes from constructing proofs of their own.
+The simplest way to ensure that the data needed to construct the underlying state can be downloaded is, of course, to try and download it.
+This is the approach most current blockchains take.
+The downside of this approach is that, as usage increases, every node must download all the data, which, in turn, puts strain on the network and its available bandwidth." />
+<meta name="keywords" content="BCC,Data Availability Sampling,Proximity testing," />
+
+
+<meta property="og:url" content="https://nmohnblatt.me/sampling-for-proximity-and-availability/">
+  <meta property="og:site_name" content="Nicolas Mohnblatt">
+  <meta property="og:title" content="Sampling for Proximity and Availability">
+  <meta property="og:description" content="This article is cross-posted from the Bain Capital Crypto Insights.
+In blockchains, nodes can ensure that the chain is valid without trusting anyone, not even the validators or miners. Early blockchain design can achieve this by having each of these nodes download and re-execute all transactions itself. The inefficiency of this approach motivated the adoption of fraud and validity proofs. While these proofs provide assurances that the underlying state transitions of the blockchain were computed correctly, malicious block producers may still withhold the data required to compute the latest state. (In other words, while a node without this data may ensure that every change performed to the state was valid—since the proofs verify—the node may not be able to know what the underlying state actually is.) Such an attack could prevent users from composing valid transactions (e.g., to withdraw assets from some pool) or could prevent other nodes from constructing proofs of their own. The simplest way to ensure that the data needed to construct the underlying state can be downloaded is, of course, to try and download it. This is the approach most current blockchains take. The downside of this approach is that, as usage increases, every node must download all the data, which, in turn, puts strain on the network and its available bandwidth.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2024-11-08T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-11-08T00:00:00+00:00">
+    <meta property="article:tag" content="BCC">
+    <meta property="article:tag" content="Data Availability Sampling">
+    <meta property="article:tag" content="Proximity Testing">
+    <meta property="og:image" content="https://nmohnblatt.me/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://nmohnblatt.me/images/share.png">
+  <meta name="twitter:title" content="Sampling for Proximity and Availability">
+  <meta name="twitter:description" content="This article is cross-posted from the Bain Capital Crypto Insights.
+In blockchains, nodes can ensure that the chain is valid without trusting anyone, not even the validators or miners. Early blockchain design can achieve this by having each of these nodes download and re-execute all transactions itself. The inefficiency of this approach motivated the adoption of fraud and validity proofs. While these proofs provide assurances that the underlying state transitions of the blockchain were computed correctly, malicious block producers may still withhold the data required to compute the latest state. (In other words, while a node without this data may ensure that every change performed to the state was valid—since the proofs verify—the node may not be able to know what the underlying state actually is.) Such an attack could prevent users from composing valid transactions (e.g., to withdraw assets from some pool) or could prevent other nodes from constructing proofs of their own. The simplest way to ensure that the data needed to construct the underlying state can be downloaded is, of course, to try and download it. This is the approach most current blockchains take. The downside of this approach is that, as usage increases, every node must download all the data, which, in turn, puts strain on the network and its available bandwidth.">
+
+
+
+
+  <meta itemprop="name" content="Sampling for Proximity and Availability">
+  <meta itemprop="description" content="This article is cross-posted from the Bain Capital Crypto Insights.
+In blockchains, nodes can ensure that the chain is valid without trusting anyone, not even the validators or miners. Early blockchain design can achieve this by having each of these nodes download and re-execute all transactions itself. The inefficiency of this approach motivated the adoption of fraud and validity proofs. While these proofs provide assurances that the underlying state transitions of the blockchain were computed correctly, malicious block producers may still withhold the data required to compute the latest state. (In other words, while a node without this data may ensure that every change performed to the state was valid—since the proofs verify—the node may not be able to know what the underlying state actually is.) Such an attack could prevent users from composing valid transactions (e.g., to withdraw assets from some pool) or could prevent other nodes from constructing proofs of their own. The simplest way to ensure that the data needed to construct the underlying state can be downloaded is, of course, to try and download it. This is the approach most current blockchains take. The downside of this approach is that, as usage increases, every node must download all the data, which, in turn, puts strain on the network and its available bandwidth.">
+  <meta itemprop="datePublished" content="2024-11-08T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-11-08T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1701">
+  <meta itemprop="image" content="https://nmohnblatt.me/images/share.png">
+  <meta itemprop="keywords" content="BCC,Data Availability Sampling,Proximity Testing">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  
+
+<style>
+  body {
+    font-family: Verdana, sans-serif;
+    font-size: 15px;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #FFFCF0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #100F0F;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #100F0F;
+  }
+
+  a {
+    color: #24837B;
+     
+    text-decoration: none;
+  }
+
+  a.underline {
+    text-decoration: underline; 
+  }
+
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a.nohover:hover {
+    text-decoration: none;
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  a.title:hover{
+    text-decoration: none;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+   
+
+  td {
+    border-top: 1px solid #E6E4D9;
+  } 
+
+  img {
+    max-width: 100%;
+  }
+
+  figure {
+    margin-inline-start: 20px;
+    margin-inline-end: 20px;
+  }
+
+  figcaption {
+    color: #B7B5AC;
+    font-size: small;
+    text-align: center;
+  }
+
+  figcaption p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #E6E4D9;
+    color: #878580;
+  }
+
+  pre code {
+    color: #6F6E69;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 2px solid #24837B;
+    color: #100F0F;
+    padding-left: 15px;
+    margin-inline-start: 20px;
+     
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #17504b;
+  }
+
+   
+
+</style>
+
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']],     
+      tags: 'ams'
+    }
+  };
+</script>
+  
+
+  
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>Nicolas Mohnblatt</h2>
+</a>
+<nav><a href="/" class="nohover">Home</a>
+
+<a href="/about/" class="nohover">About</a>
+
+<a href="/now/" class="nohover">Now</a>
+
+<a href="/research/" class="nohover">Research</a>
+
+
+<a href="/blog" class="nohover">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>Sampling for Proximity and Availability</h1>
+<p>
+  <i>
+    
+      Alex Evans, Nicolas Mohnblatt and Guillermo Angeris<br>
+    
+  </i>
+</p>
+<p>
+  <i>
+    <time datetime='2024-11-08' pubdate>
+      08 Nov, 2024
+    </time>
+  </i>
+</p>
+
+<content>
+  <p><em>This article is cross-posted from the <a href="https://baincapitalcrypto.com/sampling-for-proximity-and-availability/">Bain Capital Crypto Insights</a>.</em></p>
+<hr>
+<p>In blockchains, nodes can ensure that the chain is valid without trusting anyone, not even the validators or miners.
+Early blockchain design can achieve this by having each of these nodes download and re-execute all transactions itself.
+The inefficiency of this approach motivated the adoption of fraud and validity proofs.
+While these proofs provide assurances that the underlying state transitions of the blockchain were computed correctly, malicious block producers may still withhold the data required to compute the latest state.
+(In other words, while a node without this data may ensure that every change performed to the state was valid—since the proofs verify—the node may not be able to know what the underlying state <em>actually is</em>.)
+Such an attack could prevent users from composing valid transactions (<em>e.g.</em>, to withdraw assets from some pool) or could prevent other nodes from constructing proofs of their own.
+The simplest way to ensure that the data needed to construct the underlying state can be downloaded is, of course, to try and download it.
+This is the approach most current blockchains take.
+The downside of this approach is that, as usage increases, every node must download all the data, which, in turn, puts strain on the network and its available bandwidth.</p>
+<p><strong>Data availability sampling.</strong> In response, <!-- raw HTML omitted -->[ASB181]<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup><!-- raw HTML omitted --> introduced data availability sampling (DAS).
+This technique allows resource-constrained nodes (referred to as <em>light nodes</em>) to probabilistically verify the availability of data without downloading the entire block.
+That work roughly shows that, under some trust assumptions, if (a) the block data that we wish to make public is encoded via some error correcting code and (b) if enough people are sampling small parts of the encoded data, then the data must be available in that either it can be directly downloaded or, failing that, it can be reconstructed from the samples that have been collected by others in the network.
+This sampling procedure can ensure the data is available if two basic properties, which we describe next, hold.</p>
+<p><strong>Requirements.</strong> First, for DAS to work, there must be some way of guaranteeing that the data that was sampled is correctly encoded. Second, there must be ‘enough’ nodes actively sampling. In particular, the number must be chosen to ensure that these nodes, collectively, have enough symbols of the encoding to reconstruct the original data. DAS protocols in production today (such as those of [ASB18]) handle the former either through fraud-proofs or through KZG commitments. Fraud proofs are extremely efficient for the encoder but impose latency as well as an additional trust assumption: each light node is assumed to be connected to at least one honest full node. KZG commitments obviate this trust assumption, but require a trusted setup and are very expensive to compute, at least relative to computing the encoding itself. (Which is roughly the cost of the fraud-proof based encoding.)</p>
+<p><strong>Hashing-based proofs.</strong> Recent excellent works [<!-- raw HTML omitted -->HSW232<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup><!-- raw HTML omitted -->, <!-- raw HTML omitted -->HSW243<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup><!-- raw HTML omitted -->] have pointed to a third potential approach: instead of using KZG, it is possible to adapt computationally efficient hashing-based proofs such as those of <!-- raw HTML omitted -->[AHIV174]<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup><!-- raw HTML omitted --> and <!-- raw HTML omitted -->[BBHR5]<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup><!-- raw HTML omitted --> to establish that the encoding has been correctly computed.
+While these constructions have a number of desirable properties, including more efficient provers, weaker cryptographic assumptions, and no trusted setup, the constructions do feature large commitment sizes.
+As this commitment needs to be downloaded by all light nodes, the resulting overhead makes these constructions impractical.</p>
+<p><strong>This post.</strong> In this post, we’ll discuss a simple way to significantly reduce this overhead.
+We argue that if enough samples are requested and verified by a light node during DAS, these samples can also be used to ensure correctness of the encoding.
+We show that merging samples to establish both availability and integrity of the encoding results in more efficient DAS constructions.</p>
+<h2 id="sampling-for-both-proximity-and-availability">Sampling for both proximity and availability</h2>
+<p><strong>FRIDA construction.</strong> In FRIDA, the prover first encodes some data using a Reed–Solomon code and commits to the resulting entries of the vector via a Merkle tree commitment. The prover then uses the proving algorithm of the FRI protocol to produce a non-interactive proof that this vector is indeed within unique decoding of a Reed–Solomon codeword (a ‘proof of proximity’). The proof includes $L$ queries of the original vector on which the FRI verification procedure is run, where $L$ is chosen to achieve a given security level. (For the those less familiar with FRI, the exact details of this procedure are not important, though we will reference $L$ later.) The resulting proof (with the $L$ queries) is shared with light nodes as part of the commitment to the data. Each light node downloads the commitment, verifies the non-interactive proof, and makes $Q$ additional (interactive) random queries which are used as samples in the DAS scheme. An important observation of FRIDA is that running the FRI verification procedure on these additional queries implies that these received symbols correspond exactly to symbols of the closest codeword (which we have just proved exists via the initial $L$ queries). To summarize, the non-interactive proof of proximity (which contains $L$ queries) proves to light nodes that the vector the prover committed to is close to a unique Reed–Solomon codeword. These $L$ queries are the same for all nodes. Running the FRI verification procedure for the $Q$ additional queries proves to nodes that (verified) responses their specific queries, which are sampled independently and randomly across nodes, are symbols of that same (unique) codeword. As a result, one can decode the data by assembling enough queries with proofs, as required for a secure DAS scheme. The sketch below summarizes this protocol for $N=2$ light nodes making $Q=1$ queries each with $L=9$ non-interactive queries appended to the commitment. Each light node has to download $L+Q=10$ samples in total, or $1/3$ of the encoded data. (Note that at most two of these samples can be unique, since the $L$ samples are the same for both nodes.) If we’re using a rate of $1/2$ and a message of size $15$, the nodes need at least $15$ samples to decode the message. In other words, if these nodes put their samples together, they will not ever have enough data to be able to reconstruct the message, unless they request additional samples. (Or, alternatively, assume more nodes are also sampling.)</p>
+<p><a href="./frida-noninteractive.png">
+
+
+<figure style="text-align: center;"><img src="/sampling-for-proximity-and-availability/frida-noninteractive_hu_f0721ee5f0379dca.webp"
+  alt="Figure 1: Samples of a codeword in vanilla FRIDA. Grey squares denote noninteractive samples that are in common between the nodes (i.e., $L=9$ samples). Red squares denote the $Q=1$ sample from the first light node, while blue denotes the $Q=1$ sample from the second one."><figcaption>
+      <p>Figure 1: Samples of a codeword in vanilla FRIDA. Grey squares denote noninteractive samples that are in common between the nodes (<em>i.e.</em>, $L=9$ samples). Red squares denote the $Q=1$ sample from the first light node, while blue denotes the $Q=1$ sample from the second one.</p>
+    </figcaption>
+</figure></a></p>
+<p><strong>Leveraging interaction.</strong> In a simple amendment to this construction, we can have each light node interactively request and run FRI verification on an independent set of $L$ samples, instead of sending the same non-interactive proof of size $L$ to each node. (The parameter $Q$ is ignored in this setting.) This fully interactive procedure corresponds to running the query phase of FRI with interactive randomness, which is no less secure for the light node. In this case, the two nodes will, with high probability ($&gt;99%$, by choice of $L$) sample enough data ($\ge 15$ unique squares) to decode. In this second sketch, purple squares correspond to unlucky entries that both nodes redundantly sampled. The ‘bad’ case where they sample at least nine such redundant squares occurs with tiny probability, roughly $2^{-28}$, as opposed to probability $1$ when using non-interactive randomness. In other words, the grey (non-interactive) samples are ‘pure overhead’ in that they do not provide additional information to the network (<em>i.e.</em>, information that can help reconstruct the original message) after the first node downloads them.</p>
+<p><a href="./interactive-proximity.png">
+
+
+<figure style="text-align: center;"><img src="/sampling-for-proximity-and-availability/interactive-proximity_hu_d18f59a078098cba.webp"
+  alt="Figure 2: Samples of a codeword in interactive FRIDA. Red squares denote samples which only the first light node has, while blue denotes samples that only the second light node has. Purple squares denote samples that are in common between the nodes."><figcaption>
+      <p>Figure 2: Samples of a codeword in interactive FRIDA. Red squares denote samples which only the first light node has, while blue denotes samples that only the second light node has. Purple squares denote samples that are in common between the nodes.</p>
+    </figcaption>
+</figure></a></p>
+<p><strong>Efficiency.</strong> This simple change can make the resulting DAS scheme much more efficient. If we use $80$ bits of security, as in the original FRIDA paper, we require $L=128$. For the same level of security, a scheme that makes $128+1$ queries interactively requires two orders of magnitude fewer light nodes than one where each node issues one sample in addition to downloading a non-interactive proof with $L=128$. In short, sampling for proximity and availability in the same protocol significantly improves efficiency.</p>
+<p><strong>Comparisons.</strong> There is one tradeoff. In the interactive case, nodes must sample without replacement to match standard FRI security analyses. In seeking to define simple, modular primitives for DAS, the constructions in [HSW23, HSW24] allow for more flexibility in the sampling strategy of nodes. However, for practical protocols, we suspect the efficiency gained is worth the restriction.</p>
+<p><strong>Future work.</strong> While we’ve shown that interactive queries increase DAS efficiency when using FRIDA, significant overheads remains. Standard FRI verification utilizes correlated queries across rounds. Since queries to a given FRI oracle perfectly correlate with queries in the original oracle, they seem to yield no useful information to the network. A question in this case, remains: is it possible to have a protocol whose proofs all yield information that can be used to both prove a correct encoding and whose contents can be used to decode the original data?</p>
+<p>Stay tuned for the next post.</p>
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>We’d like to thank Kobi Gurkan, John Adler, Nashqueue, and Sanaz Taheri for useful discussions regarding data availability, its requirements, and possible constructions. (On the other hand, any mistakes or silliness in this post are completely ours.)</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>[ASB18] Mustafa Al-Bassam, Alberto Sonnino, and Vitalik Buterin. Fraud proofs: Maximising light client security and scaling blockchains with dishonest majorities. CoRR, abs/1809.09044, 2018.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>[HSW23] Mathias Hall-Andersen, Mark Simkin, and Benedikt Wagner. Foundations of data availability sampling. Cryptology ePrint Archive, Paper 2023/1079, 2023.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>[HSW24] Mathias Hall-Andersen, Mark Simkin, and Benedikt Wagner. FRIDA: Data availability sampling from FRI. Cryptology ePrint Archive, Paper 2024/248, 2024.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>[AHIV17] Scott Ames, Carmit Hazay, Yuval Ishai, and Muthuramakrishnan Venkitasubramaniam. Ligero: Lightweight sublinear arguments without a trusted setup. In Proceedings of the 2017 ACM SIGSAC Conference on Computer and Communications Security, pages 2087–2104, Dallas Texas USA, October 2017. ACM.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p>[BBHR18] Eli Ben-Sasson, Iddo Bentov, Yinon Horesh, and Michael Riabzev. Fast Reed–Solomon Interactive Oracle Proofs of Proximity. pages 1–17, 2018.&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+</content>
+<p>
+  
+  <a href="https://nmohnblatt.me/blog/bcc/" class="nohover">#BCC</a>
+  
+  <a href="https://nmohnblatt.me/blog/data-availability-sampling/" class="nohover">#Data Availability Sampling</a>
+  
+  <a href="https://nmohnblatt.me/blog/proximity-testing/" class="nohover">#Proximity Testing</a>
+  
+</p>
+
+  </main>
+  <footer><p style="font-size: small;">
+    Built using <a href="https://gohugo.io" class="nohover">Hugo</a>. The theme is adapted from <a href="https://github.com/janraasch/hugo-bearblog/" class="nohover">hugo-bearblog</a> and uses colours from <a href="https://github.com/kepano/flexoki?tab=readme-ov-file" class="nohover">Flexoki</a>.
+</p>
+
+<p style="font-size: small;">
+    <a href="https://github.com/nmohnblatt" class="nohover">Github</a> | <a href="https://bsky.app/profile/nicomnbl.bsky.social" class="nohover">Bluesky</a> | <a href="https://x.com/nico_mnbl" class="nohover">&#x1D54F;</a> | <a href="https://zkjargon.github.io" class="nohover">ZK Jargon Decoder</a> <br>
+    &copy; 2024-2026, Nicolas Mohnblatt. <br>
+</p>
+</footer>
+
+    
+</body>
+
+</html>

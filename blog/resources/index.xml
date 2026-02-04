@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Resources on Nicolas Mohnblatt</title>
+    <link>https://nmohnblatt.me/blog/resources/</link>
+    <description>Recent content in Resources on Nicolas Mohnblatt</description>
+    <generator>Hugo</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2024-2026, Nicolas Mohnblatt.</copyright>
+    <lastBuildDate>Sun, 10 Aug 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://nmohnblatt.me/blog/resources/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Resources for Writing Security Proofs</title>
+      <link>https://nmohnblatt.me/proofs-resources/</link>
+      <pubDate>Sun, 10 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/proofs-resources/</guid>
+      <description>&lt;p&gt;This brief post collects resources and tutorials that I found helpful when learning and teaching &lt;em&gt;how to write security proofs&lt;/em&gt;. The main tools are &lt;em&gt;security reductions&lt;/em&gt; and &lt;em&gt;game-hopping&lt;/em&gt;.&#xA;I list resources for each of them and then expand on what I found useful in each.&lt;/p&gt;&#xA;&lt;h2 id=&#34;security-reductions&#34;&gt;Security Reductions&lt;/h2&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Katz and Lindell, &lt;a href=&#34;(https://archive.org/download/strategic_intelligence_network/communication/encryption/introduction_to_modern_cryptography.pdf)&#34;&gt;&lt;em&gt;Introduction to Modern Cryptography&lt;/em&gt;&lt;/a&gt;, Chapter 3.1.3.&lt;/li&gt;&#xA;&lt;li&gt;Boneh and Shoup, &lt;a href=&#34;https://toc.cryptobook.us&#34;&gt;&lt;em&gt;A Graduate Course in Applied Cryptography&lt;/em&gt;&lt;/a&gt;, Section 2.2.3.1.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;&lt;em&gt;Security reductions&lt;/em&gt; are the basic building block of security proofs.&#xA;The idea is to show that breaking a protocol $\Pi$ is at least as hard as breaking some underlying assumption or protocol $\Pi&amp;rsquo;$.&#xA;I like the introduction given in &lt;em&gt;Introduction to Modern Cryptography&lt;/em&gt; by Katz and Lindell in Chapter 3.1.3, p. 58.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

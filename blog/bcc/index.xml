@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>BCC on Nicolas Mohnblatt</title>
+    <link>https://nmohnblatt.me/blog/bcc/</link>
+    <description>Recent content in BCC on Nicolas Mohnblatt</description>
+    <generator>Hugo</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2024-2026, Nicolas Mohnblatt.</copyright>
+    <lastBuildDate>Wed, 04 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://nmohnblatt.me/blog/bcc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Chosen-instance Attack</title>
+      <link>https://nmohnblatt.me/chosen-instance-attack/</link>
+      <pubDate>Wed, 04 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/chosen-instance-attack/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://baincapitalcrypto.com/chosen-instance-attack/&#34;&gt;Bain Capital Crypto Insights&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;how-succinct-proofs-leak-information&#34;&gt;How succinct proofs leak information.&lt;/h2&gt;&#xA;&lt;p&gt;What happens when a succinct proof does not have the zero-knowledge property?&#xA;There is a common misconception that &amp;ldquo;succinct proofs are too short to leak information about the witness&amp;rdquo;.&#xA;This is &lt;strong&gt;incorrect&lt;/strong&gt; and in the interest of privacy it is very important that we challenge this belief.&#xA;The &lt;a href=&#34;https://zkhack.dev/zkhackV/puzzleV1.html&#34;&gt;Zeitgeist puzzle at ZK Hack V&lt;/a&gt; was based on the themes discussed here.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>ZODA: An Explainer</title>
+      <link>https://nmohnblatt.me/zoda-explainer/</link>
+      <pubDate>Tue, 03 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/zoda-explainer/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://baincapitalcrypto.com/zoda-explainer/&#34;&gt;Bain Capital Crypto Insights&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;Data availability sampling (DAS) is critical to scaling blockchains while maintaining decentralization [ASB18,HASW23]. In &lt;a href=&#34;https://nmohnblatt.me/sampling-for-proximity-and-availability/&#34;&gt;our previous post&lt;/a&gt;, we informally introduced DAS and showed how to leverage interaction to reduce overhead for a promising construction based on the FRI protocol. Our newest work, ZODA, short for ‘Zero-Overhead Data Availability,’ takes these ideas a step further. In particular, we show that, with a small change, an extended data square construction, such as that used in Celestia, can be turned into a (validity) proof of its own correctness. Importantly, the change incurs negligible additional work for encoders and no incremental communication costs for the network. This post is an informal introduction to the ZODA protocol.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Sampling for Proximity and Availability</title>
+      <link>https://nmohnblatt.me/sampling-for-proximity-and-availability/</link>
+      <pubDate>Fri, 08 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/sampling-for-proximity-and-availability/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://baincapitalcrypto.com/sampling-for-proximity-and-availability/&#34;&gt;Bain Capital Crypto Insights&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;In blockchains, nodes can ensure that the chain is valid without trusting anyone, not even the validators or miners.&#xA;Early blockchain design can achieve this by having each of these nodes download and re-execute all transactions itself.&#xA;The inefficiency of this approach motivated the adoption of fraud and validity proofs.&#xA;While these proofs provide assurances that the underlying state transitions of the blockchain were computed correctly, malicious block producers may still withhold the data required to compute the latest state.&#xA;(In other words, while a node without this data may ensure that every change performed to the state was valid—since the proofs verify—the node may not be able to know what the underlying state &lt;em&gt;actually is&lt;/em&gt;.)&#xA;Such an attack could prevent users from composing valid transactions (&lt;em&gt;e.g.&lt;/em&gt;, to withdraw assets from some pool) or could prevent other nodes from constructing proofs of their own.&#xA;The simplest way to ensure that the data needed to construct the underlying state can be downloaded is, of course, to try and download it.&#xA;This is the approach most current blockchains take.&#xA;The downside of this approach is that, as usage increases, every node must download all the data, which, in turn, puts strain on the network and its available bandwidth.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

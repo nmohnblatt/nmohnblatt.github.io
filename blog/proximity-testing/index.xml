@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Proximity Testing on Nicolas Mohnblatt</title>
+    <link>https://nmohnblatt.me/blog/proximity-testing/</link>
+    <description>Recent content in Proximity Testing on Nicolas Mohnblatt</description>
+    <generator>Hugo</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2024-2026, Nicolas Mohnblatt.</copyright>
+    <lastBuildDate>Fri, 14 Nov 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://nmohnblatt.me/blog/proximity-testing/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Proximity Gaps: What Happened and How Does It Affect our SNARKs</title>
+      <link>https://nmohnblatt.me/proximity-conjecture/</link>
+      <pubDate>Fri, 14 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/proximity-conjecture/</guid>
+      <description>A series of recent papers just disproved the proximity gaps conjecture, which has everyone wondering if hash-based SNARKs are in trouble. We break down what actually happened using some helpful visuals—think of it as understanding which parameter choices are safe versus which ones are now confirmed to be risky. The post walks you through the different security zones (proven safe, conjectured safe, and definitely not safe), explains how these new results connect to other open math problems, and shows what it means for real-world SNARKs in terms of proof sizes and performance trade-offs.</description>
+    </item>
+    <item>
+      <title>Why does FRI work?</title>
+      <link>https://nmohnblatt.me/fri-security/</link>
+      <pubDate>Thu, 30 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/fri-security/</guid>
+      <description>You might be familiar with what FRI is or how it works but do you know &lt;em&gt;why&lt;/em&gt; it works? This blog post gives some intuitive answers to this crucial security question.</description>
+    </item>
+    <item>
+      <title>Comparing Ligerito and WHIR</title>
+      <link>https://nmohnblatt.me/ligerito-and-whir/</link>
+      <pubDate>Tue, 06 May 2025 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/ligerito-and-whir/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;&lt;em&gt;Edit 20 May, 2025&lt;/em&gt;: review comparison after the &amp;ldquo;succinct verification for RS codes&amp;rdquo; update to Ligerito.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://angeris.github.io/papers/ligerito.pdf&#34;&gt;Ligerito&lt;/a&gt; is a freshly released multilinear polynomial commitment scheme that combines ideas from &lt;a href=&#34;https://eprint.iacr.org/2022/1608&#34;&gt;Ligero&lt;/a&gt; with the &lt;a href=&#34;https://lance.fortnow.com/papers/files/ip.pdf&#34;&gt;Sumcheck&lt;/a&gt; protocol.&#xA;It is based on error-correcting codes and is proven secure in the pure random oracle model (pure ROM)&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;&#xA;&lt;p&gt;These properties are very similar to those of &lt;a href=&#34;https://eprint.iacr.org/2024/1586&#34;&gt;WHIR&lt;/a&gt;: error-correcting codes, pure ROM, partial Sumcheck rounds.&#xA;Naturally one might ask: &lt;em&gt;how does Ligerito compare to WHIR?&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>ZODA: An Explainer</title>
+      <link>https://nmohnblatt.me/zoda-explainer/</link>
+      <pubDate>Tue, 03 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/zoda-explainer/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://baincapitalcrypto.com/zoda-explainer/&#34;&gt;Bain Capital Crypto Insights&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;Data availability sampling (DAS) is critical to scaling blockchains while maintaining decentralization [ASB18,HASW23]. In &lt;a href=&#34;https://nmohnblatt.me/sampling-for-proximity-and-availability/&#34;&gt;our previous post&lt;/a&gt;, we informally introduced DAS and showed how to leverage interaction to reduce overhead for a promising construction based on the FRI protocol. Our newest work, ZODA, short for ‘Zero-Overhead Data Availability,’ takes these ideas a step further. In particular, we show that, with a small change, an extended data square construction, such as that used in Celestia, can be turned into a (validity) proof of its own correctness. Importantly, the change incurs negligible additional work for encoders and no incremental communication costs for the network. This post is an informal introduction to the ZODA protocol.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Sampling for Proximity and Availability</title>
+      <link>https://nmohnblatt.me/sampling-for-proximity-and-availability/</link>
+      <pubDate>Fri, 08 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/sampling-for-proximity-and-availability/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This article is cross-posted from the &lt;a href=&#34;https://baincapitalcrypto.com/sampling-for-proximity-and-availability/&#34;&gt;Bain Capital Crypto Insights&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;In blockchains, nodes can ensure that the chain is valid without trusting anyone, not even the validators or miners.&#xA;Early blockchain design can achieve this by having each of these nodes download and re-execute all transactions itself.&#xA;The inefficiency of this approach motivated the adoption of fraud and validity proofs.&#xA;While these proofs provide assurances that the underlying state transitions of the blockchain were computed correctly, malicious block producers may still withhold the data required to compute the latest state.&#xA;(In other words, while a node without this data may ensure that every change performed to the state was valid—since the proofs verify—the node may not be able to know what the underlying state &lt;em&gt;actually is&lt;/em&gt;.)&#xA;Such an attack could prevent users from composing valid transactions (&lt;em&gt;e.g.&lt;/em&gt;, to withdraw assets from some pool) or could prevent other nodes from constructing proofs of their own.&#xA;The simplest way to ensure that the data needed to construct the underlying state can be downloaded is, of course, to try and download it.&#xA;This is the approach most current blockchains take.&#xA;The downside of this approach is that, as usage increases, every node must download all the data, which, in turn, puts strain on the network and its available bandwidth.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

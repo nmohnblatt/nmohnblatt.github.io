@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://nmohnblatt.me/images/favicon.png" />
+<title>Proximity Gaps: What Happened and How Does It Affect our SNARKs | Nicolas Mohnblatt</title>
+<meta name="title" content="Proximity Gaps: What Happened and How Does It Affect our SNARKs" />
+<meta name="description" content="A series of recent papers just disproved the proximity gaps conjecture, which has everyone wondering if hash-based SNARKs are in trouble. We break down what actually happened using some helpful visuals—think of it as understanding which parameter choices are safe versus which ones are now confirmed to be risky. The post walks you through the different security zones (proven safe, conjectured safe, and definitely not safe), explains how these new results connect to other open math problems, and shows what it means for real-world SNARKs in terms of proof sizes and performance trade-offs." />
+<meta name="keywords" content="Proximity Testing,Security,Succinct Proofs,zkSecurity," />
+
+
+<meta property="og:url" content="https://nmohnblatt.me/proximity-conjecture/">
+  <meta property="og:site_name" content="Nicolas Mohnblatt">
+  <meta property="og:title" content="Proximity Gaps: What Happened and How Does It Affect our SNARKs">
+  <meta property="og:description" content="A series of recent papers just disproved the proximity gaps conjecture, which has everyone wondering if hash-based SNARKs are in trouble. We break down what actually happened using some helpful visuals—think of it as understanding which parameter choices are safe versus which ones are now confirmed to be risky. The post walks you through the different security zones (proven safe, conjectured safe, and definitely not safe), explains how these new results connect to other open math problems, and shows what it means for real-world SNARKs in terms of proof sizes and performance trade-offs.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-11-14T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-11-14T00:00:00+00:00">
+    <meta property="article:tag" content="Proximity Testing">
+    <meta property="article:tag" content="Security">
+    <meta property="article:tag" content="Succinct Proofs">
+    <meta property="article:tag" content="ZkSecurity">
+    <meta property="og:image" content="https://nmohnblatt.me/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://nmohnblatt.me/images/share.png">
+  <meta name="twitter:title" content="Proximity Gaps: What Happened and How Does It Affect our SNARKs">
+  <meta name="twitter:description" content="A series of recent papers just disproved the proximity gaps conjecture, which has everyone wondering if hash-based SNARKs are in trouble. We break down what actually happened using some helpful visuals—think of it as understanding which parameter choices are safe versus which ones are now confirmed to be risky. The post walks you through the different security zones (proven safe, conjectured safe, and definitely not safe), explains how these new results connect to other open math problems, and shows what it means for real-world SNARKs in terms of proof sizes and performance trade-offs.">
+
+
+
+
+  <meta itemprop="name" content="Proximity Gaps: What Happened and How Does It Affect our SNARKs">
+  <meta itemprop="description" content="A series of recent papers just disproved the proximity gaps conjecture, which has everyone wondering if hash-based SNARKs are in trouble. We break down what actually happened using some helpful visuals—think of it as understanding which parameter choices are safe versus which ones are now confirmed to be risky. The post walks you through the different security zones (proven safe, conjectured safe, and definitely not safe), explains how these new results connect to other open math problems, and shows what it means for real-world SNARKs in terms of proof sizes and performance trade-offs.">
+  <meta itemprop="datePublished" content="2025-11-14T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-11-14T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1439">
+  <meta itemprop="image" content="https://nmohnblatt.me/images/share.png">
+  <meta itemprop="keywords" content="Proximity Testing,Security,Succinct Proofs,ZkSecurity">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  
+
+<style>
+  body {
+    font-family: Verdana, sans-serif;
+    font-size: 15px;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #FFFCF0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #100F0F;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #100F0F;
+  }
+
+  a {
+    color: #24837B;
+     
+    text-decoration: none;
+  }
+
+  a.underline {
+    text-decoration: underline; 
+  }
+
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a.nohover:hover {
+    text-decoration: none;
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  a.title:hover{
+    text-decoration: none;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+   
+
+  td {
+    border-top: 1px solid #E6E4D9;
+  } 
+
+  img {
+    max-width: 100%;
+  }
+
+  figure {
+    margin-inline-start: 20px;
+    margin-inline-end: 20px;
+  }
+
+  figcaption {
+    color: #B7B5AC;
+    font-size: small;
+    text-align: center;
+  }
+
+  figcaption p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #E6E4D9;
+    color: #878580;
+  }
+
+  pre code {
+    color: #6F6E69;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 2px solid #24837B;
+    color: #100F0F;
+    padding-left: 15px;
+    margin-inline-start: 20px;
+     
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #17504b;
+  }
+
+   
+
+</style>
+
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']],     
+      tags: 'ams'
+    }
+  };
+</script>
+  
+
+  
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>Nicolas Mohnblatt</h2>
+</a>
+<nav><a href="/" class="nohover">Home</a>
+
+<a href="/about/" class="nohover">About</a>
+
+<a href="/now/" class="nohover">Now</a>
+
+<a href="/research/" class="nohover">Research</a>
+
+
+<a href="/blog" class="nohover">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>Proximity Gaps: What Happened and How Does It Affect our SNARKs</h1>
+<p>
+  <i>
+    
+  </i>
+</p>
+<p>
+  <i>
+    <time datetime='2025-11-14' pubdate>
+      14 Nov, 2025
+    </time>
+  </i>
+</p>
+
+<content>
+  <p><em>This article is cross-posted from the <a href="https://blog.zksecurity.xyz/posts/proximity-conjecture/">ZK Security blog</a>.</em></p>
+<hr>
+<p>If you&rsquo;ve been following the ZK space recently, you are likely to have heard about a flurry of recent results that <em>disprove the proximity gaps conjecture</em>. This conjecture was used to set parameters for hash-based SNARKs. As a consequence, many commentators were quick to call it a huge blow for SNARKs. So the big question is: how bad is it really?</p>
+<p>In this post, I want to give you some visual intuition for what happened and explain how the results affect currently deployed SNARKs. I will attempt to do so without taking a journey through the wonderful moon math that enables all our protocols. If you are interested in learning about the moon math, please let us know! A &ldquo;Proximity Gaps 201&rdquo; article is never off the cards.</p>
+<p>At the time of writing, there are 6 papers related to Reed-Solomon codes and proximity gaps that were released within the span of a week:</p>
+<ol>
+<li>Diamond and Gruen, <em>On the Distribution of the Distances of Random Words</em>, (<a href="https://eprint.iacr.org/2025/2010.pdf">ePrint</a>).</li>
+<li>Crites and Stewart, <em>On Reed–Solomon Proximity Gaps Conjectures</em> (<a href="https://eprint.iacr.org/2025/2046.pdf">ePrint</a>).</li>
+<li>Bordage, Chiesa, Guan and Manzur, <em>All Polynomial Generators Preserve Distance with Mutual Correlated Agreement</em> (<a href="https://eprint.iacr.org/2025/2051.pdf">ePrint</a>).</li>
+<li>Goyal and Guruswami, <em>Optimal Proximity Gaps for Subspace-Design Codes and (Random) Reed-Solomon Codes</em> (<a href="https://eprint.iacr.org/2025/2054.pdf">ePrint</a>).</li>
+<li>Ben-Sasson, Carmon, Haböck, Kopparty and Saraf, <em>On Proximity Gaps for Reed–Solomon Codes</em> (<a href="https://eprint.iacr.org/2025/2055.pdf">ePrint</a>).</li>
+<li>Chatterjee, Harsha and Kumar, <em>Deterministic list decoding of Reed-Solomon codes</em> (<a href="https://eccc.weizmann.ac.il/report/2025/170">ECCC</a>).</li>
+</ol>
+<p>I will only focus on papers that disprove the conjecture. Those are papers 1, 2 and 5 above. For short, I will refer to them using the authors&rsquo; initials: <strong>DG</strong>, <strong>CS</strong> and <strong>BGHKS</strong> respectively.</p>
+<p>The visuals and some of the explanations used in this article are based on a slide presented by Angus Gruen in <a href="https://www.youtube.com/watch?v=9zw5jOMB9UY">ethproofs call #6</a>. You can also play around with the parameters of the graph using <a href="https://proximity.sedaghat.xyz">this lovely interactive tool</a> built by <a href="https://x.com/Mahdi_seda">Mahdi Sedaghat</a> (Soundness Labs).</p>
+<h2 id="before-we-begin">Before we begin</h2>
+<p>To understand what happened, let us first explain what the state-of-the-art was before all the new papers.</p>
+<p>At a very high level, SNARKs make use of <em>error-correcting codes</em> to introduce redundancy and allow the verifier to check properties without reading the entirety of the prover&rsquo;s inputs. To make sure encoding was done correctly, SNARKs also use a <em>proximity test</em>.</p>
+<p>The efficiency and security of the SNARK depends on the parameters of the code and the proximity test. While there are many parameters to play with, we will focus on:</p>
+<ul>
+<li>the <em>rate</em> $\rho$ of the code. This is a measure of how much redundancy the code introduces. To be precise, it is the inverse of the amount of redundancy: $\rho = 1/2$ means that the encoding of a message is 2x larger than the message, $\rho = 1/4$ means a 4x blowup, etc&hellip; Our SNARKs usually require the denominator to be a power of two and therefore we will focus of values of $\rho$ between $0$ and $1/2$.</li>
+<li>the <em>proximity parameter</em> $\delta$ of the proximity test. This is a value between $0$ and $1-\rho$ and is the threshold for what the test considers to be &ldquo;far&rdquo; from the code. For readers familiar with the notion of relative Hamming distance: the proximity test is tuned such that all inputs that have distance greater than $\delta$ are rejected with high probability.</li>
+</ul>
+<p>Choosing values for these parameters requires to balance a couple of trade-offs. The rate $\rho$ sets a pure performance trade-off: prover time vs proof size and verifier time. On the other hand, the proximity parameter $\delta$ tunes a performance vs security trade-off. Larger values of $\delta$ give a better prover time, verifier time and proof size! This is highly desirable. However, the mathematical state-of-the-art is not good enough to set $\delta$ to be arbitrarily large.</p>
+<p>The image below shows all possible choices of $\rho$ and $\delta$ and defines multiple regions:</p>
+<ul>
+<li>The black region represents invalid parameters. As we said above, $\delta$ must be smaller than $1-\rho$.</li>
+<li>The green and blue zones represent parameter sets for which we have mathematical proofs of their security. Parameters in both zones give us a guarantee that the input to the proximity test is either $\delta$-close to the code, or will be rejected with high probability. In addition, parameters in the green zone guarantee that the input to the test is close to a <em>unique</em> codeword.</li>
+<li>Parameters in the white zone have unknown behaviour. We have no proof that they yield a secure proximity test. Operating in this zone represents a trade-off: we gain performance from using larger values of $\delta$, however we lose the mathematical guarantees for the protocol&rsquo;s security.</li>
+</ul>
+
+
+
+<figure style="text-align: center;"><img src="/proximity-conjecture/graph_1_hu_28dab1814202837e.webp" width="80%">
+</figure>
+<p>The open question therefore is:  <strong>&ldquo;what happens inside the white area?&rdquo;</strong>. So far, many projects took the approach of assuming that the parameters in the white area are secure. This assumption is (roughly) what the proximity gaps conjecture states.</p>
+<h2 id="new-results">New results</h2>
+<p>The new results partially solve this question and relates it to other mathematical problems. We&rsquo;ll cover both of these aspects separately.</p>
+<h3 id="understanding-the-white-area">Understanding the white area</h3>
+<p>The first result, which appears in different forms in DG, CS and BCHKS, is that some of the parameter choices in the white area are <em>not safe to use</em>. You can see this in the image below where I have plotted the same graph as before but also drew an approximation of the new <em>red area</em> as formulated in DG.</p>
+
+
+
+<figure style="text-align: center;"><img src="/proximity-conjecture/graph_2_hu_642a9581ea273fc0.webp" width="80%">
+</figure>
+<p>We&rsquo;ll see how this affects our SNARKs a bit later. Before we do, let&rsquo;s discuss what progress has been made for the rest of the white area.</p>
+<h3 id="relating-proximity-gaps-to-other-open-problems">Relating proximity gaps to other open problems</h3>
+<p>Although these papers do not explain the properties of the entire white area, they give us a sense of how hard the task will be. Both CS and BCHKS show that deciding the security status of the white area is as hard as a problem known as the &ldquo;<a href="https://en.wikipedia.org/wiki/List_decoding">list-decoding</a>&rdquo; problem.</p>
+<p>Roughly, this problem can be stated as follows: &ldquo;if I send an encoded message over a noisy channel, how many errors can we tolerate while still being able to recover a <em>small</em> list of messages on the other end?&rdquo;. Here small means a list size that is a polynomial function of the message length. This is an open problem.</p>
+<p>The best known list-decoding algorithm corresponds exactly to the blue area of the graph. There is also a theoretical upper bound for list-decoding. We overlay this bound on our graph (see the yellow line below):</p>
+
+
+
+<figure style="text-align: center;"><img src="/proximity-conjecture/graph_3_hu_824de1249287bd59.webp" width="80%">
+</figure>
+<p>Let me highlight two important facts about this new yellow line. Firstly, and most importantly, it represents a new upper bound on the sets of parameters that are secure. Secondly, our graph shows it intersecting with the red area from the previous section. This is not to be taken as visual evidence; the red area drawn is just an approximation of the DG result. In practice, I am not sure how the yellow and red lines interact, especially because both lines depend on parameters beyond just $\rho$ and $\delta$.</p>
+<h2 id="consequences-for-our-snarks">Consequences for our SNARKs</h2>
+<p>The main consequence for our SNARKs is that <em>we cannot set parameters to be above the yellow line or in the red area</em>. Correcting this issue requires using a smaller value for $\delta$ and tuning the other parameters of the proximity test accordingly (for those familiar with proximity tests, I am referring to the number of queries). As we have seen, this means that prover time, verifier time and proof size will become larger.</p>
+<p>How much larger depends on the new parameters chosen:</p>
+<ul>
+<li>if we want to be absolutely safe and operate in the proven-security region (i.e., not the white area), proof sizes will double. The verifier time will also roughly double. However, prover time will be mostly unaffected! This is because the prover&rsquo;s computation is dominated by work that is proportional to $\rho^{-1}$, not $\delta$.</li>
+<li>if we want to keep operating in the unknown white area, then moving to the closest possible parameters will cause an increase in proof size and verifier time of up to 2-3%. As in the previous case, prover time will be mostly unaffected.</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>I&rsquo;ll conclude by giving you some key takeaways:</p>
+<ol>
+<li>hash-based SNARKs can operate in two parameter regimes: proven security or conjectured security. The former is certain to be secure but has worse performance.</li>
+<li>some of the conjectured parameters were shown to not be secure.</li>
+<li>a large area of unknown parameters remain.</li>
+<li>adjusting our SNARKs to go from previously-conjectured security to proven security increases proof size and verifier time by 2x. The prover is mostly unaffected.</li>
+<li>adjusting our SNARKs to go from previously-conjectured security to newly-conjectured security increases proof size and verifier time by 2-3%. The prover is mostly unaffected.</li>
+</ol>
+
+</content>
+<p>
+  
+  <a href="https://nmohnblatt.me/blog/proximity-testing/" class="nohover">#Proximity Testing</a>
+  
+  <a href="https://nmohnblatt.me/blog/security/" class="nohover">#Security</a>
+  
+  <a href="https://nmohnblatt.me/blog/succinct-proofs/" class="nohover">#Succinct Proofs</a>
+  
+  <a href="https://nmohnblatt.me/blog/zksecurity/" class="nohover">#ZkSecurity</a>
+  
+</p>
+
+  </main>
+  <footer><p style="font-size: small;">
+    Built using <a href="https://gohugo.io" class="nohover">Hugo</a>. The theme is adapted from <a href="https://github.com/janraasch/hugo-bearblog/" class="nohover">hugo-bearblog</a> and uses colours from <a href="https://github.com/kepano/flexoki?tab=readme-ov-file" class="nohover">Flexoki</a>.
+</p>
+
+<p style="font-size: small;">
+    <a href="https://github.com/nmohnblatt" class="nohover">Github</a> | <a href="https://bsky.app/profile/nicomnbl.bsky.social" class="nohover">Bluesky</a> | <a href="https://x.com/nico_mnbl" class="nohover">&#x1D54F;</a> | <a href="https://zkjargon.github.io" class="nohover">ZK Jargon Decoder</a> <br>
+    &copy; 2024-2026, Nicolas Mohnblatt. <br>
+</p>
+</footer>
+
+    
+</body>
+
+</html>

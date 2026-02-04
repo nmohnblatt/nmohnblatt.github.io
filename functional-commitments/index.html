@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://nmohnblatt.me/images/favicon.png" />
+<title>Functional Commitments: ZK under a different lens | Nicolas Mohnblatt</title>
+<meta name="title" content="Functional Commitments: ZK under a different lens" />
+<meta name="description" content="This article is cross-posted from the Geometry Notebook and relates to an implementation co-written with Andrija Novakovic.
+
+In ZKP schemes, the typical paradigm is that a programme (or &ldquo;circuit&rdquo;) is publicly known, and a proof is produced to attest to the correct execution of the programme over some (potentially private) inputs. But what if we are working with sensitive, proprietary algorithms? Could we instead prove the execution of a private programme over public inputs?" />
+<meta name="keywords" content="Geometry Notebook,Zero-Knowledge," />
+
+
+<meta property="og:url" content="https://nmohnblatt.me/functional-commitments/">
+  <meta property="og:site_name" content="Nicolas Mohnblatt">
+  <meta property="og:title" content="Functional Commitments: ZK under a different lens">
+  <meta property="og:description" content="This article is cross-posted from the Geometry Notebook and relates to an implementation co-written with Andrija Novakovic.
+In ZKP schemes, the typical paradigm is that a programme (or “circuit”) is publicly known, and a proof is produced to attest to the correct execution of the programme over some (potentially private) inputs. But what if we are working with sensitive, proprietary algorithms? Could we instead prove the execution of a private programme over public inputs?">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2023-01-05T00:00:00+00:00">
+    <meta property="article:modified_time" content="2023-01-05T00:00:00+00:00">
+    <meta property="article:tag" content="Geometry Notebook">
+    <meta property="article:tag" content="Zero-Knowledge">
+    <meta property="og:image" content="https://nmohnblatt.me/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://nmohnblatt.me/images/share.png">
+  <meta name="twitter:title" content="Functional Commitments: ZK under a different lens">
+  <meta name="twitter:description" content="This article is cross-posted from the Geometry Notebook and relates to an implementation co-written with Andrija Novakovic.
+In ZKP schemes, the typical paradigm is that a programme (or “circuit”) is publicly known, and a proof is produced to attest to the correct execution of the programme over some (potentially private) inputs. But what if we are working with sensitive, proprietary algorithms? Could we instead prove the execution of a private programme over public inputs?">
+
+
+
+
+  <meta itemprop="name" content="Functional Commitments: ZK under a different lens">
+  <meta itemprop="description" content="This article is cross-posted from the Geometry Notebook and relates to an implementation co-written with Andrija Novakovic.
+In ZKP schemes, the typical paradigm is that a programme (or “circuit”) is publicly known, and a proof is produced to attest to the correct execution of the programme over some (potentially private) inputs. But what if we are working with sensitive, proprietary algorithms? Could we instead prove the execution of a private programme over public inputs?">
+  <meta itemprop="datePublished" content="2023-01-05T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2023-01-05T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1039">
+  <meta itemprop="image" content="https://nmohnblatt.me/images/share.png">
+  <meta itemprop="keywords" content="Geometry Notebook,Zero-Knowledge">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  
+
+<style>
+  body {
+    font-family: Verdana, sans-serif;
+    font-size: 15px;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #FFFCF0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #100F0F;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #100F0F;
+  }
+
+  a {
+    color: #24837B;
+     
+    text-decoration: none;
+  }
+
+  a.underline {
+    text-decoration: underline; 
+  }
+
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a.nohover:hover {
+    text-decoration: none;
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  a.title:hover{
+    text-decoration: none;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+   
+
+  td {
+    border-top: 1px solid #E6E4D9;
+  } 
+
+  img {
+    max-width: 100%;
+  }
+
+  figure {
+    margin-inline-start: 20px;
+    margin-inline-end: 20px;
+  }
+
+  figcaption {
+    color: #B7B5AC;
+    font-size: small;
+    text-align: center;
+  }
+
+  figcaption p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #E6E4D9;
+    color: #878580;
+  }
+
+  pre code {
+    color: #6F6E69;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 2px solid #24837B;
+    color: #100F0F;
+    padding-left: 15px;
+    margin-inline-start: 20px;
+     
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #17504b;
+  }
+
+   
+
+</style>
+
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']],     
+      tags: 'ams'
+    }
+  };
+</script>
+  
+
+  
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>Nicolas Mohnblatt</h2>
+</a>
+<nav><a href="/" class="nohover">Home</a>
+
+<a href="/about/" class="nohover">About</a>
+
+<a href="/now/" class="nohover">Now</a>
+
+<a href="/research/" class="nohover">Research</a>
+
+
+<a href="/blog" class="nohover">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>Functional Commitments: ZK under a different lens</h1>
+<p>
+  <i>
+    
+  </i>
+</p>
+<p>
+  <i>
+    <time datetime='2023-01-05' pubdate>
+      05 Jan, 2023
+    </time>
+  </i>
+</p>
+
+<content>
+  <p><em>This article is cross-posted from the <a href="https://geometry.xyz/notebook/functional-commitments-zk-under-a-different-lens">Geometry Notebook</a> and relates to an implementation co-written with Andrija Novakovic.</em></p>
+<hr>
+<p>In ZKP schemes, the typical paradigm is that a programme (or &ldquo;circuit&rdquo;) is publicly known, and a proof is produced to attest to the correct execution of the programme over some (potentially private) inputs. But what if we are working with sensitive, proprietary algorithms? Could we instead prove the execution of a <em>private</em> programme over public inputs?</p>
+<p><!-- raw HTML omitted -->Boneh, Nguyen and Ozdemir <a href="https://eprint.iacr.org/2021/1342">[BNO21]</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup><!-- raw HTML omitted --> offer to do just that by introducing <em>function-hiding functional commitments</em>. In this article, we review the main results presented in <a href="https://eprint.iacr.org/2021/1342">[BNO21]</a>, and give an overview of their SNARK-based construction.</p>
+<h2 id="a-new-primitive">A new primitive</h2>
+<h3 id="definition">Definition</h3>
+<p>Functional commitments can be understood as a generalisation of polynomial commitments to any function. The scheme allows a <em>committer</em> to produce a <em>hiding</em> and <em>binding</em> commitment to a function $f$ of their choice. Later a <em>verifier</em> may present an input $x$ to be evaluated. The committer can reply with a value $y$ and a (zero-knowledge) proof attesting to the fact that $f(x) = y$.</p>
+<p>A more detailed description is given in the following extract from <a href="https://eprint.iacr.org/2021/1342">[BNO21]</a>:</p>
+
+
+
+<figure style="text-align: center;"><img src="/functional-commitments/definition_hu_f46942d78b01b827.webp"
+  alt="Description of a functional commitment scheme."><figcaption>
+      <p>Description of a functional commitment scheme.</p>
+    </figcaption>
+</figure>
+<h3 id="applications">Applications</h3>
+<p>Functional commitments bring two important properties to applications. Firstly, like SNARKs, they allow service providers to convince users that everyone&rsquo;s data is processed in the same way. Secondly, they prove that a &lsquo;secret recipe&rsquo; was applied without the need to reveal it.</p>
+<p>The reasons for hiding an algorithm while maintaining verifiability seem to fall under two generic categories:</p>
+<ol>
+<li>To protect an evaluation function or test vector from cheaters. An example of this would be an online multiple-choice question exam for an official qualification. The examiner can commit to a secret marking scheme and later convince participants that they were all marked in the same way. Keeping the marking scheme private ensures that the answers do not leak. (Note that this does not guarantee that the marking scheme itself is fair!)</li>
+<li>To protect a valuable algorithm. A service provider can commit to a proprietary machine learning model - say one that generates artworks from text prompts - for which users pay for each API call: the service provider can keep their model private while the client is convinced that the committed model was run.</li>
+</ol>
+<h2 id="building-functional-commitments">Building functional commitments</h2>
+<p>One way to build a functional commitment is from a pre-processing zkSNARK. Recall that a pre-processing zkSNARK is a SNARK in which the circuit is encoded into an &ldquo;index key&rdquo; <em>before</em> any proof is generated. An initial construction would be to encode our function $f$ into a circuit and produce a pre-processing zkSNARK for it: the index key can be used as a commitment to the function and the proof can be used to implement the <code>Evaluate</code> protocol. This approach fails on two accounts, however <a href="https://eprint.iacr.org/2021/1342">[BNO21]</a> fix both issues and obtain an efficient functional commitment scheme.</p>
+<h3 id="index-privacy">Index Privacy</h3>
+<p>The first hurdle is that the index key or the proving protocol might reveal information about the circuit. As it turns out, currently popular SNARK constructions such as Marlin and PLONK uphold the zero-knowledge property with respect to a witness but not the circuit. Consequently, Boneh, Nguyen and Ozdemir <a href="https://eprint.iacr.org/2021/1342">[BNO21]</a> introduce the notion of an <em>index-private</em> proving system - one that perfectly hides the circuit - and show how to construct index-private variants of Marlin and PLONK.</p>
+<h3 id="relations-vs-functions">Relations vs Functions</h3>
+<p>The second issue is more subtle: SNARKs, and proving systems in general, allow us to prove a statement about a <em>relation</em>. Relations are more general than functions: while a function allows only one output for each input (i.e. $f(x)$ is a unique value), relations allow for multiple assignments. Let&rsquo;s illustrate this with two example circuits; we say that an instance-witness pair $(x,y)$ &ldquo;satisfies&rdquo; a circuit if the final wire evaluates to $0$.</p>
+
+
+
+<figure style="text-align: center;"><img src="/functional-commitments/circuits_hu_eb8003f97dcc124c.webp">
+</figure>
+<p>We can follow along the wires to write out the equations relating satisfactory instance-witness pairs:
+$$
+\mathsf{Circuit} \; A: \quad x + y + (-5) = 0 \iff y = -x + 5
+$$
+$$
+\mathsf{Circuit} \; B: \quad x^2 + y^2 + (-100) = 0 \iff x^2 + y^2 = 100
+$$</p>
+<p>Plotting these equations on the $x$-$y$ plane yields the following graphs (left: circuit $A$, right: circuit $B$):</p>
+
+
+
+<figure style="text-align: center;"><img src="/functional-commitments/plots_hu_1ce47b34ba9ecf46.webp">
+</figure>
+<p>Notice that in circuit $A$, for a given $x$ value there is only one satisfying $y$ value. On the other hand, circuit $B$ allows for multiple satisfying $y$ values for a fixed $x$.</p>
+<p>This property of relations would allow a prover to &ldquo;cheat&rdquo; the commitment scheme. For circuit $B$, given the value $x=0$ a malicious prover can now choose which value it wants to show ($y=10$ or $y=-10$). The circuit will be satisfied in both cases, however this ability to choose breaks the <em>binding</em> property of the functional commitment. What is worse, as the circuit is perfectly hidden the verifier has no means of checking whether it is in case $A$ or $B$!</p>
+<h3 id="proof-of-function-relation">Proof of Function Relation</h3>
+<p><a href="https://eprint.iacr.org/2021/1342">[BNO21]</a> fix this by introducing a zero-knowledge <em>proof of function relation</em>, efficiently proving that the circuit defines a function. The construction of such a proof depends on how the circuit is encoded by the proof system. Once again Boneh, Nguyen and Ozdemir <a href="https://eprint.iacr.org/2021/1342">[BNO21]</a> show how to construct such proofs for R1CS (as used in Marlin) and the &ldquo;vanilla&rdquo; PLONK arithmetisation.</p>
+<p>With index-private proving systems and proofs of function relation, we now have a construction for a functional commitment scheme: the commitment is the index key of an index-private pre-processing zkSNARK; evaluations can be checked by running the SNARK <code>Verify</code> algorithm and a proof of function relation for the index key.</p>
+<h2 id="implementation">Implementation</h2>
+<p>We provide a <a href="https://github.com/geometryxyz/functional-commitment">proof-of-concept implementation</a> of the Marlin-based functional commitment scheme. The code is based on <a href="https://arkworks.rs/">Arkworks</a> and provides: 1) the compiler for circuit-to-&ldquo;functional R1CS&rdquo; described in Appendix D of <a href="https://eprint.iacr.org/2021/1342">[BNO21]</a>, 2) a modified version of Arkworks&rsquo; Marlin implementation to support index privacy and 3) a proof of function relation for R1CS-$f$.</p>
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>We thank Wilson Nguyen for insightful discussions about the protocol and Koh Wei Jie for his work on the implementation. Thank you to Tom Walton-Pocock and Koh Wei Jie (again) for their helpful comments towards this post.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>[BNO21] Dan Boneh, Wilson Nguyen, &amp; Alex Ozdemir. (2021). Efficient Functional Commitments: How to Commit to a Private Function. <a href="https://eprint.iacr.org/2021/1342">https://eprint.iacr.org/2021/1342</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+</content>
+<p>
+  
+  <a href="https://nmohnblatt.me/blog/geometry-notebook/" class="nohover">#Geometry Notebook</a>
+  
+  <a href="https://nmohnblatt.me/blog/zero-knowledge/" class="nohover">#Zero-Knowledge</a>
+  
+</p>
+
+  </main>
+  <footer><p style="font-size: small;">
+    Built using <a href="https://gohugo.io" class="nohover">Hugo</a>. The theme is adapted from <a href="https://github.com/janraasch/hugo-bearblog/" class="nohover">hugo-bearblog</a> and uses colours from <a href="https://github.com/kepano/flexoki?tab=readme-ov-file" class="nohover">Flexoki</a>.
+</p>
+
+<p style="font-size: small;">
+    <a href="https://github.com/nmohnblatt" class="nohover">Github</a> | <a href="https://bsky.app/profile/nicomnbl.bsky.social" class="nohover">Bluesky</a> | <a href="https://x.com/nico_mnbl" class="nohover">&#x1D54F;</a> | <a href="https://zkjargon.github.io" class="nohover">ZK Jargon Decoder</a> <br>
+    &copy; 2024-2026, Nicolas Mohnblatt. <br>
+</p>
+</footer>
+
+    
+</body>
+
+</html>
