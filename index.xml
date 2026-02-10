@@ -7,8 +7,15 @@
     <generator>Hugo</generator>
     <language>en-US</language>
     <copyright>Copyright © 2024-2026, Nicolas Mohnblatt.</copyright>
-    <lastBuildDate>Fri, 14 Nov 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 10 Feb 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://nmohnblatt.me/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>When LLMs Review Cryptography Papers</title>
+      <link>https://nmohnblatt.me/llms-review-cryptography/</link>
+      <pubDate>Tue, 10 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/llms-review-cryptography/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This post is cross-posted to the &lt;a href=&#34;https://blog.zksecurity.xyz/posts/llms-in-research/&#34;&gt;zkSecurity blog&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;Google Research recently published a collection of case studies on &lt;a href=&#34;https://arxiv.org/pdf/2602.03837&#34;&gt;Accelerating scientific research with Gemini&lt;/a&gt;.&#xA;The 150-page document explores a variety of techniques, including using the LLM as an adversarial reviewer.&lt;/p&gt;&#xA;&lt;p&gt;To my surprise, the case study for this specific technique was about cryptography.&#xA;And not any kind of cryptography, this was about SNARGs!&#xA;Since this hits so close to home, here&amp;rsquo;s my quick summary of what happened and how LLMs found a bug in a cryptography paper that humans missed.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Proximity Gaps: What Happened and How Does It Affect our SNARKs</title>
       <link>https://nmohnblatt.me/proximity-conjecture/</link>

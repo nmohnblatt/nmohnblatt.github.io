@@ -2,11 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://nmohnblatt.me/blog/ai/</loc>
+    <lastmod>2026-02-10T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://nmohnblatt.me/blog/</loc>
-    <lastmod>2025-11-14T00:00:00+00:00</lastmod>
+    <lastmod>2026-02-10T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://nmohnblatt.me/</loc>
-    <lastmod>2025-11-14T00:00:00+00:00</lastmod>
+    <lastmod>2026-02-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nmohnblatt.me/llms-review-cryptography/</loc>
+    <lastmod>2026-02-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nmohnblatt.me/blog/zksecurity/</loc>
+    <lastmod>2026-02-10T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://nmohnblatt.me/proximity-conjecture/</loc>
     <lastmod>2025-11-14T00:00:00+00:00</lastmod>
@@ -18,9 +27,6 @@
     <lastmod>2025-11-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://nmohnblatt.me/blog/succinct-proofs/</loc>
-    <lastmod>2025-11-14T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://nmohnblatt.me/blog/zksecurity/</loc>
     <lastmod>2025-11-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://nmohnblatt.me/fri-security/</loc>

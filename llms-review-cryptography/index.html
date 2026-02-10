@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://nmohnblatt.me/images/favicon.png" />
+<title>When LLMs Review Cryptography Papers | Nicolas Mohnblatt</title>
+<meta name="title" content="When LLMs Review Cryptography Papers" />
+<meta name="description" content="This post is cross-posted to the zkSecurity blog.
+
+Google Research recently published a collection of case studies on Accelerating scientific research with Gemini.
+The 150-page document explores a variety of techniques, including using the LLM as an adversarial reviewer.
+To my surprise, the case study for this specific technique was about cryptography.
+And not any kind of cryptography, this was about SNARGs!
+Since this hits so close to home, here&rsquo;s my quick summary of what happened and how LLMs found a bug in a cryptography paper that humans missed." />
+<meta name="keywords" content="ZkSecurity,AI," />
+
+
+<meta property="og:url" content="https://nmohnblatt.me/llms-review-cryptography/">
+  <meta property="og:site_name" content="Nicolas Mohnblatt">
+  <meta property="og:title" content="When LLMs Review Cryptography Papers">
+  <meta property="og:description" content="This post is cross-posted to the zkSecurity blog.
+Google Research recently published a collection of case studies on Accelerating scientific research with Gemini. The 150-page document explores a variety of techniques, including using the LLM as an adversarial reviewer.
+To my surprise, the case study for this specific technique was about cryptography. And not any kind of cryptography, this was about SNARGs! Since this hits so close to home, here’s my quick summary of what happened and how LLMs found a bug in a cryptography paper that humans missed.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2026-02-10T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-02-10T00:00:00+00:00">
+    <meta property="article:tag" content="ZkSecurity">
+    <meta property="article:tag" content="AI">
+    <meta property="og:image" content="https://nmohnblatt.me/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://nmohnblatt.me/images/share.png">
+  <meta name="twitter:title" content="When LLMs Review Cryptography Papers">
+  <meta name="twitter:description" content="This post is cross-posted to the zkSecurity blog.
+Google Research recently published a collection of case studies on Accelerating scientific research with Gemini. The 150-page document explores a variety of techniques, including using the LLM as an adversarial reviewer.
+To my surprise, the case study for this specific technique was about cryptography. And not any kind of cryptography, this was about SNARGs! Since this hits so close to home, here’s my quick summary of what happened and how LLMs found a bug in a cryptography paper that humans missed.">
+
+
+
+
+  <meta itemprop="name" content="When LLMs Review Cryptography Papers">
+  <meta itemprop="description" content="This post is cross-posted to the zkSecurity blog.
+Google Research recently published a collection of case studies on Accelerating scientific research with Gemini. The 150-page document explores a variety of techniques, including using the LLM as an adversarial reviewer.
+To my surprise, the case study for this specific technique was about cryptography. And not any kind of cryptography, this was about SNARGs! Since this hits so close to home, here’s my quick summary of what happened and how LLMs found a bug in a cryptography paper that humans missed.">
+  <meta itemprop="datePublished" content="2026-02-10T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2026-02-10T00:00:00+00:00">
+  <meta itemprop="wordCount" content="956">
+  <meta itemprop="image" content="https://nmohnblatt.me/images/share.png">
+  <meta itemprop="keywords" content="ZkSecurity,AI">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  
+
+<style>
+  body {
+    font-family: Verdana, sans-serif;
+    font-size: 15px;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #FFFCF0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #100F0F;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #100F0F;
+  }
+
+  a {
+    color: #24837B;
+     
+    text-decoration: none;
+  }
+
+  a.underline {
+    text-decoration: underline; 
+  }
+
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a.nohover:hover {
+    text-decoration: none;
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  a.title:hover{
+    text-decoration: none;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+   
+
+  td {
+    border-top: 1px solid #E6E4D9;
+  } 
+
+  img {
+    max-width: 100%;
+  }
+
+  figure {
+    margin-inline-start: 20px;
+    margin-inline-end: 20px;
+  }
+
+  figcaption {
+    color: #B7B5AC;
+    font-size: small;
+    text-align: center;
+  }
+
+  figcaption p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #E6E4D9;
+    color: #878580;
+  }
+
+  pre code {
+    color: #6F6E69;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 2px solid #24837B;
+    color: #100F0F;
+    padding-left: 15px;
+    margin-inline-start: 20px;
+     
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #17504b;
+  }
+
+   
+
+</style>
+
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']],     
+      tags: 'ams'
+    }
+  };
+</script>
+  
+
+  
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>Nicolas Mohnblatt</h2>
+</a>
+<nav><a href="/" class="nohover">Home</a>
+
+<a href="/about/" class="nohover">About</a>
+
+<a href="/now/" class="nohover">Now</a>
+
+<a href="/research/" class="nohover">Research</a>
+
+
+<a href="/blog" class="nohover">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>When LLMs Review Cryptography Papers</h1>
+<p>
+  <i>
+    
+  </i>
+</p>
+<p>
+  <i>
+    <time datetime='2026-02-10' pubdate>
+      10 Feb, 2026
+    </time>
+  </i>
+</p>
+
+<content>
+  <p><em>This post is cross-posted to the <a href="https://blog.zksecurity.xyz/posts/llms-in-research/">zkSecurity blog</a>.</em></p>
+<hr>
+<p>Google Research recently published a collection of case studies on <a href="https://arxiv.org/pdf/2602.03837">Accelerating scientific research with Gemini</a>.
+The 150-page document explores a variety of techniques, including using the LLM as an adversarial reviewer.</p>
+<p>To my surprise, the case study for this specific technique was about cryptography.
+And not any kind of cryptography, this was about SNARGs!
+Since this hits so close to home, here&rsquo;s my quick summary of what happened and how LLMs found a bug in a cryptography paper that humans missed.</p>
+<h2 id="context-paper-and-timeline">Context: paper and timeline</h2>
+<p>The paper we are looking at is written by Ziyi Guan and Eylon Yogev, and was originally titled <a href="https://t.co/SHk1xfzvPz">SNARGs for NP from LWE</a>.
+Let me quickly unpack this title:</p>
+<ul>
+<li>a SNAR<strong>G</strong> (succinct non-interactive argument) is pretty much the same thing as a SNAR<strong>K</strong> (succinct non-interactive argument of knowledge) but with slightly weaker security properties. They are easier to construct than SNARKs, which makes them a useful stepping stone in our research on constructing SNARKs.</li>
+<li>NP is how complexity theorists talk about &ldquo;computation that can be run on real-world hardware&rdquo;.</li>
+<li>LWE stands for <em>learning with errors</em>. It is one of the fundamental assumptions we use to construct lattice-based cryptography and is considered to be resistant to quantum computers. Importantly, it is a falsifiable assumption<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</li>
+</ul>
+<p>SNARGs for NP from LWE is a significant result!
+So far, we only know how to make SNARGs for NP in idealized models (like the random oracle model in hash-based proofs), using non-falsifiable assumptions (like the knowledge of exponent assumption in Groth16) or using very-powerful-but-impossible-to-implement cryptography (like indistinguishability obfuscation).
+The result was published on ePrint, <a href="https://x.com/ziyiguan99/status/2005585599995302007">announced on X</a> and celebrated by the community.</p>
+<p>Unfortunately, the party was short-lived.
+A few days later, Ziyi <a href="https://x.com/ziyiguan99/status/2007090096974246235">announced on X</a> that a bug was found in the paper, and that she and Eylon did not know how to fix it.
+They eventually <a href="https://x.com/ziyiguan99/status/2013628807958196296">updated the paper</a>, removing the claim of constructing SNARGs for NP from LWE but salvaging other aspects of their result.</p>
+<p>This is where I thought the story ended.
+That was, until I randomly stumbled on the Google Research document and saw that Ziyi and Eylon are co-authors.
+As it turns out, the bug was found using Gemini and the discovery is recorded in Section 3.2 of Google Research&rsquo;s document.</p>
+<h2 id="llm-prompting-strategy">LLM prompting strategy</h2>
+<p>While I won&rsquo;t be covering what the bug is in this post, I do want to take a look at how the bug was found and how the LLM was guided to do so.
+The global strategy is what has been previously labelled <a href="https://arxiv.org/abs/2411.15594">LLM-as-a-Judge</a>.
+However, as you might expect, the prompt was more elaborate that simply asking the LLM &ldquo;check that this paper is correct&rdquo;.</p>
+<p>Instead, the authors implemented what they call a &ldquo;rigorous <strong>iterative self-correction prompt</strong>&rdquo;.
+Essentially, this is two iterations of a loop asking the model to review the paper, and review its review.
+The figure below is lifted from the Google Research paper and details the prompting strategy:</p>
+
+
+
+<figure style="text-align: center;"><img src="/llms-review-cryptography/prompt_hu_eb7e5686976b518.webp"
+  alt="Iterative self-correction prompt. Figure taken from the Google Research paper."><figcaption>
+      <p>Iterative self-correction prompt. Figure taken from the Google Research paper.</p>
+    </figcaption>
+</figure>
+<p>Unfortunately, the specific model and &ldquo;rigor text&rdquo; used are not publicly available.
+It is also interesting to note that the report indicates that the LLM produced &ldquo;noise&rdquo;, in other words that it also flagged less relevant issues.
+However, it does not clearly indicate whether the LLM&rsquo;s output also included false positives.</p>
+<h2 id="llms-in-academic-research">LLMs in academic research</h2>
+<p>Recently, my colleague <a href="https://blog.zksecurity.xyz/posts/simple-rbr-fri/">Yoichi used LLMs</a> to formalize one of my <a href="https://eprint.iacr.org/2025/1993">recent papers</a> in Lean.
+The success of this outcome highlights a very exciting direction for academic research: as long as we can express our ideas and proofs clearly on paper, we can use LLMs to cross the final mile and write formally verified proofs.</p>
+<p>The flipside of this is that conferences will soon be swamped with AI-assisted submissions and probably will not have the time to verify all the incoming work.
+The example from Google Research&rsquo;s report gives us one potential solution in using LLMs for review.</p>
+<p>While I&rsquo;m glad that this specific case study worked nicely (and focuses on a topic I&rsquo;m interested in!), I am curious to see how this generalizes.
+Does the technique work reliably on a large sample of papers?
+What is the false-positive rate?
+Regardless, these are very exciting times to be playing with these tools and I am glad that big teams share their findings in such comprehensive reports.</p>
+<h2 id="llms-in-audits">LLMs in audits</h2>
+<p>It is worth noting that we, at ZKSecurity, have also been using these methods in our audits.
+Our recently-released tool, <a href="https://blog.zksecurity.xyz/posts/zkao-launch/">zkao</a>, automates a lot of this work.
+A first pass of agents review the codebase and report on their findings.
+We then get a second wave of agents to review the findings.
+This feedback loop can be run multiple times by defining zkao workflows.
+The tool can do a lot more and I encourage you to <a href="https://blog.zksecurity.xyz/posts/zkao-launch/">read more about it</a> and sign up for early access.</p>
+<p>In our testing, we have noticed that LLM-as-a-Judge is more effective when the reviewing pass is done by a different personality/agent.
+Likewise, using different models to review each other&rsquo;s work seems to be more effective.
+Why this happens or whether it happens at all is still unknown and remains fertile ground for experimentation.</p>
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>Thank you to <a href="https://x.com/cryptodavidw">David</a> for reviewing this article and sharing additional insights on using LLM-as-a-Judge in zkao.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>oversimplifying, we say that an assumption is falsifiable if it can be shown to be false using computational methods (<em>e.g.</em>, constructing an efficient algorithm that solves a problem). In contrast, a non-falsifiable assumption cannot be tested in this way. We much prefer using a falsifiable assumption since we can get a sense of &ldquo;how true it is&rdquo; based on the fact that no-one has broken it so far.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+</content>
+<p>
+  
+  <a href="https://nmohnblatt.me/blog/zksecurity/" class="nohover">#ZkSecurity</a>
+  
+  <a href="https://nmohnblatt.me/blog/ai/" class="nohover">#AI</a>
+  
+</p>
+
+  </main>
+  <footer><p style="font-size: small;">
+    Built using <a href="https://gohugo.io" class="nohover">Hugo</a>. The theme is adapted from <a href="https://github.com/janraasch/hugo-bearblog/" class="nohover">hugo-bearblog</a> and uses colours from <a href="https://github.com/kepano/flexoki?tab=readme-ov-file" class="nohover">Flexoki</a>.
+</p>
+
+<p style="font-size: small;">
+    <a href="https://github.com/nmohnblatt" class="nohover">Github</a> | <a href="https://bsky.app/profile/nicomnbl.bsky.social" class="nohover">Bluesky</a> | <a href="https://x.com/nico_mnbl" class="nohover">&#x1D54F;</a> | <a href="https://zkjargon.github.io" class="nohover">ZK Jargon Decoder</a> <br>
+    &copy; 2024-2026, Nicolas Mohnblatt. <br>
+</p>
+</footer>
+
+    
+</body>
+
+</html>
