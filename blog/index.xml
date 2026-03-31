@@ -7,8 +7,15 @@
     <generator>Hugo</generator>
     <language>en-US</language>
     <copyright>Copyright © 2024-2026, Nicolas Mohnblatt.</copyright>
-    <lastBuildDate>Tue, 10 Feb 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 31 Mar 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://nmohnblatt.me/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>An update of our FRI analysis</title>
+      <link>https://nmohnblatt.me/fri-security-update/</link>
+      <pubDate>Tue, 31 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>https://nmohnblatt.me/fri-security-update/</guid>
+      <description>We&amp;rsquo;ve updated our FRI analysis paper. Here is a brief summary of everything that is new.</description>
+    </item>
     <item>
       <title>When LLMs Review Cryptography Papers</title>
       <link>https://nmohnblatt.me/llms-review-cryptography/</link>

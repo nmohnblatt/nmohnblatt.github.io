@@ -6,18 +6,25 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="https://nmohnblatt.me/images/favicon.png" />
-<title>Succinct Proofs | Nicolas Mohnblatt</title>
-<meta name="title" content="Succinct Proofs" />
-<meta name="description" content="Nico&#39;s homepage and blog." />
-<meta name="keywords" content="ai,anonymous credentials,bcc,data availability sampling,folding,geometry notebook,identity-based encryption,mental poker,mpc,privacy,proximity testing,resources,security,social networks,speedrun,succinct proofs,threshold cryptography,witness encryption,zero-knowledge,zk hack,zksecurity," />
+<title>An update of our FRI analysis | Nicolas Mohnblatt</title>
+<meta name="title" content="An update of our FRI analysis" />
+<meta name="description" content="We&rsquo;ve updated our FRI analysis paper. Here is a brief summary of everything that is new." />
+<meta name="keywords" content="Proximity Testing,Security,Succinct Proofs,zkSecurity," />
 
 
-<meta property="og:url" content="https://nmohnblatt.me/blog/succinct-proofs/">
+<meta property="og:url" content="https://nmohnblatt.me/fri-security-update/">
   <meta property="og:site_name" content="Nicolas Mohnblatt">
-  <meta property="og:title" content="Succinct Proofs">
-  <meta property="og:description" content="Nico&#39;s homepage and blog.">
+  <meta property="og:title" content="An update of our FRI analysis">
+  <meta property="og:description" content="We’ve updated our FRI analysis paper. Here is a brief summary of everything that is new.">
   <meta property="og:locale" content="en_US">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2026-03-31T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-03-31T00:00:00+00:00">
+    <meta property="article:tag" content="Proximity Testing">
+    <meta property="article:tag" content="Security">
+    <meta property="article:tag" content="Succinct Proofs">
+    <meta property="article:tag" content="ZkSecurity">
     <meta property="og:image" content="https://nmohnblatt.me/images/share.png">
 
 
@@ -25,20 +32,21 @@
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://nmohnblatt.me/images/share.png">
-  <meta name="twitter:title" content="Succinct Proofs">
-  <meta name="twitter:description" content="Nico&#39;s homepage and blog.">
+  <meta name="twitter:title" content="An update of our FRI analysis">
+  <meta name="twitter:description" content="We’ve updated our FRI analysis paper. Here is a brief summary of everything that is new.">
 
 
 
 
-  <meta itemprop="name" content="Succinct Proofs">
-  <meta itemprop="description" content="Nico&#39;s homepage and blog.">
+  <meta itemprop="name" content="An update of our FRI analysis">
+  <meta itemprop="description" content="We’ve updated our FRI analysis paper. Here is a brief summary of everything that is new.">
   <meta itemprop="datePublished" content="2026-03-31T00:00:00+00:00">
   <meta itemprop="dateModified" content="2026-03-31T00:00:00+00:00">
+  <meta itemprop="wordCount" content="305">
   <meta itemprop="image" content="https://nmohnblatt.me/images/share.png">
+  <meta itemprop="keywords" content="Proximity Testing,Security,Succinct Proofs,ZkSecurity">
 <meta name="referrer" content="no-referrer-when-downgrade" />
 
-  <link rel="alternate" type="application/rss+xml" href="https://nmohnblatt.me/blog/succinct-proofs/index.xml" title="Nicolas Mohnblatt" />
   
 
 <style>
@@ -250,63 +258,54 @@
 </nav>
 </header>
   <main>
+
+<h1>An update of our FRI analysis</h1>
+<p>
+  <i>
+    
+  </i>
+</p>
+<p>
+  <i>
+    <time datetime='2026-03-31' pubdate>
+      31 Mar, 2026
+    </time>
+  </i>
+</p>
+
 <content>
-  
-  <h3 style="margin-bottom:0">Filtering for "Succinct Proofs"</h3>
-  <small>
-    <a href="/blog">Remove filter</a>
-  </small>
-  
-  <ul class="blog-posts">
-    
-    <li>
-      <span>
-        <i>
-          <time datetime='2026-03-31' pubdate>
-            31 Mar, 2026
-          </time>
-        </i>
-      </span>
-      <a href="https://nmohnblatt.me/fri-security-update/" class="nohover">An update of our FRI analysis</a>
-    </li>
-    
-    <li>
-      <span>
-        <i>
-          <time datetime='2025-11-14' pubdate>
-            14 Nov, 2025
-          </time>
-        </i>
-      </span>
-      <a href="https://nmohnblatt.me/proximity-conjecture/" class="nohover">Proximity Gaps: What Happened and How Does It Affect our SNARKs</a>
-    </li>
-    
-    <li>
-      <span>
-        <i>
-          <time datetime='2025-10-30' pubdate>
-            30 Oct, 2025
-          </time>
-        </i>
-      </span>
-      <a href="https://nmohnblatt.me/fri-security/" class="nohover">Why does FRI work?</a>
-    </li>
-    
-    <li>
-      <span>
-        <i>
-          <time datetime='2025-05-06' pubdate>
-            06 May, 2025
-          </time>
-        </i>
-      </span>
-      <a href="https://nmohnblatt.me/ligerito-and-whir/" class="nohover">Comparing Ligerito and WHIR</a>
-    </li>
-    
-  </ul>
-  
-  
+  <p>We&rsquo;ve published a new version of our <a href="https://eprint.iacr.org/2025/1993">simplified analysis of FRI</a>!
+The security analysis does not change, however we do have a few new goodies.
+I&rsquo;ll briefly highlight them and show you the relevant parts of the paper.</p>
+<p><strong>Thinking about parameters.</strong>
+We&rsquo;re trying to make parameter selection easier and more flexible.
+Practitioners no longer have to choose to analyze their protocols &ldquo;in unique decoding&rdquo; or &ldquo;at the Johnson bound&rdquo;. The tradeoff is actually a continuous space and we make this more explicit in our explanations and theorem statement using the <em>tradeoff parameter</em> $\theta$.</p>
+<p><img src="./fri.png" alt=""></p>
+<p>To help us (and maybe you) make sense of this, we plotted the errors for mutual correlated agreement (the &ldquo;proximity gaps stuff&rdquo;), the folding rounds and the query rounds. A fun exercise in visualization, or plotting, is to vary $\theta$ and see how all three plots are affected.</p>
+<p><img src="./plots.png" alt=""></p>
+<p>I found these plots to be very helpful when understanding the effects of new proximity gaps results on the soundness of FRI.
+In a few words, new proximity gaps results either shift the MCA error to the left (when we find discover that a conjecture was wrong) or to the right (when we improve known bounds). This in turn affects the values of the folding round errors and query round errors.
+Maybe I&rsquo;ll write more on this or produce some animations in the future.</p>
+<p><strong>The commit phase.</strong>
+We use our round-by-round soundness analysis of FRI to show that FRI has very strong properties. In particular, we show in section 5.4 that the so-called <em>commit phase</em> is in fact a binding and extractable commitment.
+As far as we know, ours is the first proof of this property.
+We have upcoming work showing that this is helpful when doing data availability sampling (e.g., FRIDA).</p>
+<p><strong>Batched FRI.</strong>
+The last addition is an appendix that covers batched FRI.</p>
+<p><img src="./batched-fri.png" alt=""></p>
+
 </content>
+<p>
+  
+  <a href="https://nmohnblatt.me/blog/proximity-testing/" class="nohover">#Proximity Testing</a>
+  
+  <a href="https://nmohnblatt.me/blog/security/" class="nohover">#Security</a>
+  
+  <a href="https://nmohnblatt.me/blog/succinct-proofs/" class="nohover">#Succinct Proofs</a>
+  
+  <a href="https://nmohnblatt.me/blog/zksecurity/" class="nohover">#ZkSecurity</a>
+  
+</p>
 
   </main>
   <footer><p style="font-size: small;">
