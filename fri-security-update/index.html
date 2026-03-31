@@ -281,7 +281,7 @@ I&rsquo;ll briefly highlight them and show you the relevant parts of the paper.<
 We&rsquo;re trying to make parameter selection easier and more flexible.
 Practitioners no longer have to choose to analyze their protocols &ldquo;in unique decoding&rdquo; or &ldquo;at the Johnson bound&rdquo;. The tradeoff is actually a continuous space and we make this more explicit in our explanations and theorem statement using the <em>tradeoff parameter</em> $\theta$.</p>
 <p><img src="./fri.png" alt=""></p>
-<p>To help us (and maybe you) make sense of this, we plotted the errors for mutual correlated agreement (the &ldquo;proximity gaps stuff&rdquo;), the folding rounds and the query rounds. A fun exercise in visualization, or plotting, is to vary $\theta$ and see how all three plots are affected.</p>
+<p>To help us (and maybe you) make sense of this, we plotted the errors for mutual correlated agreement (the &ldquo;proximity gaps stuff&rdquo;), the folding rounds and the query rounds. A fun exercise in visualization, or plotting, is to vary $\theta^*$ and see how all three plots are affected.</p>
 <p><img src="./plots.png" alt=""></p>
 <p>I found these plots to be very helpful when understanding the effects of new proximity gaps results on the soundness of FRI.
 In a few words, new proximity gaps results either shift the MCA error to the left (when we find discover that a conjecture was wrong) or to the right (when we improve known bounds). This in turn affects the values of the folding round errors and query round errors.
